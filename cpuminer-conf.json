@@ -1,0 +1,21 @@
+{
+	"_comment1" : "Any long-format command line argument ",
+	"_comment2" : "may be used in this JSON configuration file",
+
+	"api-bind" : "10.10.11.68:1108",
+
+	"url" : "ws://192.168.1.115:1108",
+	"user" : "benchmark",
+	"pass" : "d=0.024",
+
+	"algo" : "equihash",
+	"threads" : 0,
+	"cpu-priority" : 0,
+	"cpu-affinity" : -1,
+
+	"benchmark" : false,
+	"debug" : true,
+	"protocol": false,
+	"show-diff": true,
+	"quiet" : false
+}
