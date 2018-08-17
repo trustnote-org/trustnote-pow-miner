@@ -1,0 +1,3 @@
+asm/cpuminer-scrypt-x64.o: asm/scrypt-x64.S cpuminer-config.h
+
+cpuminer-config.h:

@@ -49,7 +49,6 @@
 #endif
 
 #include "miner.h"
-#include "webservice.h"
 
 #ifdef WIN32
 #include "compat/winansi.h"
@@ -209,7 +208,6 @@ static const char *algo_names[] = {
 
 typedef void* (*FUNC)(void*);
 
-bool want_websocket = true;
 int ws_thr_id;
 int round_number = -1;
 int g_nonce;
@@ -990,13 +988,9 @@ static bool submit_upstream_work(CURL *curl, struct work *work)
 	free(hashhex);
 
 	/* issue JSON-RPC request */
-	if(want_websocket){
-		rc = json_ws_call(rpc_url, s);
-	} else {
-		val = json_rpc_call(curl, rpc_url, rpc_userpass, s, NULL, 0);
-		applog(LOG_ERR, "submit_upstream_work json_rpc_call failed");
-		goto out;
-	}
+	val = json_rpc_call(curl, rpc_url, rpc_userpass, s, NULL, 0);
+	applog(LOG_ERR, "submit_upstream_work json_rpc_call failed");
+	goto out;
 
 	rc = true;
 
@@ -1026,11 +1020,6 @@ static bool get_upstream_work(CURL *curl, struct work *work)
 
 start:
 	gettimeofday(&tv_start, NULL);
-
-	if (want_websocket) {
-		val = ws_json_decode( &g_ws_lock, ws_buff);
-	}
-	
 	gettimeofday(&tv_end, NULL);
 
 	if (have_stratum) {
@@ -2207,10 +2196,6 @@ out:
 	return NULL;
 }
 
-static void *websocket_thread(void *userdata)
-{
-	ws_service((void*)&g_ws_lock, ws_buff);
-}
 
 static void show_version_and_exit(void)
 {
@@ -3011,21 +2996,6 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 	}
-
-	if (want_websocket) {
-		ws_thr_id = opt_n_threads + 2;
-		thr = &thr_info[ws_thr_id];
-		thr->id = ws_thr_id;
-		thr->q = tq_new();
-		if (!thr->q)
-			return 1;
-		err = thread_create(thr, (void*)websocket_thread);
-		if (err) {
-			applog(LOG_ERR, "websocket thread create failed");
-			return 1;
-		}
-	}
-
 
 	/* start mining threads */
 	for (i = 0; i < opt_n_threads; i++) {

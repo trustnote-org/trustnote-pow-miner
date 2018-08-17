@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="false">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2cc9bb8b-6c56-4b8e-83ab-86e84042c301" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile.in" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aclocal.m4" beforeDir="false" afterPath="$PROJECT_DIR$/aclocal.m4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/autom4te.cache/requests" beforeDir="false" afterPath="$PROJECT_DIR$/autom4te.cache/requests" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/compat/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/Makefile.in" beforeDir="false" afterPath="$PROJECT_DIR$/compat/Makefile.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/dump.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/dump.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/error.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/error.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/hashtable.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/hashtable.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/load.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/load.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/memory.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/memory.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/pack_unpack.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/pack_unpack.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/strbuffer.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/strbuffer.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/strconv.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/strconv.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/utf.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/utf.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/value.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/value.Po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compat/jansson/Makefile.in" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/Makefile.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compile" beforeDir="false" afterPath="$PROJECT_DIR$/compile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.guess" beforeDir="false" afterPath="$PROJECT_DIR$/config.guess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.log" beforeDir="false" afterPath="$PROJECT_DIR$/config.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.status" beforeDir="false" afterPath="$PROJECT_DIR$/config.status" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.sub" beforeDir="false" afterPath="$PROJECT_DIR$/config.sub" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configure" beforeDir="false" afterPath="$PROJECT_DIR$/configure" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cpu-miner.c" beforeDir="false" afterPath="$PROJECT_DIR$/cpu-miner.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/depcomp" beforeDir="false" afterPath="$PROJECT_DIR$/depcomp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/install-sh" beforeDir="false" afterPath="$PROJECT_DIR$/install-sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/missing" beforeDir="false" afterPath="$PROJECT_DIR$/missing" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1138458677">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="c" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="ObjectiveC" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="c" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="ObjectiveC" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cpu-miner.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="3000" column="45" lean-forward="true" selection-start-line="3000" selection-start-column="45" selection-end-line="3000" selection-end-column="45" />
+              <folding>
+                <element signature="e#783#823#0" expanded="true" />
+                <element signature="e#871#968#0" expanded="true" />
+                <element signature="e#1089#1151#0" expanded="true" />
+                <element signature="e#1175#1230#0" expanded="true" />
+                <element signature="e#6793#6812#0" expanded="true" />
+                <element signature="e#13399#13402#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>curl</find>
+      <find>ws_</find>
+      <find>websocket_thread</find>
+      <find>want_websocket</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/cpu-miner.c" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1936" />
+    <option name="y" value="22" />
+    <option name="width" value="1920" />
+    <option name="height" value="1058" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2cc9bb8b-6c56-4b8e-83ab-86e84042c301" name="Default Changelist" comment="" />
+      <created>1534474695398</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1534474695398</updated>
+      <workItem from="1534474696834" duration="819000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="819000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1920" y="22" width="1920" height="1058" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1517572" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32919255" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32919255" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/cpu-miner.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="3000" column="45" lean-forward="true" selection-start-line="3000" selection-start-column="45" selection-end-line="3000" selection-end-column="45" />
+          <folding>
+            <element signature="e#783#823#0" expanded="true" />
+            <element signature="e#871#968#0" expanded="true" />
+            <element signature="e#1089#1151#0" expanded="true" />
+            <element signature="e#1175#1230#0" expanded="true" />
+            <element signature="e#6793#6812#0" expanded="true" />
+            <element signature="e#13399#13402#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
