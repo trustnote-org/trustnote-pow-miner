@@ -1,0 +1,14 @@
+Reading input.bin
+(Warm up) Time: 339 ms, solutions: 1
+Running 10 iterations...
+Time: 295 ms, nonce = 5, solutions: 1
+Time: 309 ms, nonce = 6, solutions: 1
+Time: 298 ms, nonce = 7, solutions: 2
+Time: 308 ms, nonce = 8, solutions: 2
+Time: 297 ms, nonce = 9, solutions: 3
+Time: 307 ms, nonce = 10, solutions: 4
+Time: 299 ms, nonce = 11, solutions: 0
+Time: 302 ms, nonce = 12, solutions: 3
+Time: 304 ms, nonce = 13, solutions: 2
+Time: 295 ms, nonce = 14, solutions: 2
+Average time: 301 ms; 6.636 Sol/s
