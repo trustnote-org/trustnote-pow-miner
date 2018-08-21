@@ -10,34 +10,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2cc9bb8b-6c56-4b8e-83ab-86e84042c301" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile.in" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aclocal.m4" beforeDir="false" afterPath="$PROJECT_DIR$/aclocal.m4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/autom4te.cache/requests" beforeDir="false" afterPath="$PROJECT_DIR$/autom4te.cache/requests" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/compat/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/Makefile.in" beforeDir="false" afterPath="$PROJECT_DIR$/compat/Makefile.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/dump.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/dump.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/error.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/error.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/hashtable.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/hashtable.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/load.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/load.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/memory.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/memory.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/pack_unpack.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/pack_unpack.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/strbuffer.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/strbuffer.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/strconv.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/strconv.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/utf.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/utf.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/.deps/value.Po" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/.deps/value.Po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compat/jansson/Makefile.in" beforeDir="false" afterPath="$PROJECT_DIR$/compat/jansson/Makefile.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compile" beforeDir="false" afterPath="$PROJECT_DIR$/compile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.guess" beforeDir="false" afterPath="$PROJECT_DIR$/config.guess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.log" beforeDir="false" afterPath="$PROJECT_DIR$/config.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.status" beforeDir="false" afterPath="$PROJECT_DIR$/config.status" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.sub" beforeDir="false" afterPath="$PROJECT_DIR$/config.sub" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configure" beforeDir="false" afterPath="$PROJECT_DIR$/configure" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cpu-miner.c" beforeDir="false" afterPath="$PROJECT_DIR$/cpu-miner.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/depcomp" beforeDir="false" afterPath="$PROJECT_DIR$/depcomp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/install-sh" beforeDir="false" afterPath="$PROJECT_DIR$/install-sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/missing" beforeDir="false" afterPath="$PROJECT_DIR$/missing" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/bitcoin难度值调整分析.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/arith_uint256.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/arith_uint256.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/crypto/bitcoin-config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/crypto/common.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/params.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/proof.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/proof.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/uint256.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/uint256.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/utilstrencodings.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/utilstrencodings.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/equihash-xenon/Linux/demo/libthreadpool.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/equihash-xenon/checkDiff/params.h" beforeDir="false" afterPath="$PROJECT_DIR$/equihash-xenon/checkDiff/params.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,47 +38,128 @@
     <session id="-1138458677">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.closed" value="5" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.6" value="2" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="c" value="1" />
+          <entry key="Makefile" value="7" />
+          <entry key="asm" value="1" />
+          <entry key="c" value="10" />
+          <entry key="cpp" value="7" />
+          <entry key="h" value="11" />
+          <entry key="sh" value="4" />
+          <entry key="txt" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="1" />
+          <entry key="Assembly file" value="1" />
+          <entry key="ObjectiveC" value="28" />
+          <entry key="PLAIN_TEXT" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="c" value="1" />
+          <entry key="Makefile" value="123" />
+          <entry key="c" value="133" />
+          <entry key="h" value="145" />
+          <entry key="sh" value="3" />
+          <entry key="txt" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="1" />
+          <entry key="Doxygen file" value="27" />
+          <entry key="ObjectiveC" value="251" />
+          <entry key="PLAIN_TEXT" value="132" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cpu-miner.c">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/test.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="3000" column="45" lean-forward="true" selection-start-line="3000" selection-start-column="45" selection-end-line="3000" selection-end-column="45" />
-              <folding>
-                <element signature="e#783#823#0" expanded="true" />
-                <element signature="e#871#968#0" expanded="true" />
-                <element signature="e#1089#1151#0" expanded="true" />
-                <element signature="e#1175#1230#0" expanded="true" />
-                <element signature="e#6793#6812#0" expanded="true" />
-                <element signature="e#13399#13402#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="506">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/nonce_0.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/nonce_4.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/Makefile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="13" column="31" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/test_quickbench.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="149">
+              <caret line="96" column="9" lean-forward="true" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/crypto/bitcoin-config.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="13" column="24" lean-forward="true" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/crypto/common.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2012" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/crypto/common.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="392">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/build.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-column="125" />
             </state>
           </provider>
         </entry>
@@ -102,18 +172,34 @@
       <find>ws_</find>
       <find>websocket_thread</find>
       <find>want_websocket</find>
+      <find>ALGO_EQUIHASH</find>
+      <find>scanhash_equihash</find>
+      <find>EhPrepare</find>
+      <find>equihash</find>
+      <find>EhSolver</find>
+      <find>CheckProofOfWork</find>
+      <find>checkProofOfWork</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/equihash-xenon" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/cpu-miner.c" />
+        <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/test_quickbench.c" />
+        <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/quickbench.c" />
+        <option value="$PROJECT_DIR$/equihash-xenon/Linux/asm/sh_rsync_dev.sh" />
+        <option value="$PROJECT_DIR$/equihash-xenon/checkDiff/sh_rsync_dev.sh" />
+        <option value="$PROJECT_DIR$/equihash-xenon/checkDiff/Makefile" />
+        <option value="$PROJECT_DIR$/equihash-xenon/checkDiff/test.c" />
+        <option value="$PROJECT_DIR$/equihash-xenon/checkDiff/params.h" />
+        <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/crypto/common.h" />
+        <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile" />
       </list>
     </option>
   </component>
@@ -123,18 +209,19 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1936" />
+    <option name="x" value="1920" />
     <option name="y" value="22" />
     <option name="width" value="1920" />
     <option name="height" value="1058" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -142,10 +229,49 @@
               <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
               <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+              <item name="equihash-xenon" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+              <item name="equihash-xenon" type="462c0819:PsiDirectoryNode" />
+              <item name="checkDiff" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+              <item name="equihash-xenon" type="462c0819:PsiDirectoryNode" />
+              <item name="Linux" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+              <item name="equihash-xenon" type="462c0819:PsiDirectoryNode" />
+              <item name="Linux" type="462c0819:PsiDirectoryNode" />
+              <item name="demo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+              <item name="equihash-xenon" type="462c0819:PsiDirectoryNode" />
+              <item name="Linux" type="462c0819:PsiDirectoryNode" />
+              <item name="demo" type="462c0819:PsiDirectoryNode" />
+              <item name="proof" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trustnote-pow-miner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trustnote-pow-miner" type="462c0819:PsiDirectoryNode" />
+              <item name="equihash-xenon" type="462c0819:PsiDirectoryNode" />
+              <item name="notes" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -154,6 +280,18 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/doc" />
+      <recent name="$PROJECT_DIR$/equihash-xenon" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof" />
+      <recent name="$PROJECT_DIR$/equihash-xenon/checkDiff" />
+      <recent name="$PROJECT_DIR$/equihash-xenon/Linux/asm" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -177,12 +315,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1534474695398</updated>
-      <workItem from="1534474696834" duration="819000" />
+      <workItem from="1534474696834" duration="2189000" />
+      <workItem from="1534497786627" duration="1386000" />
+      <workItem from="1534499547040" duration="564000" />
+      <workItem from="1534557937275" duration="1778000" />
+      <workItem from="1534732913482" duration="8676000" />
+      <workItem from="1534819356159" duration="2248000" />
     </task>
+    <task id="LOCAL-00001" summary="gogogo">
+      <created>1534756716757</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1534756716757</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="819000" />
+    <option name="totallyTimeSpent" value="16841000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -197,24 +348,25 @@
     <frame x="1920" y="22" width="1920" height="1058" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1517572" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15974441" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32919255" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32919255" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32919255" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32919255" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32919255" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="LuaJ" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,19 +375,194 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="gogogo" />
+    <option name="LAST_COMMIT_MESSAGE" value="gogogo" />
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/miner.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="261" column="21" selection-start-line="261" selection-start-column="4" selection-end-line="261" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cpu-miner.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="3000" column="45" lean-forward="true" selection-start-line="3000" selection-start-column="45" selection-end-line="3000" selection-end-column="45" />
-          <folding>
-            <element signature="e#783#823#0" expanded="true" />
-            <element signature="e#871#968#0" expanded="true" />
-            <element signature="e#1089#1151#0" expanded="true" />
-            <element signature="e#1175#1230#0" expanded="true" />
-            <element signature="e#6793#6812#0" expanded="true" />
-            <element signature="e#13399#13402#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="451">
+          <caret line="1823" column="46" selection-start-line="1823" selection-start-column="29" selection-end-line="1823" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trustnode/equihash/equihash.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="81" column="23" selection-start-line="81" selection-start-column="23" selection-end-line="81" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algo/equihash.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Mac/Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/asm/proc_ehprepare_avx2.asm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" column="20" lean-forward="true" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/solver.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="745">
+          <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/asm/sh_rsync_dev.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/uint256.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2970">
+          <caret line="135" column="15" selection-start-line="135" selection-start-column="15" selection-end-line="135" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/tinyformat.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2016" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/proof.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/sh_rsync_dev.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/quickbench.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3454">
+          <caret line="157" selection-start-line="157" selection-end-line="157" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/proof.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/utilstrencodings.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/uint256.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/arith_uint256.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="279" column="19" selection-start-line="279" selection-start-column="19" selection-end-line="279" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/arith_uint256.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="204" column="1" selection-start-line="204" selection-start-column="1" selection-end-line="204" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/params.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/test.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/nonce_0.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/nonce_4.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/tmp.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="64" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/test_quickbench.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="96" column="9" lean-forward="true" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/crypto/bitcoin-config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="13" column="24" lean-forward="true" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/crypto/common.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2012" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/crypto/common.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/checkDiff/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
