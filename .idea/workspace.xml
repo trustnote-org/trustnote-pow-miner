@@ -31,26 +31,27 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="Makefile" value="12" />
+          <entry key="Makefile" value="13" />
           <entry key="asm" value="1" />
-          <entry key="c" value="24" />
-          <entry key="cpp" value="7" />
+          <entry key="c" value="28" />
+          <entry key="cpp" value="8" />
           <entry key="h" value="21" />
           <entry key="sh" value="7" />
-          <entry key="txt" value="3" />
+          <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Assembly file" value="1" />
-          <entry key="ObjectiveC" value="52" />
-          <entry key="PLAIN_TEXT" value="22" />
+          <entry key="ObjectiveC" value="57" />
+          <entry key="PLAIN_TEXT" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Makefile" value="371" />
-          <entry key="c" value="389" />
+          <entry key="c" value="639" />
+          <entry key="cpp" value="4" />
           <entry key="h" value="149" />
           <entry key="sh" value="3" />
           <entry key="txt" value="6" />
@@ -59,7 +60,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Doxygen file" value="27" />
-          <entry key="ObjectiveC" value="511" />
+          <entry key="ObjectiveC" value="765" />
           <entry key="PLAIN_TEXT" value="380" />
         </counts>
       </usages-collector>
@@ -68,10 +69,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/quickbench.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="19" column="29" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+            <state relative-caret-position="413">
+              <caret line="165" column="53" lean-forward="true" selection-start-line="165" selection-start-column="53" selection-end-line="165" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -79,17 +80,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/solver.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="75" column="16" lean-forward="true" selection-start-line="75" selection-start-column="16" selection-end-line="75" selection-end-column="16" />
+            <state relative-caret-position="561">
+              <caret line="119" column="40" lean-forward="true" selection-start-line="119" selection-start-column="40" selection-end-line="119" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/test_quickbench.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="173">
+              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/quickbench.c">
+        <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+            <state relative-caret-position="501">
+              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
             </state>
           </provider>
         </entry>
@@ -98,20 +108,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>curl</find>
-      <find>ws_</find>
       <find>websocket_thread</find>
       <find>want_websocket</find>
       <find>ALGO_EQUIHASH</find>
       <find>scanhash_equihash</find>
       <find>EhPrepare</find>
-      <find>equihash</find>
       <find>EhSolver</find>
       <find>CheckProofOfWork</find>
-      <find>checkProofOfWork</find>
       <find>blake2b</find>
       <find>sph_types.h</find>
       <find>testinput</find>
+      <find>ByteToHexStr</find>
+      <find>equihash</find>
+      <find>uint8_t</find>
+      <find>outfile</find>
+      <find>pu32</find>
+      <find>pu64</find>
+      <find>previous_rdtsc</find>
+      <find>time0</find>
+      <find>time1</find>
+      <find>t0</find>
+      <find>t1</find>
+      <find>fulltest</find>
+      <find>numsolutions</find>
+      <find>total_solutions</find>
+      <find>nonce</find>
+      <find>outctx</find>
+      <find>delta_time</find>
+      <find>total_time</find>
+      <find>j</find>
+      <find>checkProofOfWork</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -136,6 +162,7 @@
         <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/equihash_avx2.h" />
         <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/solver.c" />
         <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile" />
+        <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/proof.cpp" />
         <option value="$PROJECT_DIR$/equihash-xenon/Linux/demo/quickbench.c" />
       </list>
     </option>
@@ -246,7 +273,7 @@
       <workItem from="1534732913482" duration="8676000" />
       <workItem from="1534819356159" duration="3208000" />
       <workItem from="1534830813631" duration="64000" />
-      <workItem from="1534831972927" duration="11914000" />
+      <workItem from="1534831972927" duration="19433000" />
     </task>
     <task id="LOCAL-00001" summary="gogogo">
       <created>1534756716757</created>
@@ -287,7 +314,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29779000" />
+    <option name="totallyTimeSpent" value="37298000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -302,7 +329,7 @@
     <frame x="1920" y="22" width="1920" height="1058" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.1629393" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1629393" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -425,13 +452,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/tmp.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="64" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/nonce_0.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -463,13 +483,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="13" column="31" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/test_quickbench.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="96" column="9" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -544,24 +557,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile">
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/proof/proof.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="19" column="29" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+        <state relative-caret-position="572">
+          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/tmp.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="64" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/solver.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="75" column="16" lean-forward="true" selection-start-line="75" selection-start-column="16" selection-end-line="75" selection-end-column="16" />
+        <state relative-caret-position="561">
+          <caret line="119" column="40" lean-forward="true" selection-start-line="119" selection-start-column="40" selection-end-line="119" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/test_quickbench.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/quickbench.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        <state relative-caret-position="413">
+          <caret line="165" column="53" lean-forward="true" selection-start-line="165" selection-start-column="53" selection-end-line="165" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/equihash-xenon/Linux/demo/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
     </entry>
