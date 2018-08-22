@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "equihash_avx2.h"
+#include "../includes/equihash_avx2.h"
 #include "crypto/blake2b.h"
 #include "proof/proof.h"
 
