@@ -14,7 +14,6 @@
 
 using namespace std;
 
-#define CONTEXT_SIZE 	178033152
 #define ITERATIONS 		10
 
 #define THREADS 8
@@ -72,7 +71,7 @@ int init_threads_cache(map<int, Cache> threads_cache, void *inputheader){
 
 	for(int i = 0;i < THREADS; i++){
 		Cache cache;
-		cache.head_alloc = malloc(CONTEXT_SIZE+4096);
+		cache.head_alloc = malloc(TRUSTNOTE_MINER_CONTEXT_SIZE+4096);
 		cache.context = (void*) (((long) cache.head_alloc+4095) & -4096);
 
 		//EhPrepare(cache.context, inputheader);

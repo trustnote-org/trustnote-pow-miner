@@ -1,6 +1,6 @@
-#include "params.h"
-#include "uint256.h"
-#include "arith_uint256.h"
+#include "../../include/bitcoin-consensus-params.h"
+#include "../../include/uint256.h"
+#include "../../include/arith_uint256.h"
 #include "proof.h"
 
 

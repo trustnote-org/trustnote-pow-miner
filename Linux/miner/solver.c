@@ -14,7 +14,6 @@
 #include <time.h>
 #include <x86intrin.h>	//for rdtsc
 
-#define CONTEXT_SIZE 178033152
 
 //Linkage with assembly
 //EhPrepare takes in 136 bytes of input. The remaining 4 bytes of input is fed as nonce to EhSolver.
@@ -68,9 +67,9 @@ int main(void)
 	int i, j;
 	char outfilename[32];
 
-	context_alloc = malloc(CONTEXT_SIZE+4096);
+	context_alloc = malloc(TRUSTNOTE_MINER_CONTEXT_SIZE+4096);
 	context = (void*) (((long) context_alloc+4095) & -4096);
-	context_end = context + CONTEXT_SIZE;
+	context_end = context + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
 	//Init page tables. This is not necessary, but useful to get a more consistent single-run timing.
 	for (pu32=(uint32_t*)context; (void*) pu32<context_end; pu32+=1024)
