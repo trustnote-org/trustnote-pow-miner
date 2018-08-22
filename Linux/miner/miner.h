@@ -11,6 +11,13 @@
 #define __TRUSTNOTE_MINER_HEADER__
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+
 /**
  *	constants
  */
@@ -18,10 +25,6 @@
 #define TRUSTNOTE_MINER_POW_LIMIT	"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
  *	start mining
@@ -59,10 +62,12 @@ int calculateNextDifficulty( uint32_t nDifficulty, uint32_t nTimeUsed, uint32_t 
 
 
 
+
+
+
 #ifdef __cplusplus
 }
-
-
+#endif
 
 
 
