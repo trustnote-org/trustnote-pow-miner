@@ -1,1 +1,0 @@
-asm/cpuminer-neoscrypt_asm.o: asm/neoscrypt_asm.S

@@ -1,3 +1,0 @@
-asm/cpuminer-sha2-x64.o: asm/sha2-x64.S cpuminer-config.h
-
-cpuminer-config.h:
