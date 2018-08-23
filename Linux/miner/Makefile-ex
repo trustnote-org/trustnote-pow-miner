@@ -7,17 +7,17 @@ all: \
 
 
 blake2b.o:
-	g++ -std=c++11 -c -g -I. -I../include/ ../include/crypto/blake2b.c
+	g++ -std=c++11 -c -g -D _DEBUG -I. -I../include/ ../include/crypto/blake2b.c
 
 utility.o:
-	g++ -std=c++11 -c -g -I. -I../include/ ../include/utility.cpp
+	g++ -std=c++11 -c -g -D _DEBUG -I. -I../include/ ../include/utility.cpp
 
 miner.o: ./miner.h
-	g++ -std=c++11 -c -g -I. -I../include/ ./miner.cpp
+	g++ -std=c++11 -c -g -D _DEBUG -I. -I../include/ ./miner.cpp
 
 
 libcrypto.a:
-	g++ -std=c++11 -fPIC -c -g -I. -I../include/ \
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I../include/ \
         ../include/uint256.cpp \
         ../include/utilstrencodings.cpp \
         ../include/arith_uint256.cpp
@@ -26,7 +26,7 @@ libcrypto.a:
 
 
 miner:
-	g++ -std=c++11 -I. -I../include/ \
+	g++ -std=c++11 -D _DEBUG -I. -I../include/ \
 	    -o miner \
 	    ./miner.o ./utility.o ./libcrypto.a ../library/equihash_avx2.o
 

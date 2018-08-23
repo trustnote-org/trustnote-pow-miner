@@ -52,8 +52,8 @@ int main( void )
 
 			int nCheck = filterDifficulty
 				(
-					szBuff,
 					1000,
+					szBuff,
 					"007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 				);
 			printf( "[%d] - nonce: %d\t buff: %.*s\n", nCheck, nNonce, 64, szBuff );
