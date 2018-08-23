@@ -39,14 +39,14 @@ int startMining( uint8_t * putInputHeader, uint32_t nDifficulty, uint32_t nNonce
 
 
 /**
- *	check proof of work
+ *	filter difficulty
  *
  *	@param	{const char *}	pcszHash
  *	@param	{uint32_t}	nDifficulty
  *	@param	{const char *}	pcszPowLimit
  *	@return	{uint32_t}
  */
-int checkProofOfWork( const char * pcszHash, uint32_t nDifficulty, const char * pcszPowLimit = NULL );
+int filterDifficulty( const char * pcszHash, uint32_t nDifficulty, const char * pcszPowLimit = NULL );
 
 
 /**

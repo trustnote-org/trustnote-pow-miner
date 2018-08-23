@@ -50,7 +50,7 @@ int startMining( uint8_t * putInputHeader, uint32_t nDifficulty, uint32_t nNonce
 {
 	uint32_t unRet;
 	uint8_t utOutContext[ 32 ];
-	char szHexHash[ 280 ];
+	char szHexHash[ 128 ];
 
 	if ( NULL == putInputHeader )
 	{
@@ -82,16 +82,28 @@ int startMining( uint8_t * putInputHeader, uint32_t nDifficulty, uint32_t nNonce
 
 		for ( int n = 0; n < nSolutionCount; n ++ )
 		{
+			//
+			//	blake2b	512/256
+			//	blake2s	256/128
+			//
 			blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof(utOutContext), 1344, 0 );
 			bytesToHexString( utOutContext, 32, szHexHash );
 
-			int nCheck = checkProofOfWork( szHexHash, nDifficulty );
+			//	filter
+			int nCheck = filterDifficulty( szHexHash, nDifficulty );
 			if ( 0 == nCheck )
 			{
 				//	printf( "[%d] - nonce: %d\t buff: %.*s\n", nCheck, uNonce, 64, szHexHash );
 				unRet = 0;
 				break;
 			}
+
+			//
+			//	putInputHeader
+			//	uNonce
+			//	szHexHash
+			//	nDifficulty
+			//
 		}
 	}
 
@@ -105,6 +117,7 @@ int startMining( uint8_t * putInputHeader, uint32_t nDifficulty, uint32_t nNonce
 
 
 /**
+ *	filter difficulty
  *	check proof of work
  *
  *	@param	{const char *}	pcszHash
@@ -112,7 +125,7 @@ int startMining( uint8_t * putInputHeader, uint32_t nDifficulty, uint32_t nNonce
  *	@param	{const char *}	pcszPowLimit
  *	@return	{uint32_t}
  */
-int checkProofOfWork( const char * pcszHash, uint32_t nDifficulty, const char * pcszPowLimit /* = NULL */ )
+int filterDifficulty( const char * pcszHash, uint32_t nDifficulty, const char * pcszPowLimit /* = NULL */ )
 {
 	uint32_t unRet;
 	bool fNegative;
@@ -172,7 +185,35 @@ int calculateNextDifficulty( uint32_t nDifficulty, uint32_t nTimeUsed, uint32_t 
 
 	return unRet;
 }
+uint64_t CalculateNextWorkRequired( uint32_t nDifficulty, uint32_t nTimeUsed, uint32_t nTimeStandard, const char * sPowLimit )
+{
+	uint256 powLimit = uint256S(sPowLimit);
+	arith_uint256 bnTot {nDifficulty}, bnPowLimit;
+	uint64_t nActualTmspan;
+	int64_t MinActualTimespan = (nTimeStandard * ( 100 - 16 )) / 100;
+	int64_t MaxActualTimespan = (nTimeStandard * ( 100 + 32 )) / 100;
 
+	// 3/4 AveragingWindowTimespan + 1/4 nActualTimespan
+	nActualTmspan = nTimeStandard + (nTimeUsed - nTimeStandard)/4;
+
+	if (nActualTmspan < MinActualTimespan)	//	84% adjustment up
+		nActualTmspan = MinActualTimespan;
+	if (nActualTmspan > MaxActualTimespan)	// 	132% adjustment down
+		nActualTmspan = MaxActualTimespan;
+
+	// Retarget
+	bnPowLimit = UintToArith256(powLimit);
+	printf("powLimit: %d\n", bnPowLimit.GetCompact());
+
+	arith_uint256 bnNew {bnTot};
+	bnNew /= nTimeStandard;
+	bnNew *= nActualTmspan;
+
+	if (bnNew > bnPowLimit)
+		bnNew = bnPowLimit;
+
+	return bnNew.GetCompact();
+}
 
 
 

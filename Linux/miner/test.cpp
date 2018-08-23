@@ -50,7 +50,7 @@ int main( void )
 			blake2b( (uint8_t*)utOutContext, (uint8_t*)pvContext + n * 1344, NULL, sizeof(utOutContext), 1344, 0 );
 			bytesToHexString( utOutContext, 32, szBuff );
 
-			int nCheck = checkProofOfWork
+			int nCheck = filterDifficulty
 				(
 					szBuff,
 					1000,
