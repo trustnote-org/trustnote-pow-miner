@@ -36,17 +36,28 @@
 int main( void )
 {
 	uint8_t utInputHeader[ 140 ];
-	uint256 un256Difficulty		= uint256S( TRUSTNOTE_MINER_POW_LIMIT );
+	uint256 un256Difficulty		= uint256S( "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 	arith_uint256 bn256Difficulty	= UintToArith256( un256Difficulty );
 	uint32_t uDifficulty	= bn256Difficulty.GetCompact();
 	uint32_t uNonceStart	= 0;
 	uint32_t uNonceTimes	= 30000;
 	uint32_t uNonce;
-	char szHash[ 64 ];
+	char szHexHash[ 64 ];
+	int nCheckPoW;
 
 	//	...
-	startMining( utInputHeader, uDifficulty, uNonceStart, uNonceTimes, &uNonce, szHash );
+	memset( utInputHeader, 0, sizeof( utInputHeader ) );
+	startMining( utInputHeader, uDifficulty, uNonceStart, uNonceTimes, &uNonce, szHexHash );
+	#ifdef _DEBUG
+		printf( "### : %d\t : %.*s\n", uNonce, 64, szHexHash );
+	#endif
+	//	...
+	nCheckPoW = checkProofOfWork( utInputHeader, uDifficulty, uNonce, szHexHash );
+	#ifdef _DEBUG
+		printf( "checkProofOfWork: %d\n", nCheckPoW );
+	#endif
 
+	//	...
 	return 0;
 }
 
@@ -220,7 +231,7 @@ int checkProofOfWork( uint8_t * putInputHeader, uint32_t uDifficulty, uint32_t u
 		blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof( utOutContext ), 1344, 0 );
 		bytesToHexString( utOutContext, 32, szHexHash );
 
-		if ( 0 == strcasecmp( szHexHash, pcszHash ) )
+		if ( 0 == strncasecmp( szHexHash, pcszHash, 64 ) )
 		{
 			//
 			//	hex value matched
@@ -294,16 +305,16 @@ int filterDifficulty( uint32_t uDifficulty, const char * pcszHash, const char * 
 /**
  *	calculate next difficulty
  *
- *	@param	{uint32_t}	uDifficulty
+ *	@param	{uint32_t}	uPreviousDifficulty
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
  *	@param	{const char * }	pcszPowLimit
  *	@return	{uint32_t}
  */
-uint32_t calculateNextDifficulty( uint32_t uDifficulty, uint32_t uTimeUsed, uint32_t uTimeStandard, const char * pcszPowLimit )
+uint32_t calculateNextDifficulty( uint32_t uPreviousDifficulty, uint32_t uTimeUsed, uint32_t uTimeStandard, const char * pcszPowLimit )
 {
 	uint256 powLimit		= uint256S( pcszPowLimit );
-	arith_uint256 bnTot {uDifficulty}, bnPowLimit;
+	arith_uint256 bnTot {uPreviousDifficulty}, bnPowLimit;
 	uint64_t u64ActualTimeSpan;
 	int64_t n64MinActualTimeSpan	= ( uTimeStandard * ( 100 - 16 ) ) / 100;
 	int64_t n64MaxActualTimeSpan	= ( uTimeStandard * ( 100 + 32 ) ) / 100;

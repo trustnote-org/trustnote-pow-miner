@@ -25,7 +25,7 @@ extern "C" {
  *	constants
  */
 #define TRUSTNOTE_MINER_CONTEXT_SIZE	178033152
-#define TRUSTNOTE_MINER_POW_LIMIT	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+#define TRUSTNOTE_MINER_POW_LIMIT	"0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 
 
@@ -82,13 +82,13 @@ int filterDifficulty( uint32_t uDifficulty, const char * pcszHash, const char * 
 /**
  *	calculate next difficulty
  *
- *	@param	{uint32_t}	uDifficulty
+ *	@param	{uint32_t}	uPreviousDifficulty
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
  *	@param	{const char * }	pcszPowLimit
  *	@return	{uint32_t}
  */
-uint32_t calculateNextDifficulty( uint32_t uDifficulty, uint32_t uTimeUsed, uint32_t uTimeStandard, const char * pcszPowLimit );
+uint32_t calculateNextDifficulty( uint32_t uPreviousDifficulty, uint32_t uTimeUsed, uint32_t uTimeStandard, const char * pcszPowLimit );
 
 
 
