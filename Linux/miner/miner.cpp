@@ -38,14 +38,14 @@ int main( void )
 	uint8_t utInputHeader[ 140 ];
 	uint256 un256Difficulty		= uint256S( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 	arith_uint256 bn256Difficulty	= UintToArith256( un256Difficulty );
-	uint32_t uDifficulty	= bn256Difficulty.GetCompact();
-	uint32_t uNonceStart	= 0;
-	uint32_t uNonceTimes	= 30000;
+	uint32_t uDifficulty		= bn256Difficulty.GetCompact();
+	uint32_t uNonceStart		= 0;
+	uint32_t uNonceTimes		= 30000;
 	uint32_t uNonce;
 	char szHexHash[ 64 ];
 	int nCheckPoW;
 
-
+	//	...
 	uint32_t uNewDifficulty1	= calculateNextDifficulty( uDifficulty, 15000, 15000 );
 	uint32_t uNewDifficulty2	= calculateNextDifficulty( uDifficulty, 30000, 15000 );
 	uint32_t uNewDifficulty3	= calculateNextDifficulty( uDifficulty, 10000, 15000 );
@@ -67,10 +67,13 @@ int main( void )
 	#ifdef _DEBUG
 		printf( "### : %u\t : %.*s\n", uNonce, 64, szHexHash );
 	#endif
+
 	//	...
 	nCheckPoW = checkProofOfWork( utInputHeader, uDifficulty, uNonce, szHexHash );
 	#ifdef _DEBUG
-		printf( "checkProofOfWork : %s\n\n\n\n", 0 == nCheckPoW ? "Winer Winner Chicken Dinner!" : "Not Okay!" );
+		printf( "checkProofOfWork return %d : %s\n\n\n\n",
+			nCheckPoW,
+			0 == nCheckPoW ? "Winer Winner Chicken Dinner!" : "Not Okay!" );
 	#endif
 
 	//	...
@@ -241,7 +244,7 @@ int checkProofOfWork(
 	}
 
 	uint8_t utOutContext[ 32 ];
-	char szHexHash[ 128 ];
+	char szHashHex[ 128 ];
 
 	//	...
 	nRet = -1;
@@ -264,14 +267,14 @@ int checkProofOfWork(
 		//	blake2s	256/128
 		//
 		blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof( utOutContext ), 1344, 0 );
-		bytesToHexString( utOutContext, 32, szHexHash );
+		bytesToHexString( utOutContext, 32, szHashHex );
 
-		if ( 0 == strncasecmp( szHexHash, pcszHashHex, 64 ) )
+		if ( 0 == strncasecmp( szHashHex, pcszHashHex, 64 ) )
 		{
 			//
 			//	hex value matched
 			//
-			int nCheck = filterDifficulty( uDifficulty, szHexHash );
+			int nCheck = filterDifficulty( uDifficulty, szHashHex );
 			if ( 0 == nCheck )
 			{
 				//
@@ -307,6 +310,7 @@ int filterDifficulty(
 	bool fNegative;
 	bool fOverflow;
 	arith_uint256 bnTarget;
+	char szHashHexCalc[ 128 ];
 
 	if ( NULL == pcszHashHex )
 	{
@@ -321,8 +325,11 @@ int filterDifficulty(
 	}
 
 	//	...
+	memcpy( szHashHexCalc, pcszHashHex, 64 );
+	szHashHexCalc[ 64 ]	= 0;
+
 	uint256 un256PowLimit	= uint256S( TRUSTNOTE_MINER_POW_LIMIT );
-	uint256 un256Hash	= uint256S( pcszHashHex );
+	uint256 un256Hash	= uint256S( szHashHexCalc );
 
 	//	...
 	bnTarget.SetCompact( uDifficulty, & fNegative, & fOverflow );
@@ -392,7 +399,7 @@ uint32_t calculateNextDifficulty(
 	arith_uint256 bnNew {bnTot};
 	#ifdef _DEBUG
 		printf( "*** before\t:\t%u\n", bnNew.GetCompact() );
-		printf( "*** u64ActualTimeSpan\t:\t%u\n", u64ActualTimeSpan );
+		printf( "*** u64ActualTimeSpan\t:\t%lld\n", u64ActualTimeSpan );
 	#endif
 
 	bnNew	/= uTimeStandard;
@@ -411,8 +418,8 @@ uint32_t calculateNextDifficulty(
 	//	...
 	uRet = bnNew.GetCompact();
 	#ifdef _DEBUG
-		printf( "calculateNextDifficulty :: uPreviousDifficulty : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u, %s\n",
-			uPreviousDifficulty, uTimeUsed, uTimeStandard, uRet, bnNew.ToString() );
+		printf( "calculateNextDifficulty :: uPreviousDifficulty : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u\n",
+			uPreviousDifficulty, uTimeUsed, uTimeStandard, uRet );
 	#endif
 
 	return uRet;

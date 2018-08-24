@@ -42,7 +42,7 @@ nCallStartMining	= _objMinerLibrary.startMining( bufInputHeader, uDifficulty, 0,
 uActualNonce		= uOutMemNonce.deref();
 sActualHashHex		= bufHashHex.toString();
 
-console.log( `length of sActualHashHex : ${ Buffer.from( sActualHashHex ).length }` );
+console.log( `startMining return ${ nCallStartMining }, nonce : ${ uActualNonce }, hash : ${ sActualHashHex }` );
 
 
 //
@@ -57,7 +57,7 @@ console.log( `length of sActualHashHex : ${ Buffer.from( sActualHashHex ).length
 nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, Buffer.from( sActualHashHex, 'ascii' ) );
 
 
-console.log( `startMining return ${ nCallStartMining }, nonce : ${ uActualNonce }, hash : ${ sActualHashHex }` );
+
 console.log( `checkProofOfWork return ${ nCallCheckProofOfWork }` );
 
 
