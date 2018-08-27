@@ -1,58 +1,12 @@
+const _fs	= require( 'fs' );
 const _ref	= require( 'ref' );
 const _ffi	= require( 'ffi' );
 
 
-
+/**
+ *	@variables
+ */
 let _objMinerLibrary = null;
-
-
-
-let uOutMemNonce		= _ref.alloc( _ref.types.uint );
-let uActualNonce		= null;
-
-let bufInputHeader		= new Buffer( 140 );
-let uDifficulty			= 536936447;
-let bufHashHex			= new Buffer( 64 );
-let sActualHashHex		= null;
-
-let nCallStartMining		= null;
-let nCallCheckProofOfWork	= null;
-
-
-//
-//	int startMining
-// 	(
-// 		uint8_t * putInputHeader,
-// 		uint32_t uDifficulty,
-// 		uint32_t uNonceStart,
-// 		uint32_t uNonceTimes,
-// 		OUT uint32_t * puNonce,
-// 		OUT char * pszHashHex,
-// 		uint32_t uHashHexLength
-// 	)
-//
-nCallStartMining	= _objMinerLibrary.startMining( bufInputHeader, uDifficulty, 0, 0, uOutMemNonce, bufHashHex, bufHashHex.length );
-uActualNonce		= uOutMemNonce.deref();
-sActualHashHex		= bufHashHex.toString();
-
-console.log( `startMining return ${ nCallStartMining }, nonce : ${ uActualNonce }, hash : ${ sActualHashHex }` );
-
-
-//
-//	int checkProofOfWork
-// 	(
-// 		uint8_t * putInputHeader,
-// 		uint32_t uDifficulty,
-// 		uint32_t uNonce,
-// 		const char * pcszHashHex
-// 	)
-//
-nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, Buffer.from( sActualHashHex, 'ascii' ) );
-
-
-
-console.log( `checkProofOfWork return ${ nCallCheckProofOfWork }` );
-
 
 
 
@@ -64,48 +18,216 @@ class CTrustMinerLibrary
 {
 	constructor()
 	{
-		if ( null === _objMinerLibrary )
+		let sLibraryFullFilename	= this._getLibraryFullFilename();
+
+		if ( null === _objMinerLibrary && sLibraryFullFilename )
 		{
 			_objMinerLibrary = _ffi.Library
 			(
-				this._getLibraryFullFilename(),
+				sLibraryFullFilename,
 				{
-					'startMining'			: [ 'int', [ 'pointer', 'uint', 'uint', 'uint', _ref.refType('uint'), 'char *', 'uint' ] ],
-					'checkProofOfWork'		: [ 'int', [ 'pointer', 'uint', 'uint', 'pointer' ] ],
-					'calculateNextDifficulty'	: [ 'uint', [ 'uint', 'uint', 'uint' ] ],
+					'startMining' :
+					[
+						'int',
+						[ 'pointer', 'uint', 'uint', 'uint', _ref.refType('uint'), 'char *', 'uint' ]
+					],
+					'checkProofOfWork' :
+					[
+						'int',
+						[ 'pointer', 'uint', 'uint', 'pointer' ]
+					],
+					'calculateNextDifficulty' :
+					[
+						'uint',
+						[ 'uint', 'uint', 'uint' ]
+					],
 				}
 			);
 		}
 	}
 
 
-//	int startMining
-// 	(
-// 		uint8_t * putInputHeader,
-// 		uint32_t uDifficulty,
-// 		uint32_t uNonceStart,
-// 		uint32_t uNonceTimes,
-// 		OUT uint32_t * puNonce,
-// 		OUT char * pszHashHex,
-// 		uint32_t uHashHexLength
-// 	)
-//
-	startMining( bufInputHeader, uDifficulty, uNonceStart, uNonceTimes, uOutMemNonce, bufHashHex, bufHashHex.length )
+	/**
+	 *	start mining
+	 *
+	 *	@param	{Buffer}	bufInputHeader
+	 *	@param	{number}	uDifficulty
+	 *	@param	{number}	uNonceStart
+	 *	@param	{number}	uNonceTimes
+	 *	@param	{function}	pfnCallback( err, { hashHex : '', nonce : 0 } )
+	 *	@return {*}
+	 *
+	 * 	@description
+	 *
+	 * 	in c++:
+	 *	int startMining
+	 *	(
+	 *		uint8_t * putInputHeader,
+	 *		uint32_t uDifficulty,
+	 *		uint32_t uNonceStart,
+	 *		uint32_t uNonceTimes,
+	 *		OUT uint32_t * puNonce,
+	 *		OUT char * pszHashHex,
+	 *		uint32_t uHashHexLength
+	 *	)
+	 */
+	startMining( bufInputHeader, uDifficulty, uNonceStart, uNonceTimes, pfnCallback )
 	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( 'failed to load miner library.' );
+		}
+		if ( 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
+		{
+			return pfnCallback( 'call startMining with invalid bufInputHeader.' );
+		}
+		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
+		{
+			return pfnCallback( 'call startMining with invalid uDifficulty.' );
+		}
+		if ( 'number' !== typeof uNonceStart || uNonceStart <= 0 )
+		{
+			return pfnCallback( 'call startMining with invalid uNonceStart.' );
+		}
+		if ( 'number' !== typeof uNonceTimes || uNonceTimes <= 0 )
+		{
+			return pfnCallback( 'call startMining with invalid uNonceTimes.' );
+		}
+
+		let uOutMemNonce		= _ref.alloc( _ref.types.uint );
+		let uActualNonce		= null;
+		let bufHashHex			= new Buffer( 64 );
+		let sActualHashHex		= null;
+
+		let nCallStartMining		= _objMinerLibrary.startMining( bufInputHeader, uDifficulty, 0, 0, uOutMemNonce, bufHashHex, bufHashHex.length );
+		if ( 0 === nCallStartMining )
+		{
+			uActualNonce		= uOutMemNonce.deref();
+			sActualHashHex		= bufHashHex.toString();
+			return pfnCallback( null, { hashHex : sActualHashHex, nonce : uActualNonce } );
+		}
+		else
+		{
+			return pfnCallback( `startMining return error code : ${ nCallStartMining }.` );
+		}
 	}
 
 
+	/**
+	 *	check proof of work
+	 *
+	 *	@param	{Buffer}	bufInputHeader
+	 *	@param	{number}	uDifficulty
+	 *	@param	{number}	uActualNonce
+	 *	@param	{string}	sActualHashHex
+	 *	@param	{function}	pfnCallback( err, { code : 0 } )
+	 *	@return {*}
+	 *
+	 * 	@description
+	 *
+	 *	in c++:
+	 *	int checkProofOfWork
+	 *	(
+	 *		uint8_t * putInputHeader,
+	 *		uint32_t uDifficulty,
+	 *		uint32_t uNonce,
+	 *		const char * pcszHashHex
+	 *	)
+	 *
+	 * 	@callback
+	 * 		code:
+	 *		0	successfully
+	 */
+	checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
+	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( 'failed to load miner library.' );
+		}
+		if ( 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
+		{
+			return pfnCallback( 'call checkProofOfWork with invalid bufInputHeader.' );
+		}
+		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
+		{
+			return pfnCallback( 'call checkProofOfWork with invalid uDifficulty.' );
+		}
+		if ( 'number' !== typeof uActualNonce || uActualNonce <= 0 )
+		{
+			return pfnCallback( 'call checkProofOfWork with invalid uActualNonce.' );
+		}
+
+		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
+		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
+
+		return pfnCallback( null, { code : nCallCheckProofOfWork } );
+	}
+
+
+	/**
+	 *	calculate next cycle difficulty
+	 *
+	 *	@param	{number}	uPreviousDifficulty
+	 *	@param	{number}	uTimeUsed
+	 *	@param	{number}	uTimeStandard
+	 *	@param	{function}	pfnCallback( err, { difficulty : 0 } )
+	 *	@return	{*}
+	 *
+	 *	@description
+	 *
+	 * 	in c++ :
+	 *	uint32_t calculateNextDifficulty
+	 *		(
+	 *			uint32_t uPreviousDifficulty,
+	 *			uint32_t uTimeUsed,
+	 *			uint32_t uTimeStandard
+	 *		);
+	 */
+	calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard, pfnCallback )
+	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( 'failed to load miner library.' );
+		}
+		if ( 'number' !== typeof uPreviousDifficulty || uPreviousDifficulty <= 0 )
+		{
+			return pfnCallback( 'call calculateNextDifficulty with invalid uPreviousDifficulty.' );
+		}
+		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
+		{
+			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeUsed.' );
+		}
+		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
+		{
+			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeStandard.' );
+		}
+
+		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
+
+		return pfnCallback( null, { difficulty : uNextDifficulty } );
+	}
+
+
+	/**
+	 *	get library full filename
+	 *
+	 *	@private
+	 *	@return {string}
+	 */
 	_getLibraryFullFilename()
 	{
-		let sRet	= null;
+		let sRet = null;
 
 		switch ( process.platform )
 		{
 			case 'linux' :
 				sRet = `${ __dirname }/../lib/Linux/miner.so`;
+				if ( ! _fs.existsSync( sRet ) )
+				{
+					sRet = null;
+				}
 				break;
 			default:
-				sRet = `${ __dirname }/../lib/Linux/miner.so`;
 				break;
 		}
 
