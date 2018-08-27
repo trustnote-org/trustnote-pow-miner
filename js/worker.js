@@ -5,15 +5,16 @@ const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
  */
 let _oLibrary		= new CTrustMinerLibrary();
 
+
 /**
  *	command arguments
  *	@type {Array}
  */
 let _arrArgv		= process.argv;
 let _nMasterPId		= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 3 ) ? parseInt( _arrArgv[ 2 ] ) : null;
-let _nWorkerId		= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 4 ) ? parseInt( _arrArgv[ 3 ] ) : null;
-let _nNonceStart	= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 5 ) ? parseInt( _arrArgv[ 4 ] ) : null;
-let _nCalcTimes		= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 6 ) ? parseInt( _arrArgv[ 5 ] ) : null;
+let _sArgString		= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 4 ) ? _arrArgv[ 3 ] : '';
+let _jsonArg		= null;
+
 
 
 function isMasterExists()
@@ -22,7 +23,7 @@ function isMasterExists()
 
 	try
 	{
-		bRet = process.kill( _nMasterPId, '0' );
+		bRet = process.kill( _nMasterPId, 0 );
 	}
 	catch ( e )
 	{
@@ -37,17 +38,44 @@ function exitWorker( nCode )
 	{
 		process.exit( nCode );
 
-	}, 3000 );
+	}, 100 );
 }
 
-console.log( `_nMasterPId : ${ _nMasterPId },
-		_nWorkerId : ${ _nWorkerId },
-		_nNonceStart : ${ _nNonceStart },
-		_nWorkerId : ${ _nNonceStart },
-		_nCalcTimes : ${ _nCalcTimes }` );
-
-while( _nCalcTimes > 0 )
+function parseArgs()
 {
+	_jsonArg = JSON.parse( _sArgString );
+	if ( 'object' !== typeof _jsonArg )
+	{
+		throw new Error( `invalid format of arguments.` );
+	}
+	if ( ! _jsonArg.hasOwnProperty( 'workerId' ) )
+	{
+		throw new Error( `invalid arguments.workerId.` );
+	}
+	if ( ! _jsonArg.hasOwnProperty( 'start' ) )
+	{
+		throw new Error( `invalid arguments.start.` );
+	}
+	if ( ! _jsonArg.hasOwnProperty( 'calcTimes' ) )
+	{
+		throw new Error( `invalid arguments.calcTimes.` );
+	}
+	if ( ! _jsonArg.hasOwnProperty( 'inputHeader' ) )
+	{
+		throw new Error( `invalid arguments.inputHeader.` );
+	}
+	if ( ! _jsonArg.hasOwnProperty( 'difficulty' ) )
+	{
+		throw new Error( `invalid arguments.difficulty.` );
+	}
+}
+
+
+
+function startWorker()
+{
+	parseArgs();
+
 	/**
 	 * 	master had gone
 	 */
@@ -57,27 +85,32 @@ while( _nCalcTimes > 0 )
 	}
 
 
-	/**
-	 *	...
-	 */
-	let nNonce	= _nNonceStart - _nCalcTimes;
-	//console.log( `### CHILD[ ${ _nWorkerId } ], nonce : ${ nNonce }.` );
-	if ( 1000001 === nNonce )
-	{
-		console.log( JSON.stringify( [ 0, { result : 'win', nonce : nNonce } ] ) );
-		exitWorker( 2000 );
-		break;
-	}
+	//
+	//	...
+	//
+	_oLibrary.startMining
+	(
+		_jsonArg.inputHeader,
+		_jsonArg.difficulty,
+		_jsonArg.start,
+		_jsonArg.calcTimes,
+		function( err, oData )
+		{
+			if ( null == err )
+			{
+				console.log( JSON.stringify( [ 0, oData ] ) );
+			}
 
-	/**
-	 * 	go on
-	 */
-	_nCalcTimes --;
+			//	...
+			exitWorker( 2000 );
+		}
+	);
 }
 
 
-// setInterval( () =>
-// {
-// 	console.log( `@@@ TIMER ${ Date.now() }` );
-// }, 1000 );
 
+
+/**
+ *	start worker
+ */
+startWorker();

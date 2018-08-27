@@ -1,23 +1,22 @@
 const _os		= require( 'os' );
+const _fs		= require( 'fs' );
 const { spawn }		= require( 'child_process' );
+
 
 const CALCULATE_TIMES	= 10000;
 
 let _arrCPUs		= _os.cpus();
 let _nWorkerCount	= Array.isArray( _arrCPUs ) ? _arrCPUs.length - 1 : 1;
 let _arrWorkers		= null;
-let _nLoop		= 0;
+let _nLoopStart		= 0;
+let _nMaxLoop		= 10000;
 let _bAlreadyWin	= false;
 
+let _cWriteStream	= _fs.createWriteStream( 'log.txt', { flags : "a" } );
 
 
 
 
-function start()
-{
-	initWorker();
-	checkWorkers();
-}
 
 function initWorker()
 {
@@ -62,7 +61,7 @@ function isWorkerExists( nPId )
 
 	try
 	{
-		bRet = process.kill( nPId, '0' );
+		bRet = process.kill( nPId, 0 );
 	}
 	catch ( e )
 	{
@@ -71,39 +70,66 @@ function isWorkerExists( nPId )
 	return bRet;
 }
 
-function checkWorkers()
+
+/**
+ *	check workers
+ *
+ *	@param	{Buffer}	bufInputHeader
+ *	@param	{number}	uDifficulty
+ *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
+ */
+function checkWorkers( bufInputHeader, uDifficulty, pfnCallback )
 {
 	if ( ! Array.isArray( _arrWorkers ) || 0 === _arrWorkers.length )
 	{
-		console.log( `Workers was not initialized` );
+		pfnCallback( `Workers was not initialized` );
 		return false;
 	}
 	if ( _bAlreadyWin )
 	{
-		console.log( `We already win.` );
+		pfnCallback( `We already win.` );
 		return false;
 	}
-
+	if ( _nLoopStart >= _nMaxLoop )
+	{
+		//	`Time is over.`
+		pfnCallback( null, { error : 'timeout', hashHex : null, nonce : 0 } );
+		return false;
+	}
 
 	for ( let i = 0; i < _arrWorkers.length; i ++ )
 	{
 		let nWorkerId	= i;
 		let nCalcTimes	= CALCULATE_TIMES;
-		let nStart	= _nLoop * nCalcTimes;
+		let nStart	= _nLoopStart * nCalcTimes;
 
 		//	...
 		if ( null === _arrWorkers[ i ].handle ||
 			! isWorkerExists( _arrWorkers[ i ].handle.pid ) )
 		{
-			_arrWorkers[ i ].handle = spawnWorker( nWorkerId, nStart, nCalcTimes );
-			_nLoop ++;
+			let jsonArg = {
+				workerId	: nWorkerId,
+				start		: nStart,
+				calcTimes	: nCalcTimes,
+				inputHeader	: bufInputHeader,
+				difficulty	: uDifficulty,
+			};
+			_arrWorkers[ i ].handle = spawnWorker( JSON.stringify( jsonArg ), bufInputHeader, uDifficulty, pfnCallback );
+			_nLoopStart ++;
 		}
 	}
 }
 
-function isWin( sData )
+
+/**
+ *	check win
+ *
+ *	@param sData
+ *	@return {boolean}
+ */
+function checkWin( sData )
 {
-	let bRet = false;
+	let oRet = null;
 
 	try
 	{
@@ -118,11 +144,10 @@ function isWin( sData )
 					2 === arrJson.length &&
 					0 === arrJson[ 0 ] &&
 					'object' === typeof( arrJson[ 1 ] ) &&
-					arrJson[ 1 ].hasOwnProperty( 'result' ) &&
-					'string' === typeof( arrJson[ 1 ][ 'result' ] ) &&
-					'win' === arrJson[ 1 ][ 'result' ] )
+					arrJson[ 1 ].hasOwnProperty( 'hashHex' ) &&
+					arrJson[ 1 ].hasOwnProperty( 'nonce' ) )
 				{
-					bRet = true;
+					oRet = arrJson[ 1 ];
 					break;
 				}
 			}
@@ -132,32 +157,53 @@ function isWin( sData )
 	{
 	}
 
-	return bRet;
+	return oRet;
 }
 
-function spawnWorker( nWorkerId, nStart, nTimes )
+/**
+ *	spawn worker
+ *
+ *	@param	{string}	sArgString
+ *	@param 	{function}	pfnCallback
+ *	@return	{*}
+ */
+function spawnWorker( sArgString, bufInputHeader, uDifficulty, pfnCallback )
 {
-	let hHandle = spawn( 'node', [ 'worker.js', process.pid, nWorkerId, nStart, nTimes ] );
+	let hHandle = spawn
+	(
+		'node',
+		[
+			'worker.js',
+			process.pid,
+			sArgString
+		]
+	);
 	if ( hHandle )
 	{
 		hHandle.stdout.on( 'data', ( sData ) =>
 		{
+			//_cWriteStream.write( sData );
 			console.log( `child stdout:\n${ sData }` );
-			if ( isWin( sData ) )
+
+			let jsonResult = checkWin( sData );
+			if ( jsonResult )
 			{
 				_bAlreadyWin = true;
-				console.log( `WINNER, WINNER!` );
+				console.log( `WINNER WINNER CHICKEN DINNER!` );
 				stopAllWorkers();
+
+				//	...
+				pfnCallback( null, jsonResult );
 			}
 		});
 		hHandle.on( 'disconnect', () =>
 		{
-			console.log(`child disconnect:\n`);
+			//console.log(`child disconnect:\n`);
 		});
 		hHandle.on( 'exit', function( nCode, sSignal )
 		{
-			console.log( `child process exited with code ${ nCode } and signal ${ sSignal }` );
-			checkWorkers();
+			//console.log( `child process exited with code ${ nCode } and signal ${ sSignal }` );
+			checkWorkers( bufInputHeader, uDifficulty, pfnCallback );
 		});
 		// hHandle.on( 'close', function( nCode, sSignal )
 		// {
@@ -170,21 +216,38 @@ function spawnWorker( nWorkerId, nStart, nTimes )
 }
 
 
+/**
+ *	start mining
+ *
+ *	@param	{Buffer}	bufInputHeader
+ *	@param	{number}	uDifficulty
+ *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
+ */
+function start( bufInputHeader, uDifficulty, pfnCallback )
+{
+	initWorker();
+	checkWorkers( bufInputHeader, uDifficulty, pfnCallback );
+}
+
 
 
 
 /**
  *	start here
  */
-start();
+let _bufInput		= new Buffer( 140 );
+let _uDifficulty	= 536936447;
+
+start( _bufInput, _uDifficulty, function( err, oData )
+{
+	console.log( err, oData );
+});
 
 
 
 
-//
-// setTimeout( () =>
-// {
-// 	child.kill( 'SIGINT' );
-// 	//child.disconnect();
-//
-// }, 3000 );
+
+/**
+ * 	@exports
+ */
+module.exports.start	= start;
