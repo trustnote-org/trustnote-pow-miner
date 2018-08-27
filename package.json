@@ -1,0 +1,35 @@
+{
+	"name"		: "trustnote-pow-miner",
+	"version"	: "1.0.0",
+	"license"	: "MIT",
+	"author"	: "TrustNote",
+	"description"	: "TrustNote miner for Node.js",
+	"keywords"	: [
+		"trustnote",
+		"pow",
+		"miner"
+	],
+	"homepage"	: "https://github.com/trustnote/trustnote-pow-miner",
+	"engines"	:
+	{
+		"node": ">=0.10.0"
+	},
+	"main"		: "./js",
+	"dependencies"	:
+	{
+		"ref"	: ">=1.0",
+		"ffi"	: ">=1.0"
+	},
+	"devDependencies" :
+	{
+	},
+	"repository"	:
+	{
+		"type"	: "git",
+		"url"	: "https://github.com/trustnote/trustnote-pow-miner.git"
+	},
+	"bugs":
+	{
+		"url"	: "https://github.com/trustnote/trustnote-pow-miner/issues"
+	}
+}
