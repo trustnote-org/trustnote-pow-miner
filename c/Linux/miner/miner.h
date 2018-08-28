@@ -38,7 +38,7 @@ extern "C" {
  *	@param	{uint8_t*}	putInputHeader
  *	@param	{uint32_t}	uDifficulty
  *	@param	{uint32_t}	uNonceStart
- *	@param	{uint32_t}	uNonceTimes
+ *	@param	{uint32_t}	uCalcTimes
  *	@param	{uint32_t *}	OUT puNonce
  *	@param	{char *}	OUT pszHashHex
  *	@param	{uint32_t}	uHashHexLength
@@ -48,7 +48,7 @@ int startMining(
 	uint8_t * putInputHeader,
 	uint32_t uDifficulty,
 	uint32_t uNonceStart,
-	uint32_t uNonceTimes,
+	uint32_t uCalcTimes,
 	OUT uint32_t * puNonce,
 	OUT char * pszHashHex,
 	uint32_t uHashHexLength );

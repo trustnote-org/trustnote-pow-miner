@@ -1,26 +1,34 @@
-const _os		= require( 'os' );
-const _fs		= require( 'fs' );
-const { spawn }		= require( 'child_process' );
+const _os			= require( 'os' );
+const _fs			= require( 'fs' );
+const { spawn }			= require( 'child_process' );
 
 
-const CALCULATE_TIMES	= 10000;
-
-let _arrCPUs		= _os.cpus();
-let _nWorkerCount	= Array.isArray( _arrCPUs ) ? _arrCPUs.length - 1 : 1;
-let _arrWorkers		= null;
-let _nLoopStart		= 0;
-let _nMaxLoop		= 10000;
-let _bAlreadyWin	= false;
-
-let _cWriteStream	= _fs.createWriteStream( 'log.txt', { flags : "a" } );
+/**
+ *	@constants
+ */
+const CALC_TIMES_PER_LOOP	= 1000;
+const MAX_LOOP			= 10000;
 
 
+/**
+ *	@variables
+ */
+let _arrCPUs			= _os.cpus();
+let _nWorkerCount		= Array.isArray( _arrCPUs ) ? _arrCPUs.length - 1 : 1;
+let _arrWorkers			= null;
+let _nLoopStart			= 0;
+let _bAlreadyWin		= false;
+let _arrAllResults		= [];
 
 
 
-function initWorker()
+/**
+ *	initialize workers
+ */
+function initWorkers()
 {
-	_arrWorkers = [];
+	_arrAllResults	= [];
+	_arrWorkers	= [];
 	for ( let i = 0; i < _nWorkerCount; i ++ )
 	{
 		_arrWorkers[ i ] = Object.assign( {}, _arrCPUs[ i ] );
@@ -29,6 +37,12 @@ function initWorker()
 	}
 }
 
+/**
+ *	stop/kill worker by pid
+ *
+ *	@param	{number}	nPId
+ *	@return {boolean}
+ */
 function stopWorker( nPId )
 {
 	let bRet = false;
@@ -43,6 +57,10 @@ function stopWorker( nPId )
 
 	return bRet;
 }
+
+/**
+ *	stop/kill all workers
+ */
 function stopAllWorkers()
 {
 	for ( let i = 0; i < _nWorkerCount; i ++ )
@@ -55,6 +73,58 @@ function stopAllWorkers()
 	}
 }
 
+/**
+ *	wait for all workers done
+ *
+ *	@param	{function}	pfnCallback( err )
+ */
+function waitForWinnerWorkerDone( pfnCallback )
+{
+	//
+	//	check for wined workers
+	//
+	let arrWinResults = _arrAllResults.filter( oResult =>
+	{
+		return isResultOfWin( oResult.result );
+	});
+	if ( arrWinResults.length > 0 )
+	{
+		//	one or more workers already win
+		return pfnCallback( null );
+	}
+
+
+	//
+	//	check and wait for all workers
+	//
+	let arrLiveWorkers = _arrWorkers.filter( oWorker =>
+	{
+		return 'object' === typeof oWorker &&
+			oWorker.handle &&
+			oWorker.handle.hasOwnProperty( 'pid' ) &&
+			oWorker.handle.pid &&
+			isWorkerExists( oWorker.handle.pid );
+	});
+
+	if ( arrLiveWorkers.length > 0 )
+	{
+		setTimeout( () =>
+		{
+			waitForWinnerWorkerDone( pfnCallback );
+		}, 500 );
+	}
+	else
+	{
+		pfnCallback( null );
+	}
+}
+
+/**
+ * 	detect if a worker with pid {nPID} exists
+ *
+ *	@param	{number}	nPId
+ *	@return {boolean}
+ */
 function isWorkerExists( nPId )
 {
 	let bRet = false;
@@ -70,15 +140,17 @@ function isWorkerExists( nPId )
 	return bRet;
 }
 
-
 /**
  *	check workers
  *
- *	@param	{Buffer}	bufInputHeader
- *	@param	{number}	uDifficulty
+ *	@param	{object}	oOptions
+ *	@param	{string}	oOptions.bufInputHeader		hex string with length of 280 bytes
+ *	@param	{number}	oOptions.calcTimes
+ *	@param	{number}	oOptions.maxLoop
+ *	@param	{number}	oOptions.difficulty
  *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
  */
-function checkWorkers( bufInputHeader, uDifficulty, pfnCallback )
+function checkWorkers( oOptions, pfnCallback )
 {
 	if ( ! Array.isArray( _arrWorkers ) || 0 === _arrWorkers.length )
 	{
@@ -90,36 +162,37 @@ function checkWorkers( bufInputHeader, uDifficulty, pfnCallback )
 		pfnCallback( `We already win.` );
 		return false;
 	}
-	if ( _nLoopStart >= _nMaxLoop )
+	if ( _nLoopStart >= oOptions.maxLoop )
 	{
 		//	`Time is over.`
-		pfnCallback( null, { error : 'timeout', hashHex : null, nonce : 0 } );
+		pfnCallback( null, { gameOver : true, hashHex : null, nonce : 0 } );
 		return false;
 	}
 
 	for ( let i = 0; i < _arrWorkers.length; i ++ )
 	{
 		let nWorkerId	= i;
-		let nCalcTimes	= CALCULATE_TIMES;
+		let nCalcTimes	= oOptions.calcTimes;
 		let nStart	= _nLoopStart * nCalcTimes;
 
 		//	...
 		if ( null === _arrWorkers[ i ].handle ||
 			! isWorkerExists( _arrWorkers[ i ].handle.pid ) )
 		{
-			let jsonArg = {
-				workerId	: nWorkerId,
-				start		: nStart,
-				calcTimes	: nCalcTimes,
-				inputHeader	: bufInputHeader,
-				difficulty	: uDifficulty,
-			};
-			_arrWorkers[ i ].handle = spawnWorker( JSON.stringify( jsonArg ), bufInputHeader, uDifficulty, pfnCallback );
+			let oOptionsCopy	= Object.assign
+				(
+					{},
+					oOptions,
+					{
+						workerId	: nWorkerId,
+						start		: nStart,
+					}
+				);
+			_arrWorkers[ i ].handle = spawnWorker( oOptionsCopy, pfnCallback );
 			_nLoopStart ++;
 		}
 	}
 }
-
 
 /**
  *	check win
@@ -163,33 +236,34 @@ function checkWin( sData )
 /**
  *	spawn worker
  *
- *	@param	{string}	sArgString
+ *	@param	{object}	oOptions
  *	@param 	{function}	pfnCallback
  *	@return	{*}
  */
-function spawnWorker( sArgString, bufInputHeader, uDifficulty, pfnCallback )
+function spawnWorker( oOptions, pfnCallback )
 {
-	let hHandle = spawn
-	(
-		'node',
-		[
-			'worker.js',
-			process.pid,
-			sArgString
-		]
-	);
+	let oOptionsCp;
+	let arrArgs;
+	let hHandle;
+
+	oOptionsCp	= Object.assign( {}, oOptions );
+	delete oOptionsCp.bufInputHeader;
+	delete oOptionsCp.maxLoop;
+
+	arrArgs	= [ `${ __dirname }/worker.js`, process.pid, JSON.stringify( oOptionsCp ) ];
+	hHandle	= spawn( 'node', arrArgs );
 	if ( hHandle )
 	{
 		hHandle.stdout.on( 'data', ( sData ) =>
 		{
-			//_cWriteStream.write( sData );
-			console.log( `child stdout:\n${ sData }` );
-
+			//console.log( `child stdout:\n${ sData }` );
 			let jsonResult = checkWin( sData );
 			if ( jsonResult )
 			{
+				//
+				//	WIN !!!
+				//
 				_bAlreadyWin = true;
-				console.log( `WINNER WINNER CHICKEN DINNER!` );
 				stopAllWorkers();
 
 				//	...
@@ -203,45 +277,134 @@ function spawnWorker( sArgString, bufInputHeader, uDifficulty, pfnCallback )
 		hHandle.on( 'exit', function( nCode, sSignal )
 		{
 			//console.log( `child process exited with code ${ nCode } and signal ${ sSignal }` );
-			checkWorkers( bufInputHeader, uDifficulty, pfnCallback );
+			checkWorkers( oOptions, pfnCallback );
 		});
-		// hHandle.on( 'close', function( nCode, sSignal )
-		// {
-		// 	console.log( `child process closed with code ${ nCode } and signal ${ sSignal }` );
-		// 	checkWorkers();
-		// });
 	}
 
 	return hHandle;
 }
 
+/**
+ * 	check if the item is a valid result
+ *
+ *	@param	{object}	oItem
+ *	@return {boolean}
+ */
+function isResultOfWin( oItem )
+{
+	return 'object' === typeof oItem &&
+		oItem.hasOwnProperty( 'hashHex' ) &&
+		oItem.hasOwnProperty( 'nonce' ) &&
+		'string' === typeof oItem.hashHex &&
+		64 === oItem.hashHex.length &&
+		'number' === typeof oItem.nonce &&
+		oItem.nonce > 0;
+}
+
+/**
+ *	check if the game is over
+ *
+ *	@param	{object}	oItem
+ *	@return {boolean}
+ */
+function isResultOfGameOver( oItem )
+{
+	return 'object' === typeof oItem &&
+		oItem.hasOwnProperty( 'gameOver' ) &&
+		'boolean' === typeof oItem.gameOver &&
+		oItem.gameOver;
+}
 
 /**
  *	start mining
  *
- *	@param	{Buffer}	bufInputHeader
- *	@param	{number}	uDifficulty
- *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
+ *	@param	{object}	oOptions
+ *	@param	{Buffer}	oOptions.bufInputHeader		with length 140 bytes
+ *	@param	{number}	oOptions.difficulty
+ *	@param	{function}	pfnCallback( err, { win : true, hashHex : sActualHashHex, nonce : uActualNonce } )
  */
-function start( bufInputHeader, uDifficulty, pfnCallback )
+function start( oOptions, pfnCallback )
 {
-	initWorker();
-	checkWorkers( bufInputHeader, uDifficulty, pfnCallback );
+	if ( 'object' !== typeof oOptions )
+	{
+		return pfnCallback( `invalid oOptions, not a plain object.` );
+	}
+	if ( 'object' !== typeof oOptions.bufInputHeader )
+	{
+		return pfnCallback( `invalid oOptions.bufInputHeader, not a Buffer object.` );
+	}
+	if ( 140 !== oOptions.bufInputHeader.length )
+	{
+		return pfnCallback( `invalid oOptions.bufInputHeader, must be a Buffer with length of 140 bytes.` );
+	}
+	if ( 'number' !== typeof oOptions.difficulty )
+	{
+		return pfnCallback( `invalid oOptions.difficulty, must be a number.` );
+	}
+
+	let bAlreadyCalledBack	= false;
+	let oOptionsCp		= Object.assign
+		(
+			{
+				calcTimes	: CALC_TIMES_PER_LOOP,
+				maxLoop		: MAX_LOOP,
+			},
+			oOptions
+		);
+	oOptionsCp.inputHeader	= oOptionsCp.bufInputHeader.toString( 'hex' );
+
+	//	...
+	initWorkers();
+	checkWorkers( oOptionsCp, ( err, oResult ) =>
+	{
+		_arrAllResults.push( { err : err, result : oResult } );
+	});
+
+	//	...
+	if ( ! bAlreadyCalledBack )
+	{
+		waitForWinnerWorkerDone( err =>
+		{
+			let oResult;
+			let i;
+			let oItem;
+
+			//	...
+			oResult	= null;
+
+			for ( i = 0; i < _arrAllResults.length; i ++ )
+			{
+				oItem	= _arrAllResults[ i ];
+				if ( null === oItem.err &&
+					isResultOfWin( oItem.result ) )
+				{
+					oResult	= Object.assign( { win : true }, oItem.result );
+					break;
+				}
+			}
+			if ( null === oResult )
+			{
+				//
+				//	detect if the game is over?
+				//
+				//	{ gameOver : true, hashHex : null, nonce : 0 }
+				//
+				for ( i = 0; i < _arrAllResults.length; i ++ )
+				{
+					oItem	= _arrAllResults[ i ];
+					if ( null === oItem.err &&
+						isResultOfGameOver( oItem.result ) )
+					{
+						oResult	= Object.assign( { win : false }, oItem.result );
+						break;
+					}
+				}
+			}
+
+			pfnCallback( null, oResult );
+		});
+	}
 }
-
-
-
-
-/**
- *	start here
- */
-let _bufInput		= new Buffer( 140 );
-let _uDifficulty	= 536936447;
-
-start( _bufInput, _uDifficulty, function( err, oData )
-{
-	console.log( err, oData );
-});
 
 
 

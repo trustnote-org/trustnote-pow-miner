@@ -32,7 +32,7 @@ let nCallCheckProofOfWork	= null;
 // 		uint8_t * putInputHeader,
 // 		uint32_t uDifficulty,
 // 		uint32_t uNonceStart,
-// 		uint32_t uNonceTimes,
+// 		uint32_t uCalcTimes,
 // 		OUT uint32_t * puNonce,
 // 		OUT char * pszHashHex,
 // 		uint32_t uHashHexLength

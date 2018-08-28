@@ -70,11 +70,18 @@ function parseArgs()
 	}
 }
 
-
-
 function startWorker()
 {
 	parseArgs();
+
+	console.log( _jsonArg );
+
+	//	convert inputHeader from hex to Buffer
+	_jsonArg.inputHeader	= Buffer.from( _jsonArg.inputHeader, 'hex' );
+	_jsonArg.start		= parseInt( _jsonArg.start );
+	_jsonArg.calcTimes	= parseInt( _jsonArg.calcTimes );
+	_jsonArg.difficulty	= parseInt( _jsonArg.difficulty );
+
 
 	/**
 	 * 	master had gone
@@ -85,9 +92,7 @@ function startWorker()
 	}
 
 
-	//
 	//	...
-	//
 	_oLibrary.startMining
 	(
 		_jsonArg.inputHeader,

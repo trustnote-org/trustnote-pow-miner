@@ -40,7 +40,7 @@ int main( void )
 	arith_uint256 bn256Difficulty	= UintToArith256( un256Difficulty );
 	uint32_t uDifficulty		= bn256Difficulty.GetCompact();
 	uint32_t uNonceStart		= 0;
-	uint32_t uNonceTimes		= 30000;
+	uint32_t uCalcTimes			= 30000;
 	uint32_t uNonce;
 	char szHexHash[ 64 ];
 	int nCheckPoW;
@@ -63,7 +63,7 @@ int main( void )
 
 	//	...
 	memset( utInputHeader, 0, sizeof( utInputHeader ) );
-	startMining( utInputHeader, uDifficulty, uNonceStart, uNonceTimes, &uNonce, szHexHash, sizeof( szHexHash ) );
+	startMining( utInputHeader, uDifficulty, uNonceStart, uCalcTimes, &uNonce, szHexHash, sizeof( szHexHash ) );
 	#ifdef _DEBUG
 		printf( "### : %u\t : %.*s\n", uNonce, 64, szHexHash );
 	#endif
@@ -89,7 +89,7 @@ int main( void )
  *	@param	{uint8_t*}	putInputHeader		140 bytes header
  *	@param	{uint32_t}	uDifficulty
  *	@param	{uint32_t}	uNonceStart
- *	@param	{uint32_t}	uNonceTimes
+ *	@param	{uint32_t}	uCalcTimes
  *	@param	{uint32_t *}	puNonce			OUT 4 bytes
  *	@param	{char *}	pszHashHex		OUT 64 bytes
 *	@param	{uint32_t}	uHashHexLength
@@ -99,7 +99,7 @@ int startMining(
 	uint8_t * putInputHeader,
 	uint32_t uDifficulty,
 	uint32_t uNonceStart,
-	uint32_t uNonceTimes,
+	uint32_t uCalcTimes,
 	OUT uint32_t * puNonce,
 	OUT char * pszHashHex,
 	uint32_t uHashHexLength )
@@ -135,10 +135,10 @@ int startMining(
 
 	//	...
 	uint32_t uNonce		= uNonceStart;
-	uint32_t nNonceEnd	= uNonceTimes > 0
-					? ( uNonceStart + uNonceTimes ) >= UINT32_MAX
+	uint32_t nNonceEnd	= uCalcTimes > 0
+					? ( uNonceStart + uCalcTimes ) >= UINT32_MAX
 						? ( UINT32_MAX - uNonceStart - 1 )
-						: ( uNonceStart + uNonceTimes )
+						: ( uNonceStart + uCalcTimes )
 					: ( UINT32_MAX - uNonceStart - 1 );
 	for ( ; uNonce < nNonceEnd; uNonce ++ )
 	{

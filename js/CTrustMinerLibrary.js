@@ -53,7 +53,7 @@ class CTrustMinerLibrary
 	 *	@param	{Buffer}	bufInputHeader
 	 *	@param	{number}	uDifficulty
 	 *	@param	{number}	uNonceStart
-	 *	@param	{number}	uNonceTimes
+	 *	@param	{number}	uCalcTimes
 	 *	@param	{function}	pfnCallback( err, { hashHex : '', nonce : 0 } )
 	 *	@return {*}
 	 *
@@ -65,21 +65,25 @@ class CTrustMinerLibrary
 	 *		uint8_t * putInputHeader,
 	 *		uint32_t uDifficulty,
 	 *		uint32_t uNonceStart,
-	 *		uint32_t uNonceTimes,
+	 *		uint32_t uCalcTimes,
 	 *		OUT uint32_t * puNonce,
 	 *		OUT char * pszHashHex,
 	 *		uint32_t uHashHexLength
 	 *	)
 	 */
-	startMining( bufInputHeader, uDifficulty, uNonceStart, uNonceTimes, pfnCallback )
+	startMining( bufInputHeader, uDifficulty, uNonceStart, uCalcTimes, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
-		if ( 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
+		if ( 'object' !== typeof bufInputHeader )
 		{
 			return pfnCallback( 'call startMining with invalid bufInputHeader.' );
+		}
+		if ( 140 !== bufInputHeader.length )
+		{
+			return pfnCallback( `call startMining with invalid length(${ bufInputHeader.length }) of bufInputHeader.` );
 		}
 		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
 		{
@@ -89,9 +93,9 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'call startMining with invalid uNonceStart.' );
 		}
-		if ( 'number' !== typeof uNonceTimes || uNonceTimes <= 0 )
+		if ( 'number' !== typeof uCalcTimes || uCalcTimes <= 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uNonceTimes.' );
+			return pfnCallback( 'call startMining with invalid uCalcTimes.' );
 		}
 
 		let uOutMemNonce		= _ref.alloc( _ref.types.uint );
@@ -99,7 +103,16 @@ class CTrustMinerLibrary
 		let bufHashHex			= new Buffer( 64 );
 		let sActualHashHex		= null;
 
-		let nCallStartMining		= _objMinerLibrary.startMining( bufInputHeader, uDifficulty, 0, 0, uOutMemNonce, bufHashHex, bufHashHex.length );
+		let nCallStartMining		= _objMinerLibrary.startMining
+			(
+				bufInputHeader,
+				uDifficulty,
+				uNonceStart,
+				uCalcTimes,
+				uOutMemNonce,
+				bufHashHex,
+				bufHashHex.length
+			);
 		if ( 0 === nCallStartMining )
 		{
 			uActualNonce		= uOutMemNonce.deref();
