@@ -1,10 +1,19 @@
-const _miner	= require( './miner.js' );
+const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
+const _miner			= require( './miner.js' );
+
+/**
+ * 	@variables
+ */
+let _oLibrary			= new CTrustMinerLibrary();
+
 
 
 /**
  * 	@exports
  */
 module.exports	= {
-	start	: _miner.start,
-	stop	: _miner.stop
+	startMining		: _miner.start,
+	stopMining		: _miner.stop,
+	checkProofOfWork	: _oLibrary.checkProofOfWork,
+	calculateNextDifficulty	: _oLibrary.calculateNextDifficulty,
 };
