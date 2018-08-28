@@ -6,15 +6,16 @@ const { spawn }			= require( 'child_process' );
 /**
  *	@constants
  */
-const CALC_TIMES_PER_LOOP	= 1000;
-const MAX_LOOP			= 10000;
+const CALC_TIMES_PER_LOOP	= 30;
+const MAX_LOOP			= 1000000;
+const CPU_LIST			= _os.cpus();
+const MAX_WORKER_COUNT		= Array.isArray( CPU_LIST ) ? CPU_LIST.length - 1 : 1;
+const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
 
 /**
  *	@variables
  */
-let _arrCPUs			= _os.cpus();
-let _nWorkerCount		= Array.isArray( _arrCPUs ) ? _arrCPUs.length - 1 : 1;
 let _arrWorkers			= null;
 let _nLoopStart			= 0;
 let _bAlreadyWin		= false;
@@ -29,9 +30,9 @@ function initWorkers()
 {
 	_arrAllResults	= [];
 	_arrWorkers	= [];
-	for ( let i = 0; i < _nWorkerCount; i ++ )
+	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
 	{
-		_arrWorkers[ i ] = Object.assign( {}, _arrCPUs[ i ] );
+		_arrWorkers[ i ] = Object.assign( {}, CPU_LIST[ i ] );
 		_arrWorkers[ i ][ 'workerId' ]	= i;
 		_arrWorkers[ i ][ 'handle' ]	= null;
 	}
@@ -63,7 +64,7 @@ function stopWorker( nPId )
  */
 function stopAllWorkers()
 {
-	for ( let i = 0; i < _nWorkerCount; i ++ )
+	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
 	{
 		if ( _arrWorkers[ i ].handle &&
 			_arrWorkers[ i ].handle.pid )
@@ -316,6 +317,24 @@ function isResultOfGameOver( oItem )
 }
 
 /**
+ *	get master pid
+ *	@return {number}
+ */
+function getMasterPId()
+{
+	return parseInt( _fs.readFileSync( PID_FULL_FILENAME ) );
+}
+
+/**
+ *	save master pid
+ */
+function saveMasterPId()
+{
+	return _fs.writeFileSync( PID_FULL_FILENAME, process.pid );
+}
+
+
+/**
  *	start mining
  *
  *	@param	{object}	oOptions
@@ -353,7 +372,14 @@ function start( oOptions, pfnCallback )
 		);
 	oOptionsCp.inputHeader	= oOptionsCp.bufInputHeader.toString( 'hex' );
 
+	//
+	//	save master pid
+	//
+	saveMasterPId();
+
+	//
 	//	...
+	//
 	initWorkers();
 	checkWorkers( oOptionsCp, ( err, oResult ) =>
 	{
@@ -407,6 +433,15 @@ function start( oOptions, pfnCallback )
 }
 
 
+/**
+ *	stop all workers
+ */
+function stop()
+{
+	return stopWorker( getMasterPId() );
+}
+
+
 
 
 
@@ -414,3 +449,4 @@ function start( oOptions, pfnCallback )
  * 	@exports
  */
 module.exports.start	= start;
+module.exports.stop	= stop;
