@@ -78,6 +78,15 @@ int checkProofOfWork(
 	const char * pcszHashHex );
 
 
+/**
+ *	convert 256 bits string to uint32_t
+ *
+ *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+ *	@return	{uint32_t}
+ */
+uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
+
+
 
 /**
  *	filter difficulty

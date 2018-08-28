@@ -41,6 +41,11 @@ class CTrustMinerLibrary
 						'uint',
 						[ 'uint', 'uint', 'uint' ]
 					],
+					'difficulty256HexToUInt32' :
+					[
+						'uint',
+						[ 'pointer' ]
+					]
 				}
 			);
 		}
@@ -218,6 +223,16 @@ class CTrustMinerLibrary
 		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
 
 		return pfnCallback( null, { difficulty : uNextDifficulty } );
+	}
+
+	/**
+	 *	convert 256 bits string to uint32_t
+	 *	@param	{string}	sDifficulty256Hex	hex string with length of 64
+	 *	@returns {number}
+	 */
+	difficulty256HexToUInt32( sDifficulty256Hex )
+	{
+		return _objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
 	}
 
 

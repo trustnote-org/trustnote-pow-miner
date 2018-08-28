@@ -294,6 +294,37 @@ int checkProofOfWork(
 }
 
 
+/**
+ *	convert 256 bits string to uint32_t
+ *
+ *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+ *	@return	{uint32_t}
+ */
+uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex )
+{
+	if ( NULL == pcszDifficultyHex )
+	{
+		return 0;
+	}
+	if ( strlen( pcszDifficultyHex ) < 64 )
+	{
+		return 0;
+	}
+
+	char szDifficultyHex[ 65 ];
+	uint256 un256Difficulty;
+	arith_uint256 bn256Difficulty;
+
+	memset( szDifficultyHex, 0, sizeof(szDifficultyHex) );
+	memcpy( szDifficultyHex, pcszDifficultyHex, 64 );
+
+	un256Difficulty	= uint256S( szDifficultyHex );
+	bn256Difficulty	= UintToArith256( un256Difficulty );
+
+	//	...
+	return bn256Difficulty.GetCompact();
+}
+
 
 /**
  *	filter difficulty

@@ -1,4 +1,4 @@
-const _miner	= require( '../js/miner.js' );
+const _miner	= require( '../js/index.js' );
 
 
 
@@ -9,12 +9,12 @@ const _miner	= require( '../js/miner.js' );
 let _oOptions	=
 	{
 		bufInputHeader	: new Buffer( 140 ),
-		difficulty	: 536936447,
+		difficulty	: _miner.difficulty256HexToUInt32( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
 		calcTimes	: 30,
 		maxLoop		: 1000000,
 	};
 
-_miner.start( _oOptions, function( err, oData )
+_miner.startMining( _oOptions, function( err, oData )
 {
 	if ( null === err )
 	{
