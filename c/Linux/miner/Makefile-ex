@@ -1,0 +1,38 @@
+all: \
+    blake2b.o \
+    utility.o \
+    miner.o \
+    libcrypto.a \
+    miner
+
+
+blake2b.o:
+	g++ -std=c++11 -c -g -D _DEBUG -I. -I../include/ ../include/crypto/blake2b.c
+
+utility.o:
+	g++ -std=c++11 -c -g -D _DEBUG -I. -I../include/ ../include/utility.cpp
+
+miner.o: ./miner.h
+	g++ -std=c++11 -c -g -D _DEBUG -I. -I../include/ ./miner.cpp
+
+
+libcrypto.a:
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I../include/ \
+        ../include/uint256.cpp \
+        ../include/utilstrencodings.cpp \
+        ../include/arith_uint256.cpp
+	ar -crv libcrypto.a uint256.o utilstrencodings.o arith_uint256.o blake2b.o
+
+
+
+miner:
+	g++ -std=c++11 -D _DEBUG -I. -I../include/ \
+	    -o miner \
+	    ./miner.o ./utility.o ./libcrypto.a ../library/equihash_avx2.o
+
+
+
+
+.PHONY: clean
+clean:
+	rm test miner *.o *.so *.a
