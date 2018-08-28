@@ -9,9 +9,9 @@ const _miner	= require( '../js/miner.js' );
 let _oOptions	=
 	{
 		bufInputHeader	: new Buffer( 140 ),
-		difficulty	: 536006447,
-		calcTimes	: 100,
-		maxLoop		: 10000,
+		difficulty	: 536936447,
+		calcTimes	: 30,
+		maxLoop		: 1000000,
 	};
 
 _miner.start( _oOptions, function( err, oData )

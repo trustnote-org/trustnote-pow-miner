@@ -7,7 +7,7 @@ const { spawn }			= require( 'child_process' );
  *	@constants
  */
 const CALC_TIMES_PER_LOOP	= 30;
-const MAX_LOOP			= 1000000;
+const MAX_LOOP			= 10000000;
 const CPU_LIST			= _os.cpus();
 const MAX_WORKER_COUNT		= Array.isArray( CPU_LIST ) ? CPU_LIST.length - 1 : 1;
 const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
