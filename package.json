@@ -15,8 +15,6 @@
 	},
 	"main": "js/index.js",
 	"dependencies": {
-		"ref": ">=1.0",
-		"ffi": ">=1.0"
 	},
 	"devDependencies": {},
 	"ignore" :
