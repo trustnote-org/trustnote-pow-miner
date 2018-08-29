@@ -322,6 +322,11 @@ function isResultOfGameOver( oItem )
  */
 function getMasterPId()
 {
+	if ( ! _fs.existsSync( PID_FULL_FILENAME ) )
+	{
+		return 0;
+	}
+
 	return parseInt( _fs.readFileSync( PID_FULL_FILENAME ) );
 }
 
@@ -438,7 +443,15 @@ function start( oOptions, pfnCallback )
  */
 function stop()
 {
-	return stopWorker( getMasterPId() );
+	let bRet	= false;
+	let nMasterPId	= getMasterPId();
+
+	if ( nMasterPId > 0 )
+	{
+		bRet = stopWorker( nMasterPId );
+	}
+
+	return bRet;
 }
 
 
