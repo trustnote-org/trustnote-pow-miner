@@ -327,7 +327,17 @@ function getMasterPId()
 		return 0;
 	}
 
-	return parseInt( _fs.readFileSync( PID_FULL_FILENAME ) );
+	let nRet	= 0;
+
+	try
+	{
+		nRet = parseInt( _fs.readFileSync( PID_FULL_FILENAME ) );
+	}
+	catch( e )
+	{
+	}
+
+	return nRet;
 }
 
 /**
