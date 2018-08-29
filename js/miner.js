@@ -1,6 +1,10 @@
+'use strict';
+
+const { spawn }			= require( 'child_process' );
 const _os			= require( 'os' );
 const _fs			= require( 'fs' );
-const { spawn }			= require( 'child_process' );
+const _children			= require( './children.js' );
+
 
 
 /**
@@ -50,6 +54,7 @@ function stopWorker( nPId )
 
 	try
 	{
+		console.log( `will kill process ${ nPId } SIGKILL` );
 		bRet = process.kill( nPId, 'SIGKILL' );
 	}
 	catch ( e )
@@ -458,7 +463,37 @@ function stop()
 
 	if ( nMasterPId > 0 )
 	{
-		bRet = stopWorker( nMasterPId );
+		_children( nMasterPId, function( err, arrChildren )
+		{
+			//
+			//	arrChildren :
+			//	[
+			// 		{ PPID: '11904', PID: '23336', STAT: 'Rl+', COMMAND: 'node' },
+			//		{ PPID: '11904', PID: '23344', STAT: 'Rl+', COMMAND: 'node' },
+			//		{ PPID: '11904', PID: '23350', STAT: 'Rl+', COMMAND: 'node' },
+			//		{ PPID: '11904', PID: '23357', STAT: 'Rl+', COMMAND: 'node' },
+			//	]
+			//
+			if ( null === err &&
+				Array.isArray( arrChildren ) && arrChildren.length > 0 )
+			{
+				for ( let i = 0; i < arrChildren.length; i ++ )
+				{
+					let oChild	= arrChildren[ i ];
+					if ( 'object' === typeof oChild &&
+						oChild.hasOwnProperty( 'PID' ) )
+					{
+						let nChildPId	= parseInt( oChild[ 'PID' ] );
+						stopWorker( nChildPId );
+					}
+				}
+			}
+
+			//
+			//	kill master process
+			//
+			bRet = stopWorker( nMasterPId );
+		});
 	}
 
 	return bRet;

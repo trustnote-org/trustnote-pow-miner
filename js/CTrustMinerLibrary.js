@@ -1,3 +1,5 @@
+'use strict';
+
 const _fs	= require( 'fs' );
 const _ref	= require( 'ref' );
 const _ffi	= require( 'ffi' );
