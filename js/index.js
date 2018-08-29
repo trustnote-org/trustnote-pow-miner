@@ -1,3 +1,5 @@
+'use strict';
+
 const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
 const _miner			= require( './miner.js' );
 

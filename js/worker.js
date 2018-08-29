@@ -1,4 +1,7 @@
+'use strict';
+
 const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
+
 
 /**
  * 	@variables
@@ -14,6 +17,8 @@ let _arrArgv		= process.argv;
 let _nMasterPId		= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 3 ) ? parseInt( _arrArgv[ 2 ] ) : null;
 let _sArgString		= ( Array.isArray( _arrArgv ) && _arrArgv.length >= 4 ) ? _arrArgv[ 3 ] : '';
 let _jsonArg		= null;
+
+
 
 
 
