@@ -2,7 +2,7 @@
  * 	TrustNote Equihash PoW Miner
  *
  *
- *	Copyright @ TrustNote.com
+ *	Copyright @ TrustNote.org
  *
  * 	@history
  *	Created by Liu QiXing on 2018/8/22.

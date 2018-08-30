@@ -1,0 +1,43 @@
+all: \
+    directory \
+    blake2b.o \
+    utility.o \
+    miner.o \
+    libcrypto.a \
+    miner.dylib
+
+
+blake2b.o:
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I ./include ./include/crypto/blake2b.c
+
+utility.o:
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I./include/ ./include/utility.cpp
+
+miner.o: ./miner.h
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./miner.cpp
+
+
+libcrypto.a:
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I./include/ \
+        ./include/uint256.cpp \
+        ./include/utilstrencodings.cpp \
+        ./include/arith_uint256.cpp
+	ar -crv libcrypto.a uint256.o utilstrencodings.o arith_uint256.o blake2b.o
+
+
+
+miner.dylib:
+	g++ -dynamiclib -fPIC \
+	    -o output/miner.Mac.debug.dylib \
+	    ./miner.o ./utility.o ./libcrypto.a ../asm/equihash/Mac/equihash_avx2.o
+
+
+directory:
+	mkdir -p output
+
+
+
+
+.PHONY: clean
+clean:
+	rm test miner *.o *.so *.a miner.*.debug miner.*.release
