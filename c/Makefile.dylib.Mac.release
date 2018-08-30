@@ -1,4 +1,5 @@
 all: \
+    directory \
     blake2b.o \
     utility.o \
     miner.o \
@@ -27,14 +28,15 @@ libcrypto.a:
 
 miner.dylib:
 	g++ -dynamiclib -fPIC \
-	    -o miner.dylib.Mac.release \
+	    -o output/miner.Mac.release.dylib \
 	    ./miner.o ./utility.o ./libcrypto.a ../asm/equihash/Mac/equihash_avx2.o
 
 
-
+directory:
+	mkdir -p output
 
 
 
 .PHONY: clean
 clean:
-	rm test miner *.o *.so *.a miner.dylib.Mac.debug miner.dylib.Mac.release
+	rm test miner *.o *.so *.a miner.*.debug miner.*.release

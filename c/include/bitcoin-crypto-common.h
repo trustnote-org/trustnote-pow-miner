@@ -14,7 +14,7 @@
 #include <string.h>
 
 #include "sodium.h"
-#include "endian.h"
+#include "compat-endian.h"
 
 
 #if defined(NDEBUG)
