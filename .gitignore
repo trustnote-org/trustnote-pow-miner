@@ -1,11 +1,12 @@
 /node_modules
+node_modules
 
 /.idea
 /.idea/
 .idea
 /.deps
 
-
+package-lock.json
 
 # Prerequisites
 *.d
