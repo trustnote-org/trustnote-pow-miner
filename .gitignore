@@ -1,4 +1,3 @@
-
 /node_modules
 node_modules
 
@@ -12,7 +11,7 @@ package-lock.json
 
 
 # Prerequisites
-*.d
+#*.d
 
 # Compiled Object files
 *.slo
@@ -21,8 +20,8 @@ package-lock.json
 *.obj
 
 # Precompiled Headers
-*.gch
-*.pch
+#*.gch
+#*.pch
 
 # Compiled Dynamic libraries
 *.so
@@ -30,16 +29,16 @@ package-lock.json
 *.dll
 
 # Fortran module files
-*.mod
-*.smod
+#*.mod
+#*.smod
 
 # Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+#*.lai
+#*.la
+#*.a
+#*.lib
 
 # Executables
-*.exe
-*.out
-*.app
+#*.exe
+#*.out
+#*.app
