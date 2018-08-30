@@ -1,6 +1,6 @@
 {
 	"name": "trustnote-pow-miner",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"license": "MIT",
 	"author": "TrustNote",
 	"description": "TrustNote miner for Node.js",
