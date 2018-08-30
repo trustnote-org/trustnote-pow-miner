@@ -2,7 +2,7 @@
  * 	TrustNote Equihash PoW Miner
  *
  *
- *	Copyright @ TrustNote.com
+ *	Copyright @ TrustNote.org
  *
  * 	@history
  *	Created by Liu QiXing on 2018/8/22.
@@ -131,7 +131,7 @@ int startMining(
 	//	...
 	void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
 	void * pvContext	= (void*)( ( (long)pvContextAlloc + 4095 ) & -4096 );
-	void * pvContextEnd	= pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
+	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
 	//	...
 	uint32_t uNonce		= uNonceStart;
@@ -252,7 +252,7 @@ int checkProofOfWork(
 	//	...
 	void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
 	void * pvContext	= (void*)( ( (long)pvContextAlloc + 4095 ) & -4096 );
-	void * pvContextEnd	= pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
+	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
 	//
 	//	calculate ...

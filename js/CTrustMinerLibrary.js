@@ -257,6 +257,15 @@ class CTrustMinerLibrary
 					sRet = null;
 				}
 				break;
+
+			case 'darwin' :
+				sRet = `${ __dirname }/../lib/Mac/miner.dylib`;
+				if ( ! _fs.existsSync( sRet ) )
+				{
+					sRet = null;
+				}
+				break;
+
 			default:
 				break;
 		}
