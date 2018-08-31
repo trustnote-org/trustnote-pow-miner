@@ -251,7 +251,7 @@ class CTrustMinerLibrary
 		switch ( process.platform )
 		{
 			case 'linux' :
-				sRet = `${ __dirname }/../lib/Linux/miner.so`;
+				sRet = `${ __dirname }/../libs/Linux/miner.so`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
@@ -259,7 +259,7 @@ class CTrustMinerLibrary
 				break;
 
 			case 'darwin' :
-				sRet = `${ __dirname }/../lib/Mac/miner.dylib`;
+				sRet = `${ __dirname }/../libs/Mac/miner.dylib`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
