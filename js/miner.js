@@ -155,6 +155,8 @@ function isWorkerExists( nPId )
  *	@param	{number}	oOptions.maxLoop
  *	@param	{number}	oOptions.difficulty
  *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
+ *				TIME IS OVER
+ *					( null, { gameOver : true, hashHex : null, nonce : 0 } );
  */
 function checkWorkers( oOptions, pfnCallback )
 {
@@ -204,7 +206,13 @@ function checkWorkers( oOptions, pfnCallback )
  *	check win
  *
  *	@param sData
- *	@return {boolean}
+ *	@return {object}
+ *		return an plain object if wins
+ *		{
+ *			hashHex	: 'hash string',
+ *			nonce	: 000,
+ *		}
+ *		otherwise, return null
  */
 function checkWin( sData )
 {
@@ -243,7 +251,7 @@ function checkWin( sData )
  *	spawn worker
  *
  *	@param	{object}	oOptions
- *	@param 	{function}	pfnCallback
+ *	@param 	{function}	pfnCallback( err, { hashHex : string, nonce : number } )
  *	@return	{*}
  */
 function spawnWorker( oOptions, pfnCallback )
