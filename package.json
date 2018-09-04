@@ -1,6 +1,6 @@
 {
 	"name": "trustnote-pow-miner",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"license": "MIT",
 	"author": "TrustNote",
 	"description": "TrustNote miner for Node.js",
@@ -25,7 +25,9 @@
 		"bower_components",
 		"tests",
 		"c",
-		"doc"
+		"doc",
+		"rsync_dev.sh",
+		"rsync_pow.sh"
 	],
 	"repository": {
 		"type": "git",
