@@ -1,12 +1,6 @@
 'use strict';
 
-const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
 const _miner			= require( './miner.js' );
-
-/**
- * 	@variables
- */
-let _oLibrary			= new CTrustMinerLibrary();
 
 
 
@@ -16,7 +10,7 @@ let _oLibrary			= new CTrustMinerLibrary();
 module.exports	= {
 	startMining			: _miner.start,
 	stopMining			: _miner.stop,
-	checkProofOfWork		: _oLibrary.checkProofOfWork,
-	calculateNextDifficulty		: _oLibrary.calculateNextDifficulty,
-	difficulty256HexToUInt32	: _oLibrary.difficulty256HexToUInt32,
+	checkProofOfWork		: _miner.library.checkProofOfWork,
+	calculateNextDifficulty		: _miner.library.calculateNextDifficulty,
+	difficulty256HexToUInt32	: _miner.library.difficulty256HexToUInt32,
 };

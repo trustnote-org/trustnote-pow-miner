@@ -4,6 +4,7 @@ const { spawn }			= require( 'child_process' );
 const _os			= require( 'os' );
 const _fs			= require( 'fs' );
 const _children			= require( './children.js' );
+const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
 
 
 
@@ -16,6 +17,11 @@ const CPU_LIST			= _os.cpus();
 const MAX_WORKER_COUNT		= Array.isArray( CPU_LIST ) ? CPU_LIST.length - 1 : 1;
 const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
+/**
+ *	@type {CTrustMinerLibrary}
+ */
+const _oLibrary			= new CTrustMinerLibrary();
+
 
 /**
  *	@variables
@@ -24,6 +30,7 @@ let _arrWorkers			= null;
 let _nLoopStart			= 0;
 let _bAlreadyWin		= false;
 let _arrAllResults		= [];
+
 
 
 
@@ -514,5 +521,6 @@ function stop()
 /**
  * 	@exports
  */
-module.exports.start	= start;
-module.exports.stop	= stop;
+module.exports.library			= _oLibrary;
+module.exports.start			= start;
+module.exports.stop			= stop;
