@@ -180,7 +180,14 @@ class CTrustMinerLibrary
 		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
 		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
 
-		return pfnCallback( null, { code : nCallCheckProofOfWork } );
+		if ( 0 === nCallCheckProofOfWork )
+		{
+			return pfnCallback( null, { code : nCallCheckProofOfWork } );
+		}
+		else
+		{
+			return pfnCallback( `failed with error code : ${ nCallCheckProofOfWork }`, { code : nCallCheckProofOfWork } );
+		}
 	}
 
 

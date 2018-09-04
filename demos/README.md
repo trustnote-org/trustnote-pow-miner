@@ -9,7 +9,7 @@ $ npm install trustnote-pow-miner -save
 
 ## Get Started
 
-#### start mining
+#### start mining and check proof of work
 ```
 $ node pow_start_mining.js
 ```
