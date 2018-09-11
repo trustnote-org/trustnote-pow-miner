@@ -97,9 +97,12 @@ function waitForWinnerWorkerDone( pfnCallback )
 	//	check for wined workers
 	//
 	let arrWinResults = _arrAllResults.filter( oResult =>
-	{
-		return isResultOfWin( oResult.result );
-	});
+		{
+			return isResultOfWin
+			(
+				( oResult && 'object' === oResult ) ? oResult.result : null
+			);
+		});
 	if ( arrWinResults.length > 0 )
 	{
 		//	one or more workers already win
@@ -112,7 +115,8 @@ function waitForWinnerWorkerDone( pfnCallback )
 	//
 	let arrLiveWorkers = _arrWorkers.filter( oWorker =>
 	{
-		return 'object' === typeof oWorker &&
+		return oWorker &&
+			'object' === typeof oWorker &&
 			oWorker.handle &&
 			oWorker.handle.hasOwnProperty( 'pid' ) &&
 			oWorker.handle.pid &&
@@ -237,6 +241,7 @@ function checkWin( sData )
 				if ( Array.isArray( arrJson ) &&
 					2 === arrJson.length &&
 					0 === arrJson[ 0 ] &&
+					arrJson[ 1 ] &&
 					'object' === typeof( arrJson[ 1 ] ) &&
 					arrJson[ 1 ].hasOwnProperty( 'hashHex' ) &&
 					arrJson[ 1 ].hasOwnProperty( 'nonce' ) )
@@ -313,7 +318,8 @@ function spawnWorker( oOptions, pfnCallback )
  */
 function isResultOfWin( oItem )
 {
-	return 'object' === typeof oItem &&
+	return oItem &&
+		'object' === typeof oItem &&
 		oItem.hasOwnProperty( 'hashHex' ) &&
 		oItem.hasOwnProperty( 'nonce' ) &&
 		'string' === typeof oItem.hashHex &&
@@ -330,7 +336,8 @@ function isResultOfWin( oItem )
  */
 function isResultOfGameOver( oItem )
 {
-	return 'object' === typeof oItem &&
+	return oItem &&
+		'object' === typeof oItem &&
 		oItem.hasOwnProperty( 'gameOver' ) &&
 		'boolean' === typeof oItem.gameOver &&
 		oItem.gameOver;
@@ -379,11 +386,11 @@ function saveMasterPId()
  */
 function start( oOptions, pfnCallback )
 {
-	if ( 'object' !== typeof oOptions )
+	if ( null === oOptions || 'object' !== typeof oOptions )
 	{
 		return pfnCallback( `invalid oOptions, not a plain object.` );
 	}
-	if ( 'object' !== typeof oOptions.bufInputHeader )
+	if ( null === oOptions.bufInputHeader || 'object' !== typeof oOptions.bufInputHeader )
 	{
 		return pfnCallback( `invalid oOptions.bufInputHeader, not a Buffer object.` );
 	}
@@ -396,7 +403,6 @@ function start( oOptions, pfnCallback )
 		return pfnCallback( `invalid oOptions.difficulty, must be a number.` );
 	}
 
-	let bAlreadyCalledBack	= false;
 	let oOptionsCp		= Object.assign
 		(
 			{
@@ -422,49 +428,46 @@ function start( oOptions, pfnCallback )
 	});
 
 	//	...
-	if ( ! bAlreadyCalledBack )
+	waitForWinnerWorkerDone( err =>
 	{
-		waitForWinnerWorkerDone( err =>
+		let oResult;
+		let i;
+		let oItem;
+
+		//	...
+		oResult	= null;
+
+		for ( i = 0; i < _arrAllResults.length; i ++ )
 		{
-			let oResult;
-			let i;
-			let oItem;
-
-			//	...
-			oResult	= null;
-
+			oItem	= _arrAllResults[ i ];
+			if ( null === oItem.err &&
+				isResultOfWin( oItem.result ) )
+			{
+				oResult	= Object.assign( { win : true }, oItem.result );
+				break;
+			}
+		}
+		if ( null === oResult )
+		{
+			//
+			//	detect if the game is over?
+			//
+			//	{ gameOver : true, hashHex : null, nonce : 0 }
+			//
 			for ( i = 0; i < _arrAllResults.length; i ++ )
 			{
 				oItem	= _arrAllResults[ i ];
 				if ( null === oItem.err &&
-					isResultOfWin( oItem.result ) )
+					isResultOfGameOver( oItem.result ) )
 				{
-					oResult	= Object.assign( { win : true }, oItem.result );
+					oResult	= Object.assign( { win : false }, oItem.result );
 					break;
 				}
 			}
-			if ( null === oResult )
-			{
-				//
-				//	detect if the game is over?
-				//
-				//	{ gameOver : true, hashHex : null, nonce : 0 }
-				//
-				for ( i = 0; i < _arrAllResults.length; i ++ )
-				{
-					oItem	= _arrAllResults[ i ];
-					if ( null === oItem.err &&
-						isResultOfGameOver( oItem.result ) )
-					{
-						oResult	= Object.assign( { win : false }, oItem.result );
-						break;
-					}
-				}
-			}
+		}
 
-			pfnCallback( null, oResult );
-		});
-	}
+		pfnCallback( null, oResult );
+	});
 }
 
 
@@ -495,7 +498,8 @@ function stop()
 				for ( let i = 0; i < arrChildren.length; i ++ )
 				{
 					let oChild	= arrChildren[ i ];
-					if ( 'object' === typeof oChild &&
+					if ( oChild &&
+						'object' === typeof oChild &&
 						oChild.hasOwnProperty( 'PID' ) )
 					{
 						let nChildPId	= parseInt( oChild[ 'PID' ] );

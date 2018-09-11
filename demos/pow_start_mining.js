@@ -21,13 +21,14 @@ _event_bus.on
 		console.log( `############################################################` );
 		console.log( objSolution );
 
-		if ( 'object' === typeof objSolution )
+		if ( objSolution && 'object' === typeof objSolution )
 		{
 			console.log( `will check proof of work` );
 			_pow.checkProofOfWork( oMiningInput, objSolution.hash, objSolution.nonce, function( err, objResult )
 			{
 				console.log( `_pow.checkProofOfWork, err : ${ err }, objResult : `, objResult );
 				if ( null === err &&
+					objResult &&
 					'object' === typeof objResult &&
 					'number' === typeof objResult.code && 0 === objResult.code )
 				{

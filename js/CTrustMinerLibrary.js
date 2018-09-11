@@ -84,7 +84,7 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
-		if ( 'object' !== typeof bufInputHeader )
+		if ( null === bufInputHeader || 'object' !== typeof bufInputHeader )
 		{
 			return pfnCallback( 'call startMining with invalid bufInputHeader.' );
 		}
@@ -164,7 +164,7 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
-		if ( 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
+		if ( null === bufInputHeader || 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
 		{
 			return pfnCallback( 'call checkProofOfWork with invalid bufInputHeader.' );
 		}
