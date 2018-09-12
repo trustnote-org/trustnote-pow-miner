@@ -39,8 +39,11 @@ let _arrAllResults		= [];
  */
 function initWorkers()
 {
-	_arrAllResults	= [];
 	_arrWorkers	= [];
+	_nLoopStart	= 0;
+	_bAlreadyWin	= false;
+	_arrAllResults	= [];
+
 	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
 	{
 		_arrWorkers[ i ] = Object.assign( {}, CPU_LIST[ i ] );
@@ -424,7 +427,10 @@ function start( oOptions, pfnCallback )
 	//
 	//	...
 	//
+	stopAllWorkers();
 	initWorkers();
+
+	//	...
 	checkWorkers( oOptionsCp, ( err, oResult ) =>
 	{
 		_arrAllResults.push( { err : err, result : oResult } );
