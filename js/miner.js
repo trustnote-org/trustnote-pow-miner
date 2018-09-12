@@ -476,10 +476,12 @@ function start( oOptions, pfnCallback )
 
 /**
  *	stop all workers
+ *
+ * 	@return	{number}	number of processes been killed
  */
 function stop()
 {
-	let bRet	= false;
+	let nRet	= 0;
 	let nMasterPId	= getMasterPId();
 
 	if ( nMasterPId > 0 )
@@ -506,19 +508,14 @@ function stop()
 						oChild.hasOwnProperty( 'PID' ) )
 					{
 						let nChildPId	= parseInt( oChild[ 'PID' ] );
-						stopWorker( nChildPId );
+						nRet += stopWorker( nChildPId ) ? 1 : 0;
 					}
 				}
 			}
-
-			//
-			//	kill master process
-			//
-			bRet = stopWorker( nMasterPId );
 		});
 	}
 
-	return bRet;
+	return nRet;
 }
 
 
