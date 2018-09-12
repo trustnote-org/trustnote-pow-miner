@@ -13,19 +13,42 @@ MacOS, Linux, Windows
 
 ## Documentation
 
-#### start mining
+### .startMining( oOptions, pfnCallback )
+start mining
+
+* oOptions
+
+| name | type | optional | comment |
+|--- | --- | --- | --- |
+| .bufInputHeader | Buffer | no | 140 bytes Buffer object |
+| .difficulty | Number | no | number |
+| .calcTimes | Number | yes | default value : 30, compute times per loop |
+| .maxLoop | Number | yes | default value : 10000000, max loop |
+
+ * pfnCallback( err, oSolution )
+
+> oSolution is a plain object :
+
+> { win : true, hashHex : sActualHashHex, nonce : uActualNonce } <br />
+> { win : false, gameOver : true, hashHex : null, nonce : 0 } 
+
+
 ```js
 const _miner	= require( 'trustnote-pow-miner' );
 
-let _oOptions	=
+/**
+ *	
+ */
+let bufInput	= new Buffer( 140 );
+let nDifficulty	= _miner.difficulty256HexToUInt32( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let oOptions	=
 	{
-		bufInputHeader	: new Buffer( 140 ),
-		difficulty	: _miner.difficulty256HexToUInt32( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
+		bufInputHeader	: bufInput,
+		difficulty	: nDifficulty,
 		calcTimes	: 30,
 		maxLoop		: 1000000,
 	};
-
-_miner.startMining( _oOptions, function( err, oData )
+_miner.startMining( oOptions, function( err, oData )
 {
 	if ( null === err )
 	{
@@ -50,20 +73,45 @@ _miner.startMining( _oOptions, function( err, oData )
 		console.log( `OCCURRED ERROR : `, err );
 	}
 });
+
 ```
+<br />
+<br />
+<br />
 
 
-### stop mining
+
+### .stopMining()
+
+stop mining
+
+
 ```js
 const _miner	= require( 'trustnote-pow-miner' );
 
 _miner.stop();
 console.log( `The KILL signals were sent to all workers.` );
 ```
+<br />
+<br />
+<br />
 
 
-### check proof of work
+### .checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
+check proof of work
+
+
+
+
+
+
+
+
+
 ```js
 const _miner	= require( 'trustnote-pow-miner' );
+
+
+checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
 
 ```

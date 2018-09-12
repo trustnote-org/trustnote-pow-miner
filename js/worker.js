@@ -49,7 +49,7 @@ function exitWorker( nCode )
 function parseArgs()
 {
 	_jsonArg = JSON.parse( _sArgString );
-	if ( 'object' !== typeof _jsonArg )
+	if ( null === _jsonArg || 'object' !== typeof _jsonArg )
 	{
 		throw new Error( `invalid format of arguments.` );
 	}
