@@ -79,14 +79,24 @@ function stopWorker( nPId )
  */
 function stopAllWorkers()
 {
-	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
+	if ( ! Array.isArray( _arrWorkers ) || 0 === _arrWorkers.length )
+	{
+		return -1;
+	}
+
+	//	...
+	let nRet = 0;
+
+	for ( let i = 0; i < _arrWorkers.length; i ++ )
 	{
 		if ( _arrWorkers[ i ].handle &&
 			_arrWorkers[ i ].handle.pid )
 		{
-			stopWorker( _arrWorkers[ i ].handle.pid );
+			nRet += stopWorker( _arrWorkers[ i ].handle.pid ) ? 1 : 0;
 		}
 	}
+
+	return nRet;
 }
 
 /**
