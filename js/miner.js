@@ -114,14 +114,14 @@ function waitForWinnerWorkerDone( pfnCallback )
 	//	check and wait for all workers
 	//
 	let arrLiveWorkers = _arrWorkers.filter( oWorker =>
-	{
-		return oWorker &&
-			'object' === typeof oWorker &&
-			oWorker.handle &&
-			oWorker.handle.hasOwnProperty( 'pid' ) &&
-			oWorker.handle.pid &&
-			isWorkerExists( oWorker.handle.pid );
-	});
+		{
+			return oWorker &&
+				'object' === typeof oWorker &&
+				oWorker.handle &&
+				oWorker.handle.hasOwnProperty( 'pid' ) &&
+				oWorker.handle.pid &&
+				isWorkerExists( oWorker.handle.pid );
+		});
 
 	if ( arrLiveWorkers.length > 0 )
 	{
@@ -276,6 +276,9 @@ function spawnWorker( oOptions, pfnCallback )
 	delete oOptionsCp.bufInputHeader;
 	delete oOptionsCp.maxLoop;
 
+	console.log( `>|< trustnote-pow-miner spawnWorker by master(${ process.pid }) with options : `, oOptionsCp );
+
+	//	...
 	arrArgs	= [ `${ __dirname }/worker.js`, process.pid, JSON.stringify( oOptionsCp ) ];
 	hHandle	= spawn( 'node', arrArgs );
 	if ( hHandle )
