@@ -1,0 +1,40 @@
+all: \
+	directory \
+	arith_uint256.o \
+	uint256.o \
+	utilstrencodings.o \
+	difficulty.o \
+	difficulty
+
+
+
+arith_uint256.o:
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./include/arith_uint256.cpp
+
+uint256.o:
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./include/uint256.cpp
+
+utilstrencodings.o:
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./include/utilstrencodings.cpp
+
+difficulty.o:
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./difficulty.cpp
+
+
+
+difficulty:
+	g++ -fPIC \
+	    -o output/difficulty \
+	    ./arith_uint256.o uint256.o utilstrencodings.o \
+	    ./difficulty.o
+
+
+directory:
+	mkdir -p output
+
+
+
+
+.PHONY: clean
+clean:
+	rm test difficulty *.o *.so *.a
