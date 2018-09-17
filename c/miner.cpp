@@ -46,7 +46,7 @@ int main( void )
 	int nCheckPoW;
 
 	//	...
-	uint32_t uNewDifficulty1	= calculateNextDifficulty( uDifficulty, 15000, 15000 );
+	uint32_t uNewDifficulty1	= calculateNextDifficulty( 536936447, 348, 15000 );
 	uint32_t uNewDifficulty2	= calculateNextDifficulty( uDifficulty, 30000, 15000 );
 	uint32_t uNewDifficulty3	= calculateNextDifficulty( uDifficulty, 10000, 15000 );
 	uint32_t uNewDifficulty4	= calculateNextDifficulty( uDifficulty, 40000, 15000 );
@@ -396,12 +396,18 @@ uint32_t calculateNextDifficulty(
 	uint32_t uTimeUsed,
 	uint32_t uTimeStandard )
 {
-	uint32_t uRet			= -1;
-	uint256 powLimit		= uint256S( TRUSTNOTE_MINER_POW_LIMIT );
-	arith_uint256 bnTot, bnPowLimit;
+	uint32_t uRet = -1;
+
+	//	...
+	const arith_uint256 bnPowMaxUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_MAX ) );
+	const arith_uint256 bnPowLimitUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) );
+	arith_uint256 bnTot;
 	uint64_t u64ActualTimeSpan;
-	int64_t n64MinActualTimeSpan	= ( uTimeStandard * ( 100 - 16 ) ) / 100;
-	int64_t n64MaxActualTimeSpan	= ( uTimeStandard * ( 100 + 32 ) ) / 100;
+	int64_t n64MinActualTimeSpan		= ( uTimeStandard * ( 100 - 16 ) ) / 100;
+	int64_t n64MaxActualTimeSpan		= ( uTimeStandard * ( 100 + 32 ) ) / 100;
+
+	//	...
+	//assert( bnPowMaxUInt256 / bnPowLimitUInt256 >= consensus.nPowAveragingWindow );
 
 	//	3/4 uTimeStandard + 1/4 uTimeUsed
 	u64ActualTimeSpan	= ( uTimeStandard * 3 + uTimeUsed ) / 4;
@@ -409,45 +415,51 @@ uint32_t calculateNextDifficulty(
 	if ( u64ActualTimeSpan < n64MinActualTimeSpan )
 	{
 		//	84% adjustment up
+		#ifdef _DEBUG
+			printf( "*** 84%% adjustment up, span less then min: %u, reset as min\n", n64MinActualTimeSpan );
+		#endif
 		u64ActualTimeSpan = n64MinActualTimeSpan;
 	}
 	if ( u64ActualTimeSpan > n64MaxActualTimeSpan )
 	{
 		// 	132% adjustment down
+		#ifdef _DEBUG
+			printf( "*** 132%% adjustment down, span greater than max: %u, reset as max\n", n64MaxActualTimeSpan );
+		#endif
 		u64ActualTimeSpan = n64MaxActualTimeSpan;
 	}
 
 	//
 	//	retarget
 	//
-	bnPowLimit	= UintToArith256( powLimit );
-	//printf("powLimit: %d\n", bnPowLimit.GetCompact());
+	//printf("bnPowLimit: %d\n", bnPowLimit.GetCompact());
 
 	//	...
 	bnTot.SetCompact( uPreviousDifficulty );
 
 	//	...
-	arith_uint256 bnNew {bnTot};
+	arith_uint256 bnNewUInt256 { bnTot };
 	#ifdef _DEBUG
 		printf( "*** before\t:\t%u\n", bnNew.GetCompact() );
 		printf( "*** u64ActualTimeSpan\t:\t%lld\n", u64ActualTimeSpan );
 	#endif
 
-	bnNew	/= uTimeStandard;
-	bnNew	*= u64ActualTimeSpan;
+	//	...
+	bnNewUInt256	/= uTimeStandard;
+	bnNewUInt256	*= u64ActualTimeSpan;
 
 	#ifdef _DEBUG
 		printf( "*** after\t:\t%u\n", bnNew.GetCompact() );
 	#endif
 
 	//	限制不要太简单了
-	if ( bnNew > bnPowLimit )
+	if ( bnNewUInt256 > bnPowLimitUInt256 )
 	{
-		bnNew = bnPowLimit;
+		bnNewUInt256 = bnPowLimitUInt256;
 	}
 
 	//	...
-	uRet = bnNew.GetCompact();
+	uRet = bnNewUInt256.GetCompact();
 	#ifdef _DEBUG
 		printf( "calculateNextDifficulty :: uPreviousDifficulty : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u\n",
 			uPreviousDifficulty, uTimeUsed, uTimeStandard, uRet );

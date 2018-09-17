@@ -4,16 +4,16 @@ const { spawn }			= require( 'child_process' );
 const _os			= require( 'os' );
 const _fs			= require( 'fs' );
 const _children			= require( './children.js' );
-
+const _utility			= require( './utility.js' );
 
 
 /**
  *	@constants
  */
-const CALC_TIMES_PER_LOOP	= 30;
-const MAX_LOOP			= 100000000;
+const DEFAULT_CALC_TIMES	= 30;
+const DEFAULT_MAX_LOOP		= 100000000;
 const CPU_LIST			= _os.cpus();
-const MAX_WORKER_COUNT		= Array.isArray( CPU_LIST ) ? CPU_LIST.length - 1 : 1;
+const DEFAULT_WORKER_COUNT	= Array.isArray( CPU_LIST ) ? CPU_LIST.length - 1 : 1;
 const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
 
@@ -33,19 +33,21 @@ class CTrustMinerFactory
 		this.m_nLoopStart	= 0;
 		this.m_bAlreadyWin	= false;
 		this.m_arrAllResults	= [];
+
 		this._initWorkers();
 	}
 
 
 	/**
-	 *	start mining
+	 * 	@public
+	 *	launch all mining workers
 	 *
 	 *	@param	{object}	oOptions
 	 *	@param	{Buffer}	oOptions.bufInputHeader		with length 140 bytes
 	 *	@param	{number}	oOptions.difficulty
 	 *	@param	{function}	pfnCallback( err, { win : true, hashHex : sActualHashHex, nonce : uActualNonce } )
 	 */
-	start( oOptions, pfnCallback )
+	launch( oOptions, pfnCallback )
 	{
 		if ( null === oOptions || 'object' !== typeof oOptions )
 		{
@@ -67,8 +69,8 @@ class CTrustMinerFactory
 		let oOptionsCp		= Object.assign
 		(
 			{
-				calcTimes	: CALC_TIMES_PER_LOOP,
-				maxLoop		: MAX_LOOP,
+				calcTimes	: DEFAULT_CALC_TIMES,
+				maxLoop		: DEFAULT_MAX_LOOP,
 			},
 			oOptions
 		);
@@ -77,7 +79,7 @@ class CTrustMinerFactory
 		//
 		//	save master pid
 		//
-		this._saveMasterPId();
+		this.saveMasterPId();
 
 		//
 		//	stop all workers
@@ -136,51 +138,97 @@ class CTrustMinerFactory
 	}
 
 	/**
-	 *	stop all workers
+	 * 	@public
+	 *	destroy all workers
 	 *
-	 * 	@return	{number}	number of processes been killed
+	 * 	@param	{number}	nMasterPId
+	 * 	@param	{function}	pfnCallback( err, nKilled )
+	 * 	@return	{boolean}
 	 */
-	stop()
+	destroy( nMasterPId, pfnCallback )
 	{
-		let nRet	= 0;
-		let nMasterPId	= this._getMasterPId();
-
-		if ( nMasterPId > 0 )
+		if ( ! _utility.isNumeric( nMasterPId ) || nMasterPId <= 0 )
 		{
-			_children( nMasterPId, ( err, arrChildren ) =>
+			pfnCallback( `invalid parameter nMasterPId` );
+			return false;
+		}
+
+		_children( nMasterPId, ( err, arrChildren ) =>
+		{
+			let nKilled	= 0;
+
+			//
+			//	arrChildren :
+			//	[
+			// 		{ PPID: '11904', PID: '23336', STAT: 'Rl+', COMMAND: 'node' },
+			//		{ PPID: '11904', PID: '23344', STAT: 'Rl+', COMMAND: 'node' },
+			//		{ PPID: '11904', PID: '23350', STAT: 'Rl+', COMMAND: 'node' },
+			//		{ PPID: '11904', PID: '23357', STAT: 'Rl+', COMMAND: 'node' },
+			//	]
+			//
+			if ( null === err &&
+				Array.isArray( arrChildren ) && arrChildren.length > 0 )
 			{
-				//
-				//	arrChildren :
-				//	[
-				// 		{ PPID: '11904', PID: '23336', STAT: 'Rl+', COMMAND: 'node' },
-				//		{ PPID: '11904', PID: '23344', STAT: 'Rl+', COMMAND: 'node' },
-				//		{ PPID: '11904', PID: '23350', STAT: 'Rl+', COMMAND: 'node' },
-				//		{ PPID: '11904', PID: '23357', STAT: 'Rl+', COMMAND: 'node' },
-				//	]
-				//
-				if ( null === err &&
-					Array.isArray( arrChildren ) && arrChildren.length > 0 )
+				for ( let i = 0; i < arrChildren.length; i ++ )
 				{
-					for ( let i = 0; i < arrChildren.length; i ++ )
+					let oChild	= arrChildren[ i ];
+					if ( oChild &&
+						'object' === typeof oChild &&
+						oChild.hasOwnProperty( 'PID' ) )
 					{
-						let oChild	= arrChildren[ i ];
-						if ( oChild &&
-							'object' === typeof oChild &&
-							oChild.hasOwnProperty( 'PID' ) )
-						{
-							let nChildPId	= parseInt( oChild[ 'PID' ] );
-							nRet += this._stopWorker( nChildPId ) ? 1 : 0;
-						}
+						let nChildPId	= parseInt( oChild[ 'PID' ] );
+						nKilled += this._stopWorker( nChildPId ) ? 1 : 0;
 					}
 				}
-			});
+			}
+
+			//
+			//	will return the number of processes been killed
+			//
+			pfnCallback( null, nKilled );
+		});
+
+		return true;
+	}
+
+	/**
+	 * 	@public
+	 *	get master pid
+	 *
+	 *	@return {number}
+	 */
+	getMasterPId()
+	{
+		if ( ! _fs.existsSync( PID_FULL_FILENAME ) )
+		{
+			return 0;
+		}
+
+		let nRet	= 0;
+
+		try
+		{
+			nRet = parseInt( _fs.readFileSync( PID_FULL_FILENAME ) );
+		}
+		catch( e )
+		{
 		}
 
 		return nRet;
 	}
 
+	/**
+	 *	@public
+	 *	save master pid
+	 */
+	saveMasterPId()
+	{
+		return _fs.writeFileSync( PID_FULL_FILENAME, process.pid );
+	}
+
 
 	/**
+	 * 	@private
 	 *	stop/kill worker by pid
 	 *
 	 *	@param	{number}	nPId
@@ -203,6 +251,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 *	stop/kill all workers
 	 */
 	_stopAllWorkers()
@@ -228,6 +277,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 *	wait for all workers done
 	 *
 	 *	@param	{function}	pfnCallback( err )
@@ -256,11 +306,8 @@ class CTrustMinerFactory
 		//
 		let arrLiveWorkers = this.m_arrWorkers.filter( oWorker =>
 		{
-			return oWorker &&
-				'object' === typeof oWorker &&
-				oWorker.handle &&
-				oWorker.handle.hasOwnProperty( 'pid' ) &&
-				oWorker.handle.pid &&
+			return _utility.isObjectWithKeys( oWorker, [ 'handle' ] ) &&
+				_utility.isObjectWithKeys( oWorker.handle, 'pid' ) &&
 				this._isWorkerExists( oWorker.handle.pid );
 		});
 
@@ -279,6 +326,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 * 	detect if a worker with pid {nPID} exists
 	 *
 	 *	@param	{number}	nPId
@@ -300,6 +348,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 *	check workers
 	 *
 	 *	@param	{object}	oOptions
@@ -356,6 +405,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 *	check win
 	 *
 	 *	@param sData
@@ -402,6 +452,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 *	spawn worker
 	 *
 	 *	@param	{object}	oOptions
@@ -456,6 +507,7 @@ class CTrustMinerFactory
 	}
 
 	/**
+	 * 	@private
 	 * 	check if the item is a valid result
 	 *
 	 *	@param	{object}	oItem
@@ -463,17 +515,15 @@ class CTrustMinerFactory
 	 */
 	_isResultOfWin( oItem )
 	{
-		return oItem &&
-			'object' === typeof oItem &&
-			oItem.hasOwnProperty( 'hashHex' ) &&
-			oItem.hasOwnProperty( 'nonce' ) &&
-			'string' === typeof oItem.hashHex &&
+		return _utility.isObjectWithKeys( oItem, [ 'hashHex', 'nonce' ] )  &&
+			_utility.isString( oItem.hashHex ) &&
 			64 === oItem.hashHex.length &&
-			'number' === typeof oItem.nonce &&
+			_utility.isNumeric( oItem.nonce ) &&
 			oItem.nonce > 0;
 	}
 
 	/**
+	 * 	@private
 	 *	check if the game is over
 	 *
 	 *	@param	{object}	oItem
@@ -481,46 +531,13 @@ class CTrustMinerFactory
 	 */
 	_isResultOfGameOver( oItem )
 	{
-		return oItem &&
-			'object' === typeof oItem &&
-			oItem.hasOwnProperty( 'gameOver' ) &&
-			'boolean' === typeof oItem.gameOver &&
+		return _utility.isObjectWithKeys( oItem, 'gameOver' ) &&
+			_utility.isBool( oItem.gameOver ) &&
 			oItem.gameOver;
 	}
 
 	/**
-	 *	get master pid
-	 *	@return {number}
-	 */
-	_getMasterPId()
-	{
-		if ( ! _fs.existsSync( PID_FULL_FILENAME ) )
-		{
-			return 0;
-		}
-
-		let nRet	= 0;
-
-		try
-		{
-			nRet = parseInt( _fs.readFileSync( PID_FULL_FILENAME ) );
-		}
-		catch( e )
-		{
-		}
-
-		return nRet;
-	}
-
-	/**
-	 *	save master pid
-	 */
-	_saveMasterPId()
-	{
-		return _fs.writeFileSync( PID_FULL_FILENAME, process.pid );
-	}
-
-	/**
+	 * 	@private
 	 *	initialize workers
 	 */
 	_initWorkers()
@@ -530,7 +547,7 @@ class CTrustMinerFactory
 		this.m_bAlreadyWin	= false;
 		this.m_arrAllResults	= [];
 
-		for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
+		for ( let i = 0; i < DEFAULT_WORKER_COUNT; i ++ )
 		{
 			this.m_arrWorkers[ i ] = Object.assign( {}, CPU_LIST[ i ] );
 			this.m_arrWorkers[ i ][ 'workerId' ]	= i;

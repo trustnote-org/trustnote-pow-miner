@@ -25,6 +25,7 @@ extern "C" {
  *	constants
  */
 #define TRUSTNOTE_MINER_CONTEXT_SIZE	178033152
+#define TRUSTNOTE_MINER_POW_MAX		"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 #define TRUSTNOTE_MINER_POW_LIMIT	"0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 
