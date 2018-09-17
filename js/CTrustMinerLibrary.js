@@ -69,7 +69,7 @@ class CTrustMinerLibrary
 	 * 	in c++:
 	 *	int startMining
 	 *	(
-	 *		uint8_t * putInputHeader,
+	 *		uint8_t * pcutInputHeader,
 	 *		uint32_t uDifficulty,
 	 *		uint32_t uNonceStart,
 	 *		uint32_t uCalcTimes,
@@ -148,7 +148,7 @@ class CTrustMinerLibrary
 	 *	in c++:
 	 *	int checkProofOfWork
 	 *	(
-	 *		uint8_t * putInputHeader,
+	 *		uint8_t * pcutInputHeader,
 	 *		uint32_t uDifficulty,
 	 *		uint32_t uNonce,
 	 *		const char * pcszHashHex

@@ -27,7 +27,7 @@ libcrypto.a:
 
 
 miner:
-	g++ -std=c++11 -D _DEBUG -I. -I./include/ \
+	g++ -std=c++11 -g -D _DEBUG -I. -I./include/ \
 	    -o output/miner.Linux.debug \
 	    ./miner.o ./utility.o ./libcrypto.a ../asm/equihash/Linux/equihash_avx2.o
 

@@ -29,7 +29,7 @@ let nCallCheckProofOfWork	= null;
 //
 //	int startMining
 // 	(
-// 		uint8_t * putInputHeader,
+// 		uint8_t * pcutInputHeader,
 // 		uint32_t uDifficulty,
 // 		uint32_t uNonceStart,
 // 		uint32_t uCalcTimes,
@@ -48,7 +48,7 @@ console.log( `startMining return ${ nCallStartMining }, nonce : ${ uActualNonce 
 //
 //	int checkProofOfWork
 // 	(
-// 		uint8_t * putInputHeader,
+// 		uint8_t * pcutInputHeader,
 // 		uint32_t uDifficulty,
 // 		uint32_t uNonce,
 // 		const char * pcszHashHex

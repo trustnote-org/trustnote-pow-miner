@@ -85,8 +85,9 @@ unsigned int CalculateNextWorkRequired
 	//
 	//	Limit adjustment step
 	//	Use medians to prevent time-warp attacks
-	int64_t nActualTimespan = nLastBlockTime - nFirstBlockTime;
-	int64_t uTimeStandard	= 10 * 2.5 * 60;
+	//
+	int64_t nActualTimespan	= nLastBlockTime - nFirstBlockTime;
+	int64_t uTimeStandard	= 10 * 2.5 * 60;	//	params.AveragingWindowTimespan()
 	printf( "pow, nActualTimespan = %d  before dampening\n", nActualTimespan );
 	//nActualTimespan = params.AveragingWindowTimespan() + ( nActualTimespan - params.AveragingWindowTimespan() )/4;
 	nActualTimespan	= ( uTimeStandard * 3 + nActualTimespan ) / 4;
@@ -94,10 +95,12 @@ unsigned int CalculateNextWorkRequired
 
 	if ( nActualTimespan < params.MinActualTimespan() )
 	{
+		printf( "pow, nActualTimespan = %d  set as min\n", params.MinActualTimespan() );
 		nActualTimespan = params.MinActualTimespan();
 	}
 	if ( nActualTimespan > params.MaxActualTimespan() )
 	{
+		printf( "pow, nActualTimespan = %d  set as max\n", params.MaxActualTimespan() );
 		nActualTimespan = params.MaxActualTimespan();
 	}
 	printf( "pow, nActualTimespan = %d  after bounds\n", nActualTimespan );
@@ -110,7 +113,8 @@ unsigned int CalculateNextWorkRequired
 
 	if ( bnNew > bnPowLimit )
 	{
-		printf( "pow, bnNew(%u) > bnPowLimit(%u)\n", bnNew.GetCompact(), bnPowLimit.GetCompact() );
+		//	it is too easy, set to limit difficulty
+		printf( "pow, bnNew(%u) > bnPowLimit(%u), set as %u\n", bnNew.GetCompact(), bnPowLimit.GetCompact(), bnPowLimit.GetCompact() );
 		bnNew = bnPowLimit;
 	}
 
