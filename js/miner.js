@@ -39,8 +39,11 @@ let _arrAllResults		= [];
  */
 function initWorkers()
 {
-	_arrAllResults	= [];
 	_arrWorkers	= [];
+	_nLoopStart	= 0;
+	_bAlreadyWin	= false;
+	_arrAllResults	= [];
+
 	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
 	{
 		_arrWorkers[ i ] = Object.assign( {}, CPU_LIST[ i ] );
@@ -76,14 +79,24 @@ function stopWorker( nPId )
  */
 function stopAllWorkers()
 {
-	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
+	if ( ! Array.isArray( _arrWorkers ) || 0 === _arrWorkers.length )
+	{
+		return -1;
+	}
+
+	//	...
+	let nRet = 0;
+
+	for ( let i = 0; i < _arrWorkers.length; i ++ )
 	{
 		if ( _arrWorkers[ i ].handle &&
 			_arrWorkers[ i ].handle.pid )
 		{
-			stopWorker( _arrWorkers[ i ].handle.pid );
+			nRet += stopWorker( _arrWorkers[ i ].handle.pid ) ? 1 : 0;
 		}
 	}
+
+	return nRet;
 }
 
 /**
@@ -424,7 +437,10 @@ function start( oOptions, pfnCallback )
 	//
 	//	...
 	//
+	stopAllWorkers();
 	initWorkers();
+
+	//	...
 	checkWorkers( oOptionsCp, ( err, oResult ) =>
 	{
 		_arrAllResults.push( { err : err, result : oResult } );
@@ -476,10 +492,12 @@ function start( oOptions, pfnCallback )
 
 /**
  *	stop all workers
+ *
+ * 	@return	{number}	number of processes been killed
  */
 function stop()
 {
-	let bRet	= false;
+	let nRet	= 0;
 	let nMasterPId	= getMasterPId();
 
 	if ( nMasterPId > 0 )
@@ -506,19 +524,14 @@ function stop()
 						oChild.hasOwnProperty( 'PID' ) )
 					{
 						let nChildPId	= parseInt( oChild[ 'PID' ] );
-						stopWorker( nChildPId );
+						nRet += stopWorker( nChildPId ) ? 1 : 0;
 					}
 				}
 			}
-
-			//
-			//	kill master process
-			//
-			bRet = stopWorker( nMasterPId );
 		});
 	}
 
-	return bRet;
+	return nRet;
 }
 
 

@@ -4,17 +4,17 @@ all: \
     utility.o \
     miner.o \
     libcrypto.a \
-    miner
+    miner.ex
 
 
 blake2b.o:
-	g++ -std=c++11 -c -g -D _DEBUG -I. -I./include/ ./include/crypto/blake2b.c
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I ./include ./include/crypto/blake2b.c
 
 utility.o:
-	g++ -std=c++11 -c -g -D _DEBUG -I. -I./include/ ./include/utility.cpp
+	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I./include/ ./include/utility.cpp
 
 miner.o: ./miner.h
-	g++ -std=c++11 -c -g -D _DEBUG -I. -I./include/ ./miner.cpp
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./miner.cpp
 
 
 libcrypto.a:
@@ -26,14 +26,15 @@ libcrypto.a:
 
 
 
-miner:
-	g++ -std=c++11 -g -D _DEBUG -I. -I./include/ \
-	    -o output/miner.Linux.debug \
-	    ./miner.o ./utility.o ./libcrypto.a ../asm/equihash/Linux/equihash_avx2.o
+miner.ex:
+	g++ -fPIC \
+	    -o output/miner.Mac.debug \
+	    ./miner.o ./utility.o ./libcrypto.a ../asm/equihash/Mac/equihash_avx2.o
 
 
 directory:
 	mkdir -p output
+
 
 
 

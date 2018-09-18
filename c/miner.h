@@ -25,7 +25,9 @@ extern "C" {
  *	constants
  */
 #define TRUSTNOTE_MINER_CONTEXT_SIZE	178033152
-#define TRUSTNOTE_MINER_POW_LIMIT	"0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+#define TRUSTNOTE_MINER_POW_MAX		"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+#define TRUSTNOTE_MINER_POW_MIN		"0000000000000000000000000000000000000000000000000000000000000000"
+#define TRUSTNOTE_MINER_POW_LIMIT	"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 
 
 
@@ -35,7 +37,7 @@ extern "C" {
 /**
  *	start mining
  *
- *	@param	{uint8_t*}	putInputHeader
+ *	@param	{uint8_t*}	pcutInputHeader
  *	@param	{uint32_t}	uDifficulty
  *	@param	{uint32_t}	uNonceStart
  *	@param	{uint32_t}	uCalcTimes
@@ -45,10 +47,10 @@ extern "C" {
  *	@return	{int}
  */
 int startMining(
-	uint8_t * putInputHeader,
-	uint32_t uDifficulty,
-	uint32_t uNonceStart,
-	uint32_t uCalcTimes,
+	const uint8_t * pcutInputHeader,
+	const uint32_t uDifficulty,
+	const uint32_t uNonceStart,
+	const uint32_t uCalcTimes,
 	OUT uint32_t * puNonce,
 	OUT char * pszHashHex,
 	uint32_t uHashHexLength );
@@ -64,7 +66,7 @@ int stopMining();
 /**
  *	check proof of work
  *
- *	@param	{uint8_t *}	putInputHeader
+ *	@param	{uint8_t *}	pcutInputHeader
  *	@param	{uint32_t}	uDifficulty
  *	@param	{uint32_t}	uNonce
  *	@param	{const char *}	pcszHashHex
@@ -72,9 +74,9 @@ int stopMining();
  *		0	- okay
  */
 int checkProofOfWork(
-	uint8_t * putInputHeader,
-	uint32_t uDifficulty,
-	uint32_t uNonce,
+	const uint8_t * pcutInputHeader,
+	const uint32_t uDifficulty,
+	const uint32_t uNonce,
 	const char * pcszHashHex );
 
 
@@ -97,7 +99,7 @@ uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
  *		0	- matched
  */
 int filterDifficulty(
-	uint32_t uDifficulty,
+	const uint32_t uDifficulty,
 	const char * pcszHashHex );
 
 
@@ -111,9 +113,9 @@ int filterDifficulty(
  *	@return	{uint32_t}
  */
 uint32_t calculateNextDifficulty(
-	uint32_t uPreviousDifficulty,
-	uint32_t uTimeUsed,
-	uint32_t uTimeStandard );
+	const uint32_t uPreviousDifficulty,
+	const uint32_t uTimeUsed,
+	const uint32_t uTimeStandard );
 
 
 
