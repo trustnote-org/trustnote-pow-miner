@@ -63,13 +63,13 @@ int main()
 	consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000281b32ff3198a1");
 
 	//	...
-	arith_uint256 bnAvg { 536936447 };
-	bnAvg.SetCompact( 536936447 );
-	unsigned int nNew0 = CalculateNextWorkRequired( bnAvg, 3, 0, consensus );
-	unsigned int nNew1 = CalculateNextWorkRequired( bnAvg, 348, 0, consensus );
-	unsigned int nNew2 = CalculateNextWorkRequired( bnAvg, 1500, 0, consensus );
-	unsigned int nNew3 = CalculateNextWorkRequired( bnAvg, 3300, 0, consensus );
-	unsigned int nNew4 = CalculateNextWorkRequired( bnAvg, 1113300, 0, consensus );
+	arith_uint256 bnAvg { 528482303 };
+	bnAvg.SetCompact( 528482303 );
+	unsigned int nNew0 = CalculateNextWorkRequired( bnAvg, 3194, 0, consensus );
+//	unsigned int nNew1 = CalculateNextWorkRequired( bnAvg, 348, 0, consensus );
+//	unsigned int nNew2 = CalculateNextWorkRequired( bnAvg, 1500, 0, consensus );
+//	unsigned int nNew3 = CalculateNextWorkRequired( bnAvg, 3300, 0, consensus );
+//	unsigned int nNew4 = CalculateNextWorkRequired( bnAvg, 1113300, 0, consensus );
 }
 
 
@@ -86,30 +86,41 @@ unsigned int CalculateNextWorkRequired
 	//	Limit adjustment step
 	//	Use medians to prevent time-warp attacks
 	//
-	int64_t nActualTimespan	= nLastBlockTime - nFirstBlockTime;
-	int64_t uTimeStandard	= 10 * 2.5 * 60;	//	params.AveragingWindowTimespan()
+	int64_t nActualTimespan	= 3194;	//	nLastBlockTime - nFirstBlockTime;
+	int64_t uTimeStandard	= 2400;	//	params.AveragingWindowTimespan()
+	int64_t uMin		= ( 2400 * (100 - params.nPowMaxAdjustUp  )) / 100;
+	int64_t uMax		= ( 2400 * (100 + params.nPowMaxAdjustDown ) ) / 100;
+
+	printf( "pow, uMin = %d\n", uMin );
+	printf( "pow, uMax = %d\n", uMax );
+
 	printf( "pow, nActualTimespan = %d  before dampening\n", nActualTimespan );
 	//nActualTimespan = params.AveragingWindowTimespan() + ( nActualTimespan - params.AveragingWindowTimespan() )/4;
 	nActualTimespan	= ( uTimeStandard * 3 + nActualTimespan ) / 4;
 	printf( "pow, nActualTimespan = %d  before bounds\n", nActualTimespan );
 
-	if ( nActualTimespan < params.MinActualTimespan() )
+	if ( nActualTimespan < uMin )
 	{
-		printf( "pow, nActualTimespan = %d  set as min\n", params.MinActualTimespan() );
-		nActualTimespan = params.MinActualTimespan();
+		printf( "pow, nActualTimespan = %d  set as min\n", uMin );
+		nActualTimespan = uMin;
 	}
-	if ( nActualTimespan > params.MaxActualTimespan() )
+	if ( nActualTimespan > uMax )
 	{
-		printf( "pow, nActualTimespan = %d  set as max\n", params.MaxActualTimespan() );
-		nActualTimespan = params.MaxActualTimespan();
+		printf( "pow, nActualTimespan = %d  set as max\n", uMax );
+		nActualTimespan = uMax;
 	}
 	printf( "pow, nActualTimespan = %d  after bounds\n", nActualTimespan );
 
 	//	Retarget
 	const arith_uint256 bnPowLimit = UintToArith256( params.powLimit );
 	arith_uint256 bnNew{ bnAvg };
+
+	printf( "pow, retarget before = %d\n", bnNew.GetCompact() );
+
 	bnNew /= uTimeStandard;
 	bnNew *= nActualTimespan;
+
+	printf( "pow, retarget after = %d\n", bnNew.GetCompact() );
 
 	if ( bnNew > bnPowLimit )
 	{

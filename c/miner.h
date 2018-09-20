@@ -24,11 +24,11 @@ extern "C" {
 /**
  *	constants
  */
-#define TRUSTNOTE_MINER_CONTEXT_SIZE	178033152
-#define TRUSTNOTE_MINER_POW_MAX		"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-#define TRUSTNOTE_MINER_POW_MIN		"0000000000000000000000000000000000000000000000000000000000000000"
-#define TRUSTNOTE_MINER_POW_LIMIT	"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-
+#define TRUSTNOTE_MINER_CONTEXT_SIZE		178033152
+#define TRUSTNOTE_MINER_POW_MAX			"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+#define TRUSTNOTE_MINER_POW_MIN			"0000000000000000000000000000000000000000000000000000000000000000"
+#define TRUSTNOTE_MINER_POW_LIMIT		"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+//#define TRUSTNOTE_MINER_DIFFICULTY_START	0x1f07ffff	//	= 520617983
 
 
 
