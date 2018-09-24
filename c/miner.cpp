@@ -80,9 +80,9 @@ int main( void )
 	{
 		utInputHeader[ i ] = i;
 	}
-	startMining( utInputHeader, uDifficulty, uNonceStart, uCalcTimes, &uNonce, szHexHash, sizeof( szHexHash ) );
+	int nCallStartMining = startMining( utInputHeader, uDifficulty, uNonceStart, uCalcTimes, &uNonce, szHexHash, sizeof( szHexHash ) );
 	#ifdef _DEBUG
-		printf( "### : %u\t : %.*s\n", uNonce, 64, szHexHash );
+		printf( "### nCallStartMining : %d, nonce : %u\t, hex : %.*s\n", nCallStartMining, uNonce, 64, szHexHash );
 	#endif
 
 	//	...
