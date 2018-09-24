@@ -2,8 +2,8 @@ format MS64 COFF
 ; format PE64 console DLL
 ; entry DllEntryPoint
 
-public _ProcEhPrepare as 'EhPrepareAVX2'
-public _ProcEhSolver as 'EhSolverAVX2'
+public _ProcEhPrepare as 'EhPrepare'
+public _ProcEhSolver as 'EhSolver'
 
 include 'INCLUDE\win64a.inc'
 include 'params.inc'
