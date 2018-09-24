@@ -147,7 +147,7 @@ int startMining(
 
 	//	...
 	void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
-	void * pvContext	= (void*)( ( (long)pvContextAlloc + 4095 ) & -4096 );
+	void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
 	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
 	//	...
@@ -159,11 +159,22 @@ int startMining(
 					: ( UINT32_MAX - uNonceStart - 1 );
 	for ( ; uNonce < nNonceEnd; uNonce ++ )
 	{
+		#ifdef _DEBUG
+			printf( "Mining Nonce: %u\n", uNonce );
+		#endif
 		//
 		//	calculate ...
 		//
 		EhPrepare( pvContext, (void *)pcutInputHeader );
-		int32_t nSolutionCount = std::min( 3, EhSolver( pvContext, uNonce ) );
+		#ifdef _DEBUG
+			printf( "Mining EhPrepare done\n" );
+		#endif
+
+		int32_t nSolutionCount = EhSolver( pvContext, uNonce );
+		#ifdef _DEBUG
+			printf( "Mining EhSolver, nSolutionCount : %d\n", nSolutionCount );
+		#endif
+		nSolutionCount = std::min( 3, nSolutionCount );
 
 		for ( int n = 0; n < nSolutionCount; n ++ )
 		{
