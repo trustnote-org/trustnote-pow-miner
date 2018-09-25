@@ -20,6 +20,18 @@ extern "C" {
 	#define OUT
 #endif
 
+#ifdef _WIN32
+	#ifdef LIBRARY_EXPORTS
+		#define LIBRARY_API __declspec(dllexport)
+	#else
+		#define LIBRARY_API __declspec(dllimport)
+	#endif
+#else
+	#define LIBRARY_API
+#endif
+
+
+
 
 /**
  *	constants
@@ -46,7 +58,7 @@ extern "C" {
  *	@param	{uint32_t}	uHashHexLength
  *	@return	{int}
  */
-int startMining(
+LIBRARY_API int startMining(
 	const uint8_t * pcutInputHeader,
 	const uint32_t uDifficulty,
 	const uint32_t uNonceStart,
@@ -60,7 +72,7 @@ int startMining(
  *	stop mining
  *	@return	{int}
  */
-int stopMining();
+LIBRARY_API int stopMining();
 
 
 /**
@@ -73,7 +85,7 @@ int stopMining();
  *	@return	{int}
  *		0	- okay
  */
-int checkProofOfWork(
+LIBRARY_API int checkProofOfWork(
 	const uint8_t * pcutInputHeader,
 	const uint32_t uDifficulty,
 	const uint32_t uNonce,
@@ -86,7 +98,7 @@ int checkProofOfWork(
  *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
  *	@return	{uint32_t}
  */
-uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
+LIBRARY_API uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
 
 
 
@@ -98,7 +110,7 @@ uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
  *	@return	{int}
  *		0	- matched
  */
-int filterDifficulty(
+LIBRARY_API int filterDifficulty(
 	const uint32_t uDifficulty,
 	const char * pcszHashHex );
 
@@ -112,7 +124,7 @@ int filterDifficulty(
  *	@param	{uint32_t}	uTimeStandard
  *	@return	{uint32_t}
  */
-uint32_t calculateNextDifficulty(
+LIBRARY_API uint32_t calculateNextDifficulty(
 	const uint32_t uPreviousDifficulty,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard );
