@@ -1,4 +1,4 @@
-mkdir -p output
+mkdir output
 cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/crypto/blake2b.c
 cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/utility.cpp
 cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/uint256.cpp
