@@ -18,7 +18,20 @@
 
 
 #if defined(NDEBUG)
-# error "Zcash cannot be compiled without assertions."
+	# error "Zcash cannot be compiled without assertions."
+#endif
+
+#ifdef WIN32
+	#define le16toh(x) (x)
+	#define le32toh(x) (x)
+	#define le64toh(x) (x)
+	#define htole16(x) (x)
+	#define htole32(x) (x)
+	#define htole64(x) (x)
+	#define be32toh(x) (x)
+	#define be64toh(x) (x)
+	#define htobe32(x) (x)
+	#define htobe64(x) (x)
 #endif
 
 

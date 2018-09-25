@@ -20,15 +20,23 @@ extern "C" {
 	#define OUT
 #endif
 
+#ifdef WIN32
+	#define EXPORT_API __declspec(dllexport)
+#else
+	#define EXPORT_API
+#endif
+
+
+
 
 /**
  *	constants
  */
-#define TRUSTNOTE_MINER_CONTEXT_SIZE	178033152
-#define TRUSTNOTE_MINER_POW_MAX		"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-#define TRUSTNOTE_MINER_POW_MIN		"0000000000000000000000000000000000000000000000000000000000000000"
-#define TRUSTNOTE_MINER_POW_LIMIT	"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-
+#define TRUSTNOTE_MINER_CONTEXT_SIZE		178033152
+#define TRUSTNOTE_MINER_POW_MAX			"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+#define TRUSTNOTE_MINER_POW_MIN			"0000000000000000000000000000000000000000000000000000000000000000"
+#define TRUSTNOTE_MINER_POW_LIMIT		"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+//#define TRUSTNOTE_MINER_DIFFICULTY_START	0x1f07ffff	//	= 520617983
 
 
 
@@ -46,7 +54,7 @@ extern "C" {
  *	@param	{uint32_t}	uHashHexLength
  *	@return	{int}
  */
-int startMining(
+EXPORT_API int startMining(
 	const uint8_t * pcutInputHeader,
 	const uint32_t uDifficulty,
 	const uint32_t uNonceStart,
@@ -60,7 +68,7 @@ int startMining(
  *	stop mining
  *	@return	{int}
  */
-int stopMining();
+EXPORT_API int stopMining();
 
 
 /**
@@ -73,7 +81,7 @@ int stopMining();
  *	@return	{int}
  *		0	- okay
  */
-int checkProofOfWork(
+EXPORT_API int checkProofOfWork(
 	const uint8_t * pcutInputHeader,
 	const uint32_t uDifficulty,
 	const uint32_t uNonce,
@@ -86,7 +94,7 @@ int checkProofOfWork(
  *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
  *	@return	{uint32_t}
  */
-uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
+EXPORT_API uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
 
 
 
@@ -98,7 +106,7 @@ uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
  *	@return	{int}
  *		0	- matched
  */
-int filterDifficulty(
+EXPORT_API int filterDifficulty(
 	const uint32_t uDifficulty,
 	const char * pcszHashHex );
 
@@ -112,7 +120,7 @@ int filterDifficulty(
  *	@param	{uint32_t}	uTimeStandard
  *	@return	{uint32_t}
  */
-uint32_t calculateNextDifficulty(
+EXPORT_API uint32_t calculateNextDifficulty(
 	const uint32_t uPreviousDifficulty,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard );

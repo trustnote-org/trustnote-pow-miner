@@ -1,1 +1,0 @@
-\fasm\fasm.exe test_avx1.asm
