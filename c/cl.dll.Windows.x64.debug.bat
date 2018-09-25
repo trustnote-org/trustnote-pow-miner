@@ -1,8 +1,8 @@
 mkdir output
-cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/crypto/blake2b.c
-cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/utility.cpp
-cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/uint256.cpp
-cl /w /c /Zi /MTd /D "_DEBUG" /I "include/" ./include/utilstrencodings.cpp
+cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/crypto/blake2b.c
+cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/utility.cpp
+cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/uint256.cpp
+cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/utilstrencodings.cpp
 cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/arith_uint256.cpp
 cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./miner.cpp
 
