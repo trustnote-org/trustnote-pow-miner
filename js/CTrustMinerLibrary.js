@@ -273,6 +273,14 @@ class CTrustMinerLibrary
 				}
 				break;
 
+			case 'win32' :
+				sRet = `${ __dirname }/../lib/Windows/miner.x64.debug.dll`;
+				if ( ! _fs.existsSync( sRet ) )
+				{
+					sRet = null;
+				}
+				break;
+
 			default:
 				break;
 		}
