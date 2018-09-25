@@ -20,7 +20,7 @@ extern "C" {
 	#define OUT
 #endif
 
-#ifdef _WIN32
+#ifdef WIN32
 	#ifdef LIBRARY_EXPORTS
 		#define LIBRARY_API __declspec(dllexport)
 	#else

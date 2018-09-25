@@ -37,7 +37,7 @@
 extern "C" {
 #endif
 
-#ifdef _WIN32
+#ifdef WIN32
 #	ifdef OAES_SHARED
 #		ifdef oaes_lib_EXPORTS
 #			define OAES_API __declspec(dllexport)
