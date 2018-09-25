@@ -112,7 +112,7 @@ int main( void )
 *	@param	{uint32_t}	uHashHexLength
  *	@return	{uint32_t}
  */
-LIBRARY_API int startMining(
+EXPORT_API int startMining(
 	const uint8_t * pcutInputHeader,
 	const uint32_t uDifficulty,
 	const uint32_t uNonceStart,
@@ -231,7 +231,7 @@ LIBRARY_API int startMining(
  *	stop mining
  *	@return	{int}
  */
-LIBRARY_API int stopMining()
+EXPORT_API int stopMining()
 {
 	return 0;
 }
@@ -247,7 +247,7 @@ LIBRARY_API int stopMining()
  *	@return	{int}
  *		0	- okay
  */
-LIBRARY_API int checkProofOfWork(
+EXPORT_API int checkProofOfWork(
 	const uint8_t * pcutInputHeader,
 	const uint32_t uDifficulty,
 	const uint32_t uNonce,
@@ -328,7 +328,7 @@ LIBRARY_API int checkProofOfWork(
  *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
  *	@return	{uint32_t}
  */
-LIBRARY_API uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex )
+EXPORT_API uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex )
 {
 	if ( NULL == pcszDifficultyHex )
 	{
@@ -362,7 +362,7 @@ LIBRARY_API uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex )
  *	@param	{const char *}	pcszHashHex
  *	@return	{uint32_t}
  */
-LIBRARY_API int filterDifficulty(
+EXPORT_API int filterDifficulty(
 	const uint32_t uDifficulty,
 	const char * pcszHashHex )
 {
@@ -416,7 +416,7 @@ LIBRARY_API int filterDifficulty(
  *	@param	{uint32_t}	uTimeStandard
  *	@return	{uint32_t}
  */
-LIBRARY_API uint32_t calculateNextDifficulty(
+EXPORT_API uint32_t calculateNextDifficulty(
 	const uint32_t uPreviousAverageDifficulty,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard )
