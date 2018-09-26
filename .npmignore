@@ -2,6 +2,7 @@
 /c
 /demos
 /doc/
-/tests
 /node_modules
 /.idea
+/rsync_dev.sh
+/rsync_pow.sh
