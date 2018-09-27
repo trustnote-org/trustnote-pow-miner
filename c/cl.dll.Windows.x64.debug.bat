@@ -6,4 +6,4 @@ cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/utilstren
 cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./include/arith_uint256.cpp
 cl /w /c /Zi /MTd /EHsc /D "WIN32" /D "_DEBUG" /I "include/" ./miner.cpp
 
-link /DLL /OUT:"output/miner.x64.debug.dll" /NXCOMPAT /DYNAMICBASE /DEBUG /MACHINE:X64 /INCREMENTAL /SUBSYSTEM:CONSOLE /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /ERRORREPORT:PROMPT /NOLOGO /TLBID:1 miner.obj blake2b.obj utility.obj uint256.obj utilstrencodings.obj arith_uint256.obj ../asm/equihash/Windows/equihash_avx2.obj
+link /DLL /OUT:"output/miner.Windows.x64.debug.dll" /NXCOMPAT /DYNAMICBASE /DEBUG /MACHINE:X64 /INCREMENTAL /SUBSYSTEM:CONSOLE /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /ERRORREPORT:PROMPT /NOLOGO /TLBID:1 miner.obj blake2b.obj utility.obj uint256.obj utilstrencodings.obj arith_uint256.obj ../asm/equihash/Windows/equihash_avx2.obj
