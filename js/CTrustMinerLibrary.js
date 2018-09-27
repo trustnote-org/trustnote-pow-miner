@@ -259,7 +259,7 @@ class CTrustMinerLibrary
 				break;
 
 			case 'win32' :
-				sRet = `${ __dirname }/../lib/Windows/${ bDebug ? 'miner.x64.debug.dll' : 'miner.x64.debug.dll' }`;
+				sRet = `${ __dirname }/../lib/Windows/${ bDebug ? 'miner.Windows.x64.debug.dll' : 'miner.Windows.x64.release.dll' }`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
