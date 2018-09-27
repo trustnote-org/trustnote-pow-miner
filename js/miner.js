@@ -448,11 +448,6 @@ function start( oOptions, pfnCallback )
 	oOptionsCp.inputHeader	= oOptionsCp.bufInputHeader.toString( 'hex' );
 
 	//
-	//	set options
-	//
-	_oLibrary.setOptions( oOptionsCp );
-
-	//
 	//	save master pid
 	//
 	saveMasterPId();
