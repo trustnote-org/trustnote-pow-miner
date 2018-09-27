@@ -11,11 +11,13 @@ const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
 /**
  *	@constants
  */
-const CALC_TIMES_PER_LOOP	= 30;
-const MAX_LOOP			= 10000000;
 const CPU_LIST			= _os.cpus();
-const MAX_WORKER_COUNT		= Array.isArray( CPU_LIST ) ? CPU_LIST.length - 1 : 1;
 const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
+
+const DEFAULT_CALC_TIMES	= 30;		//	default calculate time per loop
+const DEFAULT_MAX_LOOP		= 10000000;
+const DEFAULT_MAX_WORKER_COUNT	= ( Array.isArray( CPU_LIST ) && CPU_LIST.length > 1 ) ? CPU_LIST.length - 1 : 1;
+
 
 /**
  *	@type {CTrustMinerLibrary}
@@ -37,14 +39,26 @@ let _arrAllResults		= [];
 /**
  *	initialize workers
  */
-function initWorkers()
+function initWorkers( oOptions )
 {
+	let nMaxWorkerCount;
+
 	_arrWorkers	= [];
 	_nLoopStart	= 0;
 	_bAlreadyWin	= false;
 	_arrAllResults	= [];
 
-	for ( let i = 0; i < MAX_WORKER_COUNT; i ++ )
+	nMaxWorkerCount	= DEFAULT_MAX_WORKER_COUNT;
+	if ( oOptions &&
+		'object' === typeof oOptions &&
+		'number' === typeof oOptions.maxWorkerCount &&
+		oOptions.maxWorkerCount > 0 )
+	{
+		//	greater then 0 is okay
+		nMaxWorkerCount = oOptions.maxWorkerCount;
+	}
+
+	for ( let i = 0; i < nMaxWorkerCount; i ++ )
 	{
 		_arrWorkers[ i ] = Object.assign( {}, CPU_LIST[ i ] );
 		_arrWorkers[ i ][ 'workerId' ]	= i;
@@ -397,7 +411,10 @@ function saveMasterPId()
  *
  *	@param	{object}	oOptions
  *	@param	{Buffer}	oOptions.bufInputHeader		with length 140 bytes
- *	@param	{number}	oOptions.difficulty
+ *	@param	{number}	oOptions.difficulty		difficulty value
+ *	@param	{number}	oOptions.calcTimes		calculate times per loop
+ *	@param	{number}	oOptions.maxLoop		max loop
+ *	@param	{number}	oOptions.maxWorkerCount		max worker count
  *	@param	{function}	pfnCallback( err, { win : true, hashHex : sActualHashHex, nonce : uActualNonce } )
  */
 function start( oOptions, pfnCallback )
@@ -422,8 +439,9 @@ function start( oOptions, pfnCallback )
 	let oOptionsCp		= Object.assign
 		(
 			{
-				calcTimes	: CALC_TIMES_PER_LOOP,
-				maxLoop		: MAX_LOOP,
+				calcTimes	: DEFAULT_CALC_TIMES,
+				maxLoop		: DEFAULT_MAX_LOOP,
+				maxWorkerCount	: DEFAULT_MAX_WORKER_COUNT,
 			},
 			oOptions
 		);
@@ -438,7 +456,7 @@ function start( oOptions, pfnCallback )
 	//	...
 	//
 	stopAllWorkers();
-	initWorkers();
+	initWorkers( oOptionsCp );
 
 	//	...
 	checkWorkers( oOptionsCp, ( err, oResult ) =>
