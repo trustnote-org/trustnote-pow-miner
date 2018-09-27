@@ -5,6 +5,13 @@ const _ref	= require( 'ref' );
 const _ffi	= require( 'ffi' );
 
 
+/**
+ *	@variables
+ */
+let _objMinerLibrary	= null;
+
+
+
 
 /**
  *	@class	CTrustMinerLibrary
@@ -13,8 +20,6 @@ class CTrustMinerLibrary
 {
 	constructor()
 	{
-		this.m_objMinerLibrary	= null;
-
 		//
 		//	set process.env.ENV_TRUST_MINER_DEBUG = true to load libraries with debug info
 		//
@@ -47,7 +52,7 @@ class CTrustMinerLibrary
 	 */
 	startMining( bufInputHeader, uDifficulty, uNonceStart, uCalcTimes, pfnCallback )
 	{
-		if ( ! this.m_objMinerLibrary )
+		if ( ! _objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
@@ -77,7 +82,7 @@ class CTrustMinerLibrary
 		let bufHashHex			= new Buffer( 64 );
 		let sActualHashHex		= null;
 
-		let nCallStartMining		= this.m_objMinerLibrary.startMining
+		let nCallStartMining		= _objMinerLibrary.startMining
 			(
 				bufInputHeader,
 				uDifficulty,
@@ -127,7 +132,7 @@ class CTrustMinerLibrary
 	 */
 	checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
 	{
-		if ( ! this.m_objMinerLibrary )
+		if ( ! _objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
@@ -145,7 +150,7 @@ class CTrustMinerLibrary
 		}
 
 		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
-		let nCallCheckProofOfWork	= this.m_objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
+		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
 
 		if ( 0 === nCallCheckProofOfWork )
 		{
@@ -179,7 +184,7 @@ class CTrustMinerLibrary
 	 */
 	calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard, pfnCallback )
 	{
-		if ( ! this.m_objMinerLibrary )
+		if ( ! _objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
@@ -196,7 +201,7 @@ class CTrustMinerLibrary
 			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeStandard.' );
 		}
 
-		let uNextDifficulty	= this.m_objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
+		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
 
 		return pfnCallback( null, { difficulty : uNextDifficulty } );
 	}
@@ -208,11 +213,11 @@ class CTrustMinerLibrary
 	 */
 	difficulty256HexToUInt32( sDifficulty256Hex )
 	{
-		if ( ! this.m_objMinerLibrary )
+		if ( ! _objMinerLibrary )
 		{
 			return 0;
 		}
-		return this.m_objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
+		return _objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
 	}
 
 	/**
@@ -280,7 +285,7 @@ class CTrustMinerLibrary
 	 */
 	_loadLibrary()
 	{
-		if ( this.m_objMinerLibrary )
+		if ( _objMinerLibrary )
 		{
 			return true;
 		}
@@ -288,7 +293,7 @@ class CTrustMinerLibrary
 		let sLibraryFullFilename = this._getLibraryFullFilename();
 		if ( sLibraryFullFilename )
 		{
-			this.m_objMinerLibrary = _ffi.Library
+			_objMinerLibrary = _ffi.Library
 			(
 				sLibraryFullFilename,
 				{
@@ -316,7 +321,7 @@ class CTrustMinerLibrary
 			);
 		}
 
-		return !! this.m_objMinerLibrary;
+		return !! _objMinerLibrary;
 	}
 
 }
