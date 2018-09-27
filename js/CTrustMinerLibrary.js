@@ -243,7 +243,7 @@ class CTrustMinerLibrary
 		switch ( process.platform )
 		{
 			case 'linux' :
-				sRet = `${ __dirname }/../lib/Linux/${ bDebug ? 'miner.so' : 'miner.so' }`;
+				sRet = `${ __dirname }/../lib/Linux/${ bDebug ? 'miner.Linux.debug.so' : 'miner.Linux.release.so' }`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
