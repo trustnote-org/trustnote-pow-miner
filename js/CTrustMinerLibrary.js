@@ -5,13 +5,6 @@ const _ref	= require( 'ref' );
 const _ffi	= require( 'ffi' );
 
 
-/**
- *	@variables
- */
-let _objMinerLibrary = null;
-
-
-
 
 /**
  *	@class	CTrustMinerLibrary
@@ -20,39 +13,13 @@ class CTrustMinerLibrary
 {
 	constructor()
 	{
-		let sLibraryFullFilename	= this._getLibraryFullFilename();
+		this.m_objMinerLibrary	= null;
 
-		if ( null === _objMinerLibrary && sLibraryFullFilename )
-		{
-			_objMinerLibrary = _ffi.Library
-			(
-				sLibraryFullFilename,
-				{
-					'startMining' :
-					[
-						'int',
-						[ 'pointer', 'uint', 'uint', 'uint', _ref.refType('uint'), 'char *', 'uint' ]
-					],
-					'checkProofOfWork' :
-					[
-						'int',
-						[ 'pointer', 'uint', 'uint', 'pointer' ]
-					],
-					'calculateNextDifficulty' :
-					[
-						'uint',
-						[ 'uint', 'uint', 'uint' ]
-					],
-					'difficulty256HexToUInt32' :
-					[
-						'uint',
-						[ 'pointer' ]
-					]
-				}
-			);
-		}
+		//
+		//	set process.env.ENV_TRUST_MINER_DEBUG = true to load libraries with debug info
+		//
+		this._loadLibrary();
 	}
-
 
 	/**
 	 *	start mining
@@ -80,7 +47,7 @@ class CTrustMinerLibrary
 	 */
 	startMining( bufInputHeader, uDifficulty, uNonceStart, uCalcTimes, pfnCallback )
 	{
-		if ( ! _objMinerLibrary )
+		if ( ! this.m_objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
@@ -110,7 +77,7 @@ class CTrustMinerLibrary
 		let bufHashHex			= new Buffer( 64 );
 		let sActualHashHex		= null;
 
-		let nCallStartMining		= _objMinerLibrary.startMining
+		let nCallStartMining		= this.m_objMinerLibrary.startMining
 			(
 				bufInputHeader,
 				uDifficulty,
@@ -160,7 +127,7 @@ class CTrustMinerLibrary
 	 */
 	checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
 	{
-		if ( ! _objMinerLibrary )
+		if ( ! this.m_objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
@@ -178,7 +145,7 @@ class CTrustMinerLibrary
 		}
 
 		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
-		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
+		let nCallCheckProofOfWork	= this.m_objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
 
 		if ( 0 === nCallCheckProofOfWork )
 		{
@@ -212,7 +179,7 @@ class CTrustMinerLibrary
 	 */
 	calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard, pfnCallback )
 	{
-		if ( ! _objMinerLibrary )
+		if ( ! this.m_objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
@@ -229,7 +196,7 @@ class CTrustMinerLibrary
 			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeStandard.' );
 		}
 
-		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
+		let uNextDifficulty	= this.m_objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
 
 		return pfnCallback( null, { difficulty : uNextDifficulty } );
 	}
@@ -241,9 +208,26 @@ class CTrustMinerLibrary
 	 */
 	difficulty256HexToUInt32( sDifficulty256Hex )
 	{
-		return _objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
+		if ( ! this.m_objMinerLibrary )
+		{
+			return 0;
+		}
+		return this.m_objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
 	}
 
+	/**
+	 *	is currently in debug model
+	 *
+	 *	@private
+	 *	@return {boolean}
+	 */
+	_isDebugEnv()
+	{
+		return ( process.env &&
+			'object' === typeof process.env &&
+			'string' === typeof process.env.ENV_TRUST_MINER_DEBUG &&
+			'true' === process.env.ENV_TRUST_MINER_DEBUG.toLowerCase() );
+	}
 
 	/**
 	 *	get library full filename
@@ -253,12 +237,13 @@ class CTrustMinerLibrary
 	 */
 	_getLibraryFullFilename()
 	{
-		let sRet = null;
+		let sRet 	= null;
+		let bDebug	= this._isDebugEnv();
 
 		switch ( process.platform )
 		{
 			case 'linux' :
-				sRet = `${ __dirname }/../lib/Linux/miner.so`;
+				sRet = `${ __dirname }/../lib/Linux/${ bDebug ? 'miner.so' : 'miner.so' }`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
@@ -266,7 +251,7 @@ class CTrustMinerLibrary
 				break;
 
 			case 'darwin' :
-				sRet = `${ __dirname }/../lib/Mac/miner.dylib`;
+				sRet = `${ __dirname }/../lib/Mac/${ bDebug ? 'miner.Mac.debug.dylib' : 'miner.Mac.release.dylib' }`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
@@ -274,7 +259,7 @@ class CTrustMinerLibrary
 				break;
 
 			case 'win32' :
-				sRet = `${ __dirname }/../lib/Windows/miner.x64.debug.dll`;
+				sRet = `${ __dirname }/../lib/Windows/${ bDebug ? 'miner.x64.debug.dll' : 'miner.x64.debug.dll' }`;
 				if ( ! _fs.existsSync( sRet ) )
 				{
 					sRet = null;
@@ -286,6 +271,52 @@ class CTrustMinerLibrary
 		}
 
 		return sRet;
+	}
+
+	/**
+	 *	load library
+	 *
+	 *	@return	{boolean}
+	 */
+	_loadLibrary()
+	{
+		if ( this.m_objMinerLibrary )
+		{
+			return true;
+		}
+
+		let sLibraryFullFilename = this._getLibraryFullFilename();
+		if ( sLibraryFullFilename )
+		{
+			this.m_objMinerLibrary = _ffi.Library
+			(
+				sLibraryFullFilename,
+				{
+					'startMining' :
+						[
+							'int',
+							[ 'pointer', 'uint', 'uint', 'uint', _ref.refType('uint'), 'char *', 'uint' ]
+						],
+					'checkProofOfWork' :
+						[
+							'int',
+							[ 'pointer', 'uint', 'uint', 'pointer' ]
+						],
+					'calculateNextDifficulty' :
+						[
+							'uint',
+							[ 'uint', 'uint', 'uint' ]
+						],
+					'difficulty256HexToUInt32' :
+						[
+							'uint',
+							[ 'pointer' ]
+						]
+				}
+			);
+		}
+
+		return !! this.m_objMinerLibrary;
 	}
 
 }

@@ -1,4 +1,11 @@
+process.env.ENV_TRUST_MINER_DEBUG = true;
+
+/**
+ *	@modules
+ */
 const _miner	= require( '../../js/index.js' );
+
+
 
 
 
