@@ -31,7 +31,7 @@
 #endif
 
 
-int test_bug_pow()
+int test_checkProofOfWork()
 {
 	uint8_t utInputHeader[ 140 ]	= { 229,130,52,193,179,170,97,242,245,204,126,226,139,52,226,73,215,54,190,179,35,159,207,112,11,194,17,0,146,112,29,22,94,126,70,238,46,127,228,102,205,247,71,67,178,9,152,34,122,245,79,202,84,180,188,222,140,216,50,120,102,215,17,48,252,233,209,133,206,33,66,137,14,93,141,120,186,6,9,38,98,154,121,93,230,229,244,95,14,254,249,184,151,240,132,74,14,2,236,58,130,144,171,51,31,170,90,247,28,222,203,81,136,214,60,140,54,107,213,236,71,121,12,153,166,213,6,47,43,132,202,221,98,255,86,156,194,127,204,240 };
 	uint32_t uDifficulty		= 528482303;
@@ -42,7 +42,7 @@ int test_bug_pow()
 	memcpy( szHexHash, "00198bb0606e5a8b5d47577bc96de488116af886815f4dccc5ad1ebd78d1b14e", 64 );
 
 	int nCheck	= checkProofOfWork( utInputHeader, uDifficulty, uNonce, szHexHash );
-	printf( "nCheck = %u", nCheck );
+	printf( "test_checkProofOfWork : %u \n", nCheck );
 
 	return nCheck;
 }
@@ -56,8 +56,10 @@ int test_bug_pow()
  */
 int main( void )
 {
-	return test_bug_pow();
+	//	test
+	test_checkProofOfWork();
 
+	//	...
 	uint8_t utInputHeader[ 140 ];
 	arith_uint256 bn256DifficultyDefault	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) );
 	arith_uint256 bn256DifficultyMax	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_MAX ) );
@@ -298,7 +300,7 @@ EXPORT_API int checkProofOfWork(
 
 	//	...
 	void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
-	void * pvContext	= (void*)( ( (long)pvContextAlloc + 4095 ) & -4096 );
+	void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
 	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
 	//
