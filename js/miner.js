@@ -552,6 +552,52 @@ function stop()
 	return nRet;
 }
 
+/**
+ *	search executable node path
+ *
+ *	@return {string}
+ *	@private
+ */
+function _searchNodePath()
+{
+	let sRet;
+	let sDefaultValue;
+
+	//	...
+	sRet		= null;
+	sDefaultValue	= 'node';
+
+	switch ( process.platform )
+	{
+		case 'linux' :
+		case 'darwin' :
+			sRet = `${ process.cwd() }/bin/node`;
+			console.log( `node pwd path : ${ process.cwd() }` );
+			console.log( process.argv );
+			if ( ! _fs.existsSync( sRet ) )
+			{
+				sRet = sDefaultValue;
+			}
+			break;
+
+		case 'win32' :
+			sRet = `${ process.cwd() }/bin/node.exe`;
+			console.log( `node pwd path : ${ process.cwd() }` );
+			console.log( process.argv );
+			if ( ! _fs.existsSync( sRet ) )
+			{
+				sRet = sDefaultValue;
+			}
+			break;
+
+		default:
+			//	search from system environment
+			sRet = sDefaultValue;
+			break;
+	}
+
+	return sRet;
+}
 
 
 
