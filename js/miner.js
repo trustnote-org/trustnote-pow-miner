@@ -296,6 +296,7 @@ function checkWin( sData )
 function spawnWorker( oOptions, pfnCallback )
 {
 	let oOptionsCp;
+	let sNodeHostPath;
 	let arrArgs;
 	let hHandle;
 
@@ -306,8 +307,9 @@ function spawnWorker( oOptions, pfnCallback )
 	console.log( `>|< trustnote-pow-miner spawnWorker by master(${ process.pid }) with options : `, oOptionsCp );
 
 	//	...
-	arrArgs	= [ `${ __dirname }/worker.js`, process.pid, JSON.stringify( oOptionsCp ) ];
-	hHandle	= spawn( 'node', arrArgs );
+	sNodeHostPath	= _getNodeHostPath();
+	arrArgs		= [ `${ __dirname }/worker.js`, process.pid, JSON.stringify( oOptionsCp ) ];
+	hHandle		= spawn( sNodeHostPath, arrArgs );
 	if ( hHandle )
 	{
 		hHandle.stdout.on( 'data', ( sData ) =>
@@ -553,47 +555,22 @@ function stop()
 }
 
 /**
- *	search executable node path
+ *	search executable host path of node
  *
  *	@return {string}
  *	@private
  */
-function _searchNodePath()
+function _getNodeHostPath()
 {
-	let sRet;
-	let sDefaultValue;
+	let sRet = 'node';
 
-	//	...
-	sRet		= null;
-	sDefaultValue	= 'node';
-
-	switch ( process.platform )
+	if ( process && 'object' === typeof process &&
+		process.argv && 'object' === typeof process.argv &&
+		Array.isArray( process.argv ) && process.argv.length > 0 &&
+		'string' === typeof process.argv[ 0 ] && process.argv[ 0 ].length > 0 &&
+		_fs.existsSync( process.argv[ 0 ] ) )
 	{
-		case 'linux' :
-		case 'darwin' :
-			sRet = `${ process.cwd() }/bin/node`;
-			console.log( `node pwd path : ${ process.cwd() }` );
-			console.log( process.argv );
-			if ( ! _fs.existsSync( sRet ) )
-			{
-				sRet = sDefaultValue;
-			}
-			break;
-
-		case 'win32' :
-			sRet = `${ process.cwd() }/bin/node.exe`;
-			console.log( `node pwd path : ${ process.cwd() }` );
-			console.log( process.argv );
-			if ( ! _fs.existsSync( sRet ) )
-			{
-				sRet = sDefaultValue;
-			}
-			break;
-
-		default:
-			//	search from system environment
-			sRet = sDefaultValue;
-			break;
+		sRet = process.argv[ 0 ];
 	}
 
 	return sRet;

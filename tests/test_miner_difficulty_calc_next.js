@@ -1,7 +1,7 @@
 //process.env.ENV_TRUST_MINER_DEBUG = true;
 
 
-const _miner	= require( '../../js/index.js' );
+const _miner	= require( '../js/index.js' );
 const _async	= require( 'async' );
 
 

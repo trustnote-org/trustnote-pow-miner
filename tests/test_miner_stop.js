@@ -1,4 +1,4 @@
-const _miner	= require( '../../js/miner.js' );
+const _miner	= require( '../js/miner.js' );
 
 
 
