@@ -16,7 +16,7 @@ const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
 const DEFAULT_CALC_TIMES	= 30;		//	default calculate time per loop
 const DEFAULT_MAX_LOOP		= 10000000;
-const DEFAULT_MAX_WORKER_COUNT	= ( Array.isArray( CPU_LIST ) && CPU_LIST.length > 1 ) ? CPU_LIST.length - 1 : 1;
+const DEFAULT_MAX_WORKER_COUNT	= _getDefaultMaxWorkerCount();
 
 
 /**
@@ -574,6 +574,39 @@ function _getNodeHostPath()
 	}
 
 	return sRet;
+}
+
+
+/**
+ *	get default value of max worker counter
+ *
+ *	@return	{number}
+ *	@private
+ */
+function _getDefaultMaxWorkerCount()
+{
+	let nRet = 1;
+
+	if ( Array.isArray( CPU_LIST ) && CPU_LIST.length > 1 )
+	{
+		if ( CPU_LIST.length < 4 )
+		{
+			//	1 core for main, others for miner
+			nRet = CPU_LIST.length - 1;
+		}
+		else if ( CPU_LIST.length >= 4 && CPU_LIST.length <= 8 )
+		{
+			//	2 cores for main, others for miner
+			nRet = CPU_LIST.length - 2;
+		}
+		else if ( CPU_LIST.length > 8 )
+		{
+			//	4 cores for main, others for miner
+			nRet = CPU_LIST.length - 4;
+		}
+	}
+
+	return nRet;
 }
 
 
