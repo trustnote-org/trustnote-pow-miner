@@ -1,4 +1,11 @@
-const _miner	= require( '../../js/index.js' );
+process.env.ENV_TRUST_MINER_DEBUG = true;
+
+/**
+ *	@modules
+ */
+const _miner	= require( '../js/index.js' );
+
+
 
 
 
@@ -12,6 +19,7 @@ let _oOptions	=
 		difficulty	: _miner.difficulty256HexToUInt32( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
 		calcTimes	: 30,
 		maxLoop		: 1000000,
+		maxWorkerCount	: 0,
 	};
 
 _miner.startMining( _oOptions, function( err, oData )

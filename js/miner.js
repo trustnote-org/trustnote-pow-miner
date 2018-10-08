@@ -16,7 +16,7 @@ const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
 const DEFAULT_CALC_TIMES	= 30;		//	default calculate time per loop
 const DEFAULT_MAX_LOOP		= 10000000;
-const DEFAULT_MAX_WORKER_COUNT	= ( Array.isArray( CPU_LIST ) && CPU_LIST.length > 1 ) ? CPU_LIST.length - 1 : 1;
+const DEFAULT_MAX_WORKER_COUNT	= _getDefaultMaxWorkerCount();
 
 
 /**
@@ -296,6 +296,7 @@ function checkWin( sData )
 function spawnWorker( oOptions, pfnCallback )
 {
 	let oOptionsCp;
+	let sNodeHostPath;
 	let arrArgs;
 	let hHandle;
 
@@ -306,8 +307,9 @@ function spawnWorker( oOptions, pfnCallback )
 	console.log( `>|< trustnote-pow-miner spawnWorker by master(${ process.pid }) with options : `, oOptionsCp );
 
 	//	...
-	arrArgs	= [ `${ __dirname }/worker.js`, process.pid, JSON.stringify( oOptionsCp ) ];
-	hHandle	= spawn( 'node', arrArgs );
+	sNodeHostPath	= _getNodeHostPath();
+	arrArgs		= [ `${ __dirname }/worker.js`, process.pid, JSON.stringify( oOptionsCp ) ];
+	hHandle		= spawn( sNodeHostPath, arrArgs );
 	if ( hHandle )
 	{
 		hHandle.stdout.on( 'data', ( sData ) =>
@@ -552,6 +554,60 @@ function stop()
 	return nRet;
 }
 
+/**
+ *	search executable host path of node
+ *
+ *	@return {string}
+ *	@private
+ */
+function _getNodeHostPath()
+{
+	let sRet = 'node';
+
+	if ( process && 'object' === typeof process &&
+		process.argv && 'object' === typeof process.argv &&
+		Array.isArray( process.argv ) && process.argv.length > 0 &&
+		'string' === typeof process.argv[ 0 ] && process.argv[ 0 ].length > 0 &&
+		_fs.existsSync( process.argv[ 0 ] ) )
+	{
+		sRet = process.argv[ 0 ];
+	}
+
+	return sRet;
+}
+
+
+/**
+ *	get default value of max worker counter
+ *
+ *	@return	{number}
+ *	@private
+ */
+function _getDefaultMaxWorkerCount()
+{
+	let nRet = 1;
+
+	if ( Array.isArray( CPU_LIST ) && CPU_LIST.length > 1 )
+	{
+		if ( CPU_LIST.length < 4 )
+		{
+			//	1 core for main, others for miner
+			nRet = CPU_LIST.length - 1;
+		}
+		else if ( CPU_LIST.length >= 4 && CPU_LIST.length <= 8 )
+		{
+			//	2 cores for main, others for miner
+			nRet = CPU_LIST.length - 2;
+		}
+		else if ( CPU_LIST.length > 8 )
+		{
+			//	4 cores for main, others for miner
+			nRet = CPU_LIST.length - 4;
+		}
+	}
+
+	return nRet;
+}
 
 
 
