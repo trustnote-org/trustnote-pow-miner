@@ -328,13 +328,24 @@ function spawnWorker( oOptions, pfnCallback )
 				pfnCallback( null, jsonResult );
 			}
 		});
+
+		hHandle.on( 'error', function( err )
+		{
+			console.log( `$$$ MINER SPAWN EVENT : child occurred an error : ${ err }` );
+			checkWorkers( oOptions, pfnCallback );
+		});
 		hHandle.on( 'disconnect', () =>
 		{
-			//console.log(`child disconnect:\n`);
+			console.log(`$$$ MINER SPAWN EVENT : child disconnect:\n`);
+		});
+		hHandle.on( 'close', function( nCode, sSignal )
+		{
+			console.log( `$$$ MINER SPAWN EVENT : child closed with code ${ nCode } and signal ${ sSignal }` );
+			checkWorkers( oOptions, pfnCallback );
 		});
 		hHandle.on( 'exit', function( nCode, sSignal )
 		{
-			//console.log( `child process exited with code ${ nCode } and signal ${ sSignal }` );
+			console.log( `$$$ MINER SPAWN EVENT : child exited with code ${ nCode } and signal ${ sSignal }` );
 			checkWorkers( oOptions, pfnCallback );
 		});
 	}
