@@ -336,17 +336,42 @@ function spawnWorker( oOptions, pfnCallback )
 		});
 		hHandle.on( 'disconnect', () =>
 		{
+			//
+			//	The 'disconnect' event is emitted after calling the
+			// 	subprocess.disconnect() method in parent process or process.disconnect() in child process.
+			// 	After disconnecting it is no longer possible to send or receive messages,
+			// 	and the subprocess.connected property is false.
+			//
 			console.log(`$$$ MINER SPAWN EVENT : child disconnect:\n`);
 		});
 		hHandle.on( 'close', function( nCode, sSignal )
 		{
+			//
+			//	The 'close' event is emitted when the stdio streams of a child process have been closed.
+			// 	This is distinct from the 'exit' event,
+			// 	since multiple processes might share the same stdio streams.
+			//
 			console.log( `$$$ MINER SPAWN EVENT : child closed with code ${ nCode } and signal ${ sSignal }` );
-			checkWorkers( oOptions, pfnCallback );
 		});
 		hHandle.on( 'exit', function( nCode, sSignal )
 		{
+			//
+			//	The 'exit' event is emitted after the child process ends.
+			// 	If the process exited, code is the final exit code of the process, otherwise null.
+			// 	If the process terminated due to receipt of a signal,
+			// 	signal is the string name of the signal, otherwise null.
+			// 	One of the two will always be non-null.
+			//
 			console.log( `$$$ MINER SPAWN EVENT : child exited with code ${ nCode } and signal ${ sSignal }` );
-			checkWorkers( oOptions, pfnCallback );
+			if ( null === nCode &&
+				'string' === typeof sSignal && 'SIGKILL' === sSignal.toUpperCase() )
+			{
+				console.log( `$$$ MINER SPAWN EVENT : child(pid:${ hHandle.pid }) was killed.` );
+			}
+			else
+			{
+				checkWorkers( oOptions, pfnCallback );
+			}
 		});
 	}
 
