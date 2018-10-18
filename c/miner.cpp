@@ -41,10 +41,18 @@ int test_checkProofOfWork()
 	memset( szHexHash, 0, sizeof( szHexHash ) );
 	memcpy( szHexHash, "00198bb0606e5a8b5d47577bc96de488116af886815f4dccc5ad1ebd78d1b14e", 64 );
 
-	int nCheck	= checkProofOfWork( utInputHeader, uDifficulty, uNonce, szHexHash );
-	printf( "test_checkProofOfWork : %u \n", nCheck );
+	int nCheck1	= checkProofOfWork( NULL, uDifficulty, uNonce, szHexHash );
+	printf( "test_checkProofOfWork 1 : %d \n\n\n", nCheck1 );
 
-	return nCheck;
+	int nCheck2	= checkProofOfWork( utInputHeader, uDifficulty, uNonce, NULL );
+	printf( "test_checkProofOfWork 2 : %d \n\n\n", nCheck2 );
+
+	int nCheck3	= checkProofOfWork( utInputHeader, uDifficulty, uNonce, szHexHash );
+	printf( "test_checkProofOfWork 3 : %d \n\n\n", nCheck3 );
+
+	printf( "\n\n\n\n" );
+
+	return 0;
 }
 
 
@@ -278,16 +286,22 @@ EXPORT_API int checkProofOfWork(
 
 	if ( NULL == pcutInputHeader )
 	{
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: p01 invalid pcutInputHeader\n" );
+		#endif
 		return -1000;
 	}
 	if ( NULL == pcszHashHex )
 	{
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: p02 invalid pcszHashHex\n" );
+		#endif
 		return -1001;
 	}
 	if ( strlen( pcszHashHex ) < 64 )
 	{
 		#ifdef _DEBUG
-			printf( "checkProofOfWork :: pcszHashHex : %s, length : %zu\n", pcszHashHex, strlen( pcszHashHex ) );
+			printf( "checkProofOfWork :: p03 pcszHashHex : %s, length : %zu\n", pcszHashHex, strlen( pcszHashHex ) );
 		#endif
 		return -1002;
 	}
@@ -298,16 +312,38 @@ EXPORT_API int checkProofOfWork(
 	//	...
 	nRet = -1;
 
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 001 will allocate memory\n" );
+	#endif
+
 	//	...
 	void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 002 pvContextAlloc was malloced.\n" );
+	#endif
+
 	void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 003 pvContext was set.\n" );
+	#endif
+
 	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 004 memory allocated successfully\n" );
+	#endif
 
 	//
 	//	calculate ...
 	//
 	EhPrepare( pvContext, (void *)pcutInputHeader );
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 030 EhPrepare done.\n" );
+	#endif
+
 	int32_t nSolutionCount = EhSolver( pvContext, uNonce );
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 031 EhSolver returned with : %d solutions\n", nSolutionCount );
+	#endif
 
 	for ( int n = 0; n < nSolutionCount; n ++ )
 	{
@@ -315,15 +351,34 @@ EXPORT_API int checkProofOfWork(
 		//	blake2b	512/256
 		//	blake2s	256/128
 		//
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 050 will make blake2b\n" );
+		#endif
 		blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof( utOutContext ), 1344, 0 );
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 051 will convert blake2b buffer to hex string\n" );
+		#endif
 		bytesToHexString( utOutContext, 32, szHashHex );
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 052 blake2b buffer was converted to hex string\n" );
+		#endif
 
+
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 100 will compare two hash hex strings.\n" );
+		#endif
 		if ( 0 == strncasecmp( szHashHex, pcszHashHex, 64 ) )
 		{
 			//
 			//	hex value matched
 			//
+			#ifdef _DEBUG
+				printf( "checkProofOfWork :: 101 will filter difficulty value.\n" );
+			#endif
 			int nCheck = filterDifficulty( uDifficulty, szHashHex );
+			#ifdef _DEBUG
+				printf( "checkProofOfWork :: 102 @@@@@@ difficulty value filter result : %d.\n", nCheck );
+			#endif
 			if ( 0 == nCheck )
 			{
 				//
@@ -336,8 +391,15 @@ EXPORT_API int checkProofOfWork(
 	}
 
 	//	...
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 150 will free pvContextAlloc.\n" );
+	#endif
 	free( pvContextAlloc );
 	pvContextAlloc = NULL;
+
+	#ifdef _DEBUG
+		printf( "checkProofOfWork :: 150 was pvContextAlloc freed.\n" );
+	#endif
 
 	return nRet;
 }
