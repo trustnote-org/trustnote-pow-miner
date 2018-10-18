@@ -312,94 +312,105 @@ EXPORT_API int checkProofOfWork(
 	//	...
 	nRet = -1;
 
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 001 will allocate memory\n" );
-	#endif
-
-	//	...
-	void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 002 pvContextAlloc was malloced.\n" );
-	#endif
-
-	void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 003 pvContext was set.\n" );
-	#endif
-
-	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 004 memory allocated successfully\n" );
-	#endif
-
-	//
-	//	calculate ...
-	//
-	EhPrepare( pvContext, (void *)pcutInputHeader );
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 030 EhPrepare done.\n" );
-	#endif
-
-	int32_t nSolutionCount = EhSolver( pvContext, uNonce );
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 031 EhSolver returned with : %d solutions\n", nSolutionCount );
-	#endif
-
-	for ( int n = 0; n < nSolutionCount; n ++ )
+	try
 	{
-		//
-		//	blake2b	512/256
-		//	blake2s	256/128
-		//
 		#ifdef _DEBUG
-			printf( "checkProofOfWork :: 050 will make blake2b\n" );
-		#endif
-		blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof( utOutContext ), 1344, 0 );
-		#ifdef _DEBUG
-			printf( "checkProofOfWork :: 051 will convert blake2b buffer to hex string\n" );
-		#endif
-		bytesToHexString( utOutContext, 32, szHashHex );
-		#ifdef _DEBUG
-			printf( "checkProofOfWork :: 052 blake2b buffer was converted to hex string\n" );
+			printf( "checkProofOfWork :: 001 will allocate memory\n" );
 		#endif
 
-
+		//	...
+		void * pvContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
 		#ifdef _DEBUG
-			printf( "checkProofOfWork :: 100 will compare two hash hex strings.\n" );
+			printf( "checkProofOfWork :: 002 pvContextAlloc was malloced.\n" );
 		#endif
-		if ( 0 == strncasecmp( szHashHex, pcszHashHex, 64 ) )
+
+		void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 003 pvContext was set.\n" );
+		#endif
+
+		void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 004 memory allocated successfully\n" );
+		#endif
+
+		//
+		//	calculate ...
+		//
+		EhPrepare( pvContext, (void *)pcutInputHeader );
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 030 EhPrepare done.\n" );
+		#endif
+
+		int32_t nSolutionCount = EhSolver( pvContext, uNonce );
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 031 EhSolver returned with : %d solutions\n", nSolutionCount );
+		#endif
+
+		for ( int n = 0; n < nSolutionCount; n ++ )
 		{
 			//
-			//	hex value matched
+			//	blake2b	512/256
+			//	blake2s	256/128
 			//
 			#ifdef _DEBUG
-				printf( "checkProofOfWork :: 101 will filter difficulty value.\n" );
+				printf( "checkProofOfWork :: 050 will make blake2b\n" );
 			#endif
-			int nCheck = filterDifficulty( uDifficulty, szHashHex );
+			blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof( utOutContext ), 1344, 0 );
 			#ifdef _DEBUG
-				printf( "checkProofOfWork :: 102 @@@@@@ difficulty value filter result : %d.\n", nCheck );
+				printf( "checkProofOfWork :: 051 will convert blake2b buffer to hex string\n" );
 			#endif
-			if ( 0 == nCheck )
+			bytesToHexString( utOutContext, 32, szHashHex );
+			#ifdef _DEBUG
+				printf( "checkProofOfWork :: 052 blake2b buffer was converted to hex string\n" );
+			#endif
+
+			#ifdef _DEBUG
+				printf( "checkProofOfWork :: 100 will compare two hash hex strings.\n" );
+			#endif
+			if ( 0 == strncasecmp( szHashHex, pcszHashHex, 64 ) )
 			{
 				//
-				//	difficulty filtered as okay
+				//	hex value matched
 				//
-				nRet = 0;
-				break;
+				#ifdef _DEBUG
+					printf( "checkProofOfWork :: 101 will filter difficulty value.\n" );
+				#endif
+				int nCheck = filterDifficulty( uDifficulty, szHashHex );
+
+				#ifdef _DEBUG
+					printf( "checkProofOfWork :: 102 @@@@@@ difficulty value filter result : %d.\n", nCheck );
+				#endif
+				if ( 0 == nCheck )
+				{
+					//
+					//	difficulty filtered as okay
+					//
+					nRet = 0;
+					break;
+				}
 			}
 		}
+
+		//	...
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 150 will free pvContextAlloc.\n" );
+		#endif
+
+		free( pvContextAlloc );
+		pvContextAlloc = NULL;
+
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: 150 was pvContextAlloc freed.\n" );
+		#endif
 	}
-
-	//	...
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 150 will free pvContextAlloc.\n" );
-	#endif
-	free( pvContextAlloc );
-	pvContextAlloc = NULL;
-
-	#ifdef _DEBUG
-		printf( "checkProofOfWork :: 150 was pvContextAlloc freed.\n" );
-	#endif
+	catch ( char * pcszError )
+	{
+		#ifdef _DEBUG
+			printf( "checkProofOfWork :: occurred an exception : %s.\n", pcszError );
+		#endif
+		nRet = -2;
+	}
 
 	return nRet;
 }
