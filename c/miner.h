@@ -46,7 +46,7 @@ extern "C" {
  *	start mining
  *
  *	@param	{uint8_t*}	pcutInputHeader
- *	@param	{uint32_t}	uDifficulty
+ *	@param	{uint32_t}	uBits
  *	@param	{uint32_t}	uNonceStart
  *	@param	{uint32_t}	uCalcTimes
  *	@param	{uint32_t *}	OUT puNonce
@@ -56,7 +56,7 @@ extern "C" {
  */
 EXPORT_API int startMining(
 	const uint8_t * pcutInputHeader,
-	const uint32_t uDifficulty,
+	const uint32_t uBits,
 	const uint32_t uNonceStart,
 	const uint32_t uCalcTimes,
 	OUT uint32_t * puNonce,
@@ -75,7 +75,7 @@ EXPORT_API int stopMining();
  *	check proof of work
  *
  *	@param	{uint8_t *}	pcutInputHeader
- *	@param	{uint32_t}	uDifficulty
+ *	@param	{uint32_t}	uBits
  *	@param	{uint32_t}	uNonce
  *	@param	{const char *}	pcszHashHex
  *	@return	{int}
@@ -83,7 +83,7 @@ EXPORT_API int stopMining();
  */
 EXPORT_API int checkProofOfWork(
 	const uint8_t * pcutInputHeader,
-	const uint32_t uDifficulty,
+	const uint32_t uBits,
 	const uint32_t uNonce,
 	const char * pcszHashHex );
 
@@ -94,34 +94,34 @@ EXPORT_API int checkProofOfWork(
  *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
  *	@return	{uint32_t}
  */
-EXPORT_API uint32_t difficulty256HexToUInt32( const char * pcszDifficultyHex );
+EXPORT_API uint32_t target256HexToBits32( const char * pcszDifficultyHex );
 
 
 
 /**
  *	filter difficulty
  *
- *	@param	{uint32_t}	uDifficulty
+ *	@param	{uint32_t}	uBits
  *	@param	{const char *}	pcszHashHex
  *	@return	{int}
  *		0	- matched
  */
 EXPORT_API int filterDifficulty(
-	const uint32_t uDifficulty,
+	const uint32_t uBits,
 	const char * pcszHashHex );
 
 
 
 /**
- *	calculate next difficulty
+ *	calculate next work required target in format bits
  *
- *	@param	{uint32_t}	uPreviousDifficulty
+ *	@param	{uint32_t}	uPreviousBits
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
  *	@return	{uint32_t}
  */
-EXPORT_API uint32_t calculateNextDifficulty(
-	const uint32_t uPreviousDifficulty,
+EXPORT_API uint32_t calculateNextWorkRequired(
+	const uint32_t uPreviousBits,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard );
 

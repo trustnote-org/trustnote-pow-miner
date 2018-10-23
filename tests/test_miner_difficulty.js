@@ -4,7 +4,7 @@ process.env.ENV_TRUST_MINER_DEBUG = true;
 const _miner	= require( '../js/index.js' );
 
 
-let nDifficulty = _miner.difficulty256HexToUInt32( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nDifficulty = _miner.target256HexToBits32( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 console.log( `nDifficulty value : ${ nDifficulty }` );
 
 
@@ -12,19 +12,19 @@ console.log( `nDifficulty value : ${ nDifficulty }` );
 //
 //	calculate next bits
 //
-let nAverageDifficulty	= nDifficulty;
+let nAverageBits	= nDifficulty;
 let nTimeUsed		= 1000;
 let nTimeStandard	= 2400;
-_miner.calculateNextDifficulty
+_miner.calculateNextWorkRequired
 (
-	nAverageDifficulty,
+	nAverageBits,
 	nTimeUsed,
 	nTimeStandard,
 	function( err, oData )
 	{
 		//
 		//	oData
-		//	{ bits : uNextDifficulty }
+		//	{ bits : uNextBits }
 		//
 		if ( err )
 		{
@@ -38,16 +38,16 @@ _miner.calculateNextDifficulty
 				'number' === typeof oData.bits &&
 				oData.bits > 0 )
 			{
-				console.log( `new bits value after ${ nAverageDifficulty } is : ${ oData.bits }` );
+				console.log( `new bits value after ${ nAverageBits } is : ${ oData.bits }` );
 			}
 			else
 			{
-				console.log( `calculateNextDifficulty callback :: invalid value .bits` );
+				console.log( `calculateNextWorkRequired callback :: invalid value .bits` );
 			}
 		}
 		else
 		{
-			console.log( `calculateNextDifficulty callback :: invalid oData object` );
+			console.log( `calculateNextWorkRequired callback :: invalid oData object` );
 		}
 	}
 );

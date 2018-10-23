@@ -30,7 +30,7 @@ class CTrustMinerLibrary
 	 *	start mining
 	 *
 	 *	@param	{Buffer}	bufInputHeader
-	 *	@param	{number}	uDifficulty
+	 *	@param	{number}	uBits
 	 *	@param	{number}	uNonceStart
 	 *	@param	{number}	uCalcTimes
 	 *	@param	{function}	pfnCallback( err, { hashHex : '', nonce : 0 } )
@@ -42,7 +42,7 @@ class CTrustMinerLibrary
 	 *	int startMining
 	 *	(
 	 *		uint8_t * pcutInputHeader,
-	 *		uint32_t uDifficulty,
+	 *		uint32_t uBits,
 	 *		uint32_t uNonceStart,
 	 *		uint32_t uCalcTimes,
 	 *		OUT uint32_t * puNonce,
@@ -50,7 +50,7 @@ class CTrustMinerLibrary
 	 *		uint32_t uHashHexLength
 	 *	)
 	 */
-	startMining( bufInputHeader, uDifficulty, uNonceStart, uCalcTimes, pfnCallback )
+	startMining( bufInputHeader, uBits, uNonceStart, uCalcTimes, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
@@ -64,9 +64,9 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( `call startMining with invalid length(${ bufInputHeader.length }) of bufInputHeader.` );
 		}
-		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
+		if ( 'number' !== typeof uBits || uBits <= 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uDifficulty.' );
+			return pfnCallback( 'call startMining with invalid uBits.' );
 		}
 		if ( 'number' !== typeof uNonceStart || uNonceStart <= 0 )
 		{
@@ -85,7 +85,7 @@ class CTrustMinerLibrary
 		let nCallStartMining		= _objMinerLibrary.startMining
 			(
 				bufInputHeader,
-				uDifficulty,
+				uBits,
 				uNonceStart,
 				uCalcTimes,
 				uOutMemNonce,
@@ -109,7 +109,7 @@ class CTrustMinerLibrary
 	 *	check proof of work
 	 *
 	 *	@param	{Buffer}	bufInputHeader
-	 *	@param	{number}	uDifficulty
+	 *	@param	{number}	uBits
 	 *	@param	{number}	uActualNonce
 	 *	@param	{string}	sActualHashHex
 	 *	@param	{function}	pfnCallback( err, { code : 0 } )
@@ -121,7 +121,7 @@ class CTrustMinerLibrary
 	 *	int checkProofOfWork
 	 *	(
 	 *		uint8_t * pcutInputHeader,
-	 *		uint32_t uDifficulty,
+	 *		uint32_t uBits,
 	 *		uint32_t uNonce,
 	 *		const char * pcszHashHex
 	 *	)
@@ -130,7 +130,7 @@ class CTrustMinerLibrary
 	 * 		code:
 	 *		0	successfully
 	 */
-	checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
+	checkProofOfWork( bufInputHeader, uBits, uActualNonce, sActualHashHex, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
@@ -140,9 +140,9 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'call checkProofOfWork with invalid bufInputHeader.' );
 		}
-		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
+		if ( 'number' !== typeof uBits || uBits <= 0 )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid uDifficulty.' );
+			return pfnCallback( 'call checkProofOfWork with invalid uBits.' );
 		}
 		if ( 'number' !== typeof uActualNonce || uActualNonce <= 0 )
 		{
@@ -150,7 +150,7 @@ class CTrustMinerLibrary
 		}
 
 		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
-		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
+		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uBits, uActualNonce, bufActualHashHex );
 
 		if ( 0 === nCallCheckProofOfWork )
 		{
@@ -166,7 +166,7 @@ class CTrustMinerLibrary
 	/**
 	 *	calculate next cycle bits
 	 *
-	 *	@param	{number}	uPreviousDifficulty
+	 *	@param	{number}	uPreviousBits
 	 *	@param	{number}	uTimeUsed
 	 *	@param	{number}	uTimeStandard
 	 *	@param	{function}	pfnCallback( err, { bits : 0 } )
@@ -175,35 +175,35 @@ class CTrustMinerLibrary
 	 *	@description
 	 *
 	 * 	in c++ :
-	 *	uint32_t calculateNextDifficulty
+	 *	uint32_t calculateNextWorkRequired
 	 *		(
-	 *			uint32_t uPreviousDifficulty,
+	 *			uint32_t uPreviousBits,
 	 *			uint32_t uTimeUsed,
 	 *			uint32_t uTimeStandard
 	 *		);
 	 */
-	calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard, pfnCallback )
+	calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
-		if ( 'number' !== typeof uPreviousDifficulty || uPreviousDifficulty <= 0 )
+		if ( 'number' !== typeof uPreviousBits || uPreviousBits <= 0 )
 		{
-			return pfnCallback( 'call calculateNextDifficulty with invalid uPreviousDifficulty.' );
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uPreviousBits.' );
 		}
 		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
 		{
-			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeUsed.' );
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeUsed.' );
 		}
 		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
 		{
-			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeStandard.' );
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeStandard.' );
 		}
 
-		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
+		let uNextBits	= _objMinerLibrary.calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard );
 
-		return pfnCallback( null, { bits : uNextDifficulty } );
+		return pfnCallback( null, { bits : uNextBits } );
 	}
 
 	/**
@@ -211,13 +211,13 @@ class CTrustMinerLibrary
 	 *	@param	{string}	sDifficulty256Hex	hex string with length of 64
 	 *	@returns {number}
 	 */
-	difficulty256HexToUInt32( sDifficulty256Hex )
+	target256HexToBits32( sDifficulty256Hex )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return 0;
 		}
-		return _objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
+		return _objMinerLibrary.target256HexToBits32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
 	}
 
 	/**
@@ -307,12 +307,12 @@ class CTrustMinerLibrary
 							'int',
 							[ 'pointer', 'uint', 'uint', 'pointer' ]
 						],
-					'calculateNextDifficulty' :
+					'calculateNextWorkRequired' :
 						[
 							'uint',
 							[ 'uint', 'uint', 'uint' ]
 						],
-					'difficulty256HexToUInt32' :
+					'target256HexToBits32' :
 						[
 							'uint',
 							[ 'pointer' ]

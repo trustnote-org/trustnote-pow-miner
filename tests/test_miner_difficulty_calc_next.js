@@ -86,19 +86,19 @@ _async.series
 //
 //	calculate next bits
 //
-function calculateNext( nAverageDifficulty, nTimeUsed, pfnCallback )
+function calculateNext( nAverageBits, nTimeUsed, pfnCallback )
 {
 	let nTimeStandard	= 2400;
-	_miner.calculateNextDifficulty
+	_miner.calculateNextWorkRequired
 	(
-		nAverageDifficulty,
+		nAverageBits,
 		nTimeUsed,
 		nTimeStandard,
 		function( err, oData )
 		{
 			//
 			//	oData
-			//	{ bits : uNextDifficulty }
+			//	{ bits : uNextBits }
 			//
 			if ( err )
 			{
@@ -116,12 +116,12 @@ function calculateNext( nAverageDifficulty, nTimeUsed, pfnCallback )
 				}
 				else
 				{
-					pfnCallback( `calculateNextDifficulty callback :: invalid value .bits` );
+					pfnCallback( `calculateNextWorkRequired callback :: invalid value .bits` );
 				}
 			}
 			else
 			{
-				pfnCallback( `calculateNextDifficulty callback :: invalid oData object` );
+				pfnCallback( `calculateNextWorkRequired callback :: invalid oData object` );
 			}
 		}
 	);

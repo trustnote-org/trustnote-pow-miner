@@ -40,7 +40,7 @@ const _miner	= require( 'trustnote-pow-miner' );
  *	
  */
 let bufInput	= new Buffer( 140 );
-let nDifficulty	= _miner.difficulty256HexToUInt32( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nDifficulty	= _miner.target256HexToBits32( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 let oOptions	=
 	{
 		bufInputHeader	: bufInput,
@@ -97,7 +97,7 @@ console.log( `The KILL signals were sent to all workers.` );
 <br />
 
 
-### .checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
+### .checkProofOfWork( bufInputHeader, uBits, uActualNonce, sActualHashHex, pfnCallback )
 check proof of work
 
 
@@ -112,6 +112,6 @@ check proof of work
 const _miner	= require( 'trustnote-pow-miner' );
 
 
-checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
+checkProofOfWork( bufInputHeader, uBits, uActualNonce, sActualHashHex, pfnCallback )
 
 ```
