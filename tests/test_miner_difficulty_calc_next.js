@@ -84,7 +84,7 @@ _async.series
 
 
 //
-//	calculate next difficulty
+//	calculate next bits
 //
 function calculateNext( nAverageDifficulty, nTimeUsed, pfnCallback )
 {
@@ -98,7 +98,7 @@ function calculateNext( nAverageDifficulty, nTimeUsed, pfnCallback )
 		{
 			//
 			//	oData
-			//	{ difficulty : uNextDifficulty }
+			//	{ bits : uNextDifficulty }
 			//
 			if ( err )
 			{
@@ -108,15 +108,15 @@ function calculateNext( nAverageDifficulty, nTimeUsed, pfnCallback )
 			if ( oData &&
 				'object' === typeof oData )
 			{
-				if ( oData.hasOwnProperty( 'difficulty' ) &&
-					'number' === typeof oData.difficulty &&
-					oData.difficulty > 0 )
+				if ( oData.hasOwnProperty( 'bits' ) &&
+					'number' === typeof oData.bits &&
+					oData.bits > 0 )
 				{
-					pfnCallback( null, oData.difficulty );
+					pfnCallback( null, oData.bits );
 				}
 				else
 				{
-					pfnCallback( `calculateNextDifficulty callback :: invalid value .difficulty` );
+					pfnCallback( `calculateNextDifficulty callback :: invalid value .bits` );
 				}
 			}
 			else

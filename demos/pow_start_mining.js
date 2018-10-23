@@ -7,7 +7,7 @@ let nDifficulty		= _trustnote_pow_miner.difficulty256HexToUInt32( "00fffffffffff
 let oMiningInput	= {
 	roundIndex		: 111,
 	firstTrustMEBall	: 'rjywtuZ8A70vgIsZ7L4lBR3gz62Nl3vZr2t7I4lzsMU=',
-	difficulty		: nDifficulty,
+	bits			: nDifficulty,
 	publicSeed		: 'public key',
 	superNodeAuthor		: 'xing.supernode.trustnote.org',
 };

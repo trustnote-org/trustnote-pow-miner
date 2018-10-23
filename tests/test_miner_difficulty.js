@@ -10,7 +10,7 @@ console.log( `nDifficulty value : ${ nDifficulty }` );
 
 
 //
-//	calculate next difficulty
+//	calculate next bits
 //
 let nAverageDifficulty	= nDifficulty;
 let nTimeUsed		= 1000;
@@ -24,7 +24,7 @@ _miner.calculateNextDifficulty
 	{
 		//
 		//	oData
-		//	{ difficulty : uNextDifficulty }
+		//	{ bits : uNextDifficulty }
 		//
 		if ( err )
 		{
@@ -34,15 +34,15 @@ _miner.calculateNextDifficulty
 		if ( oData &&
 			'object' === typeof oData )
 		{
-			if ( oData.hasOwnProperty( 'difficulty' ) &&
-				'number' === typeof oData.difficulty &&
-				oData.difficulty > 0 )
+			if ( oData.hasOwnProperty( 'bits' ) &&
+				'number' === typeof oData.bits &&
+				oData.bits > 0 )
 			{
-				console.log( `new difficulty value after ${ nAverageDifficulty } is : ${ oData.difficulty }` );
+				console.log( `new bits value after ${ nAverageDifficulty } is : ${ oData.bits }` );
 			}
 			else
 			{
-				console.log( `calculateNextDifficulty callback :: invalid value .difficulty` );
+				console.log( `calculateNextDifficulty callback :: invalid value .bits` );
 			}
 		}
 		else

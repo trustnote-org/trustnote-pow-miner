@@ -164,12 +164,12 @@ class CTrustMinerLibrary
 
 
 	/**
-	 *	calculate next cycle difficulty
+	 *	calculate next cycle bits
 	 *
 	 *	@param	{number}	uPreviousDifficulty
 	 *	@param	{number}	uTimeUsed
 	 *	@param	{number}	uTimeStandard
-	 *	@param	{function}	pfnCallback( err, { difficulty : 0 } )
+	 *	@param	{function}	pfnCallback( err, { bits : 0 } )
 	 *	@return	{*}
 	 *
 	 *	@description
@@ -203,7 +203,7 @@ class CTrustMinerLibrary
 
 		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
 
-		return pfnCallback( null, { difficulty : uNextDifficulty } );
+		return pfnCallback( null, { bits : uNextDifficulty } );
 	}
 
 	/**

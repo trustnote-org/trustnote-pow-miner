@@ -21,7 +21,7 @@ start mining
 | name | type | optional | comment |
 |--- | --- | --- | --- |
 | .bufInputHeader | Buffer | no | 140 bytes Buffer object |
-| .difficulty | Number | no | number |
+| .bits | Number | no | number |
 | .calcTimes | Number | yes | default value : 30, compute times per loop |
 | .maxLoop | Number | yes | default value : 10000000, max loop |
 
@@ -44,7 +44,7 @@ let nDifficulty	= _miner.difficulty256HexToUInt32( "0000ffffffffffffffffffffffff
 let oOptions	=
 	{
 		bufInputHeader	: bufInput,
-		difficulty	: nDifficulty,
+		bits	: nDifficulty,
 		calcTimes	: 30,
 		maxLoop		: 1000000,
 	};

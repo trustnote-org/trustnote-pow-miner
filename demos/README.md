@@ -22,7 +22,7 @@ $ node pow_stop_mining.js
 
 
 
-#### difficulty
+#### bits
 convert difficult from 256 hex string to uint32
 ```
 $ node pow_difficulty.js

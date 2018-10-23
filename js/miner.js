@@ -191,7 +191,7 @@ function isWorkerExists( nPId )
  *	@param	{string}	oOptions.bufInputHeader		hex string with length of 280 bytes
  *	@param	{number}	oOptions.calcTimes
  *	@param	{number}	oOptions.maxLoop
- *	@param	{number}	oOptions.difficulty
+ *	@param	{number}	oOptions.bits
  *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
  *				TIME IS OVER
  *					( null, { gameOver : true, hashHex : null, nonce : 0 } );
@@ -449,7 +449,7 @@ function saveMasterPId()
  *
  *	@param	{object}	oOptions
  *	@param	{Buffer}	oOptions.bufInputHeader		with length 140 bytes
- *	@param	{number}	oOptions.difficulty		difficulty value
+ *	@param	{number}	oOptions.bits			bits value
  *	@param	{number}	oOptions.calcTimes		calculate times per loop
  *	@param	{number}	oOptions.maxLoop		max loop
  *	@param	{number}	oOptions.maxWorkerCount		max worker count
@@ -469,9 +469,9 @@ function start( oOptions, pfnCallback )
 	{
 		return pfnCallback( `invalid oOptions.bufInputHeader, must be a Buffer with length of 140 bytes.` );
 	}
-	if ( 'number' !== typeof oOptions.difficulty )
+	if ( 'number' !== typeof oOptions.bits )
 	{
-		return pfnCallback( `invalid oOptions.difficulty, must be a number.` );
+		return pfnCallback( `invalid oOptions.bits, must be a number.` );
 	}
 
 	let oOptionsCp		= Object.assign

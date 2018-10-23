@@ -44,7 +44,7 @@ class CTrustMinerFactory
 	 *
 	 *	@param	{object}	oOptions
 	 *	@param	{Buffer}	oOptions.bufInputHeader		with length 140 bytes
-	 *	@param	{number}	oOptions.difficulty
+	 *	@param	{number}	oOptions.bits
 	 *	@param	{function}	pfnCallback( err, { win : true, hashHex : sActualHashHex, nonce : uActualNonce } )
 	 */
 	launch( oOptions, pfnCallback )
@@ -61,9 +61,9 @@ class CTrustMinerFactory
 		{
 			return pfnCallback( `invalid oOptions.bufInputHeader, must be a Buffer with length of 140 bytes.` );
 		}
-		if ( 'number' !== typeof oOptions.difficulty )
+		if ( 'number' !== typeof oOptions.bits )
 		{
-			return pfnCallback( `invalid oOptions.difficulty, must be a number.` );
+			return pfnCallback( `invalid oOptions.bits, must be a number.` );
 		}
 
 		let oOptionsCp		= Object.assign
@@ -355,7 +355,7 @@ class CTrustMinerFactory
 	 *	@param	{string}	oOptions.bufInputHeader		hex string with length of 280 bytes
 	 *	@param	{number}	oOptions.calcTimes
 	 *	@param	{number}	oOptions.maxLoop
-	 *	@param	{number}	oOptions.difficulty
+	 *	@param	{number}	oOptions.bits
 	 *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
 	 *				TIME IS OVER
 	 *					( null, { gameOver : true, hashHex : null, nonce : 0 } );

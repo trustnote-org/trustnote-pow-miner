@@ -13,7 +13,7 @@ inline float fast_log(float val)
 	return ((val + log_2) * 0.69314718f);
 }
 
-float difficulty(unsigned int bits)
+float bits(unsigned int bits)
 {
 	static double max_body	= fast_log( 0x00ffff );
 	static double scaland	= fast_log( 256 );
@@ -23,7 +23,7 @@ float difficulty(unsigned int bits)
 
 int main()
 {
-	std::cout << difficulty(0x1b0404cb) << std::endl;
+	std::cout << bits(0x1b0404cb) << std::endl;
 	return 0;
 }
 
