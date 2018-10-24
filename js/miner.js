@@ -14,8 +14,9 @@ const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
 const CPU_LIST			= _os.cpus();
 const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
-const DEFAULT_CALC_TIMES	= 30;		//	default calculate time per loop
-const DEFAULT_MAX_LOOP		= 10000000;
+const MAX_UINT32_VALUE		= 4294967295 - 5;	//	max value of unsigned int(4 bytes)
+const DEFAULT_CALC_TIMES	= 30;			//	default calculate time per loop
+const DEFAULT_MAX_LOOP		= parseInt( ( MAX_UINT32_VALUE - DEFAULT_CALC_TIMES ) / DEFAULT_CALC_TIMES );
 const DEFAULT_MAX_WORKER_COUNT	= _getDefaultMaxWorkerCount();
 
 
