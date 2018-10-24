@@ -156,7 +156,7 @@ function waitForWinnerWorkerDone( pfnCallback )
 		setTimeout( () =>
 		{
 			waitForWinnerWorkerDone( pfnCallback );
-		}, 500 );
+		}, 100 );
 	}
 	else
 	{
@@ -503,7 +503,9 @@ function start( oOptions, pfnCallback )
 		_arrAllResults.push( { err : err, result : oResult } );
 	});
 
-	//	...
+	//
+	//	waiting for all worker done or winner worker done
+	//
 	waitForWinnerWorkerDone( err =>
 	{
 		let oResult;
@@ -513,6 +515,9 @@ function start( oOptions, pfnCallback )
 		//	...
 		oResult	= null;
 
+		//
+		//	check if we mined successfully ?
+		//
 		for ( i = 0; i < _arrAllResults.length; i ++ )
 		{
 			oItem	= _arrAllResults[ i ];
@@ -523,10 +528,13 @@ function start( oOptions, pfnCallback )
 				break;
 			}
 		}
+
+		//
+		//	check if the game is over while we are failed to mine ?
+		//	that means all nonce were tested as failing
+		//
 		if ( null === oResult )
 		{
-			//
-			//	detect if the game is over?
 			//
 			//	{ gameOver : true, hashHex : null, nonce : 0 }
 			//
