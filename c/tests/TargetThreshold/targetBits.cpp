@@ -44,7 +44,7 @@ void test_bitsToTarget()
 {
 	uint32_t uBitsDec		= 528482303;	//	in decimal
 	uint32_t uBitsHex		= 0x1F7FFFFF;	//	in hexadecimal
-	const char * pszTarget[]	= { "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" };
+	//const char * pszTarget[]	= { "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" };
 
 	//
 	//	the first 1 byte means
@@ -58,17 +58,20 @@ void test_bitsToTarget()
 		//
 		uint32_t uLeadZeroCount		= 32 - uExponent;
 
+		//
 		//	the initial 3 bytes of the target
+		//
 		uint32_t uCoefficient		= ( uBitsHex << 8 ) >> 8;
 
 		//	...
 		printf( "uBitsHex\t: 0x%08X\n", uBitsHex );
 		printf( "uExponent\t: 0x%08X\n", uExponent );
+		printf( "uLeadZeroCount\t: 0x%08X\n", uLeadZeroCount );
 		printf( "uCoefficient\t: 0x%08X\n", uCoefficient );
 	}
 	else
 	{
-		printf( "uExponent must great then 32" );
+		printf( "uExponent must less then or equal to 32\n" );
 	}
 }
 
