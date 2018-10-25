@@ -24,7 +24,7 @@
 #endif
 
 
-void test_bitsToTarget();
+void bits32ToTarget256Hex();
 
 
 
@@ -32,7 +32,7 @@ void test_bitsToTarget();
 
 int main()
 {
-	test_bitsToTarget();
+	bits32ToTarget256Hex();
 
 	//	...
 	return 0;
@@ -40,11 +40,12 @@ int main()
 
 
 
-void test_bitsToTarget()
+void bits32ToTarget256Hex()
 {
-	uint32_t uBitsDec		= 528482303;	//	in decimal
-	uint32_t uBitsHex		= 0x1F7FFFFF;	//	in hexadecimal
+	//uint32_t uBitsDec		= 528482303;	//	in decimal
 	//const char * pszTarget[]	= { "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" };
+	uint32_t uBitsHex		= 0x1c035db8;	//0x1F7FFFFF;	//	in hexadecimal
+	char szTarget[ 66 ];
 
 	//
 	//	the first 1 byte means
@@ -64,15 +65,28 @@ void test_bitsToTarget()
 		uint32_t uCoefficient		= ( uBitsHex << 8 ) >> 8;
 
 		//	...
-		printf( "uBitsHex\t\t: 0x%08X\n", uBitsHex );
-		printf( "uExponent\t\t: 0x%08X\n", uExponent );
-		printf( "uCoefficient\t\t: 0x%08X\n", uCoefficient );
-		printf( "uLeadingZeroInBytes\t: 0x%08X\n", uLeadingZeroBytes );
+		printf( "* INPUT\n" );
+		printf( "\tBits value :\n\t0x%08X, %d\n\n", uBitsHex, uBitsHex );
 
-		printf( "Target\t\t\t: 0x%.*X", uLeadingZeroBytes * 2 );
-		printf( "%06X", uCoefficient );
-		printf( "%.*X", ( uBitsHex - 3 ) * 2 );
-		printf( "\n" );
+		printf( "* OUTPUT\n" );
+		printf( "\tExponent :\n\t0x%08X, %d\n\n", uExponent, uExponent );
+		printf( "\tCoefficient :\n\t0x%08X, %d\n\n", uCoefficient, uCoefficient );
+		printf( "\tLeadingZeroInBytes :\n\t0x%08X, %d\n\n", uLeadingZeroBytes, uLeadingZeroBytes );
+
+		memset( szTarget, 0, sizeof( szTarget ) );
+		sprintf( szTarget, "%.*X", uLeadingZeroBytes * 2, 0 );
+		sprintf( szTarget + uLeadingZeroBytes * 2, "%06X", uCoefficient );
+		sprintf( szTarget + uLeadingZeroBytes * 2 + 6, "%*c", ( uExponent - 3 ) * 2, 'F' );
+
+		for ( uint32_t i = 0; i < sizeof( szTarget ) / sizeof( szTarget[ 0 ] ); i ++ )
+		{
+			if ( ' ' == szTarget[ i ] )
+			{
+				szTarget[ i ] = 'F';
+			}
+		}
+
+		printf( "\tTarget :\n\t%s\n\n\n", szTarget );
 	}
 	else
 	{
