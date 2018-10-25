@@ -31,29 +31,7 @@
 #endif
 
 
-int test_checkProofOfWork()
-{
-	uint8_t utInputHeader[ 140 ]	= { 229,130,52,193,179,170,97,242,245,204,126,226,139,52,226,73,215,54,190,179,35,159,207,112,11,194,17,0,146,112,29,22,94,126,70,238,46,127,228,102,205,247,71,67,178,9,152,34,122,245,79,202,84,180,188,222,140,216,50,120,102,215,17,48,252,233,209,133,206,33,66,137,14,93,141,120,186,6,9,38,98,154,121,93,230,229,244,95,14,254,249,184,151,240,132,74,14,2,236,58,130,144,171,51,31,170,90,247,28,222,203,81,136,214,60,140,54,107,213,236,71,121,12,153,166,213,6,47,43,132,202,221,98,255,86,156,194,127,204,240 };
-	uint32_t uBits			= 528482303;
-	uint32_t uNonce			= 65;
-	char szHexHash[ 64 ];
 
-	memset( szHexHash, 0, sizeof( szHexHash ) );
-	memcpy( szHexHash, "00198bb0606e5a8b5d47577bc96de488116af886815f4dccc5ad1ebd78d1b14e", 64 );
-
-	int nCheck1	= checkProofOfWork( NULL, uBits, uNonce, szHexHash );
-	printf( "test_checkProofOfWork 1 : %d \n\n\n", nCheck1 );
-
-	int nCheck2	= checkProofOfWork( utInputHeader, uBits, uNonce, NULL );
-	printf( "test_checkProofOfWork 2 : %d \n\n\n", nCheck2 );
-
-	int nCheck3	= checkProofOfWork( utInputHeader, uBits, uNonce, szHexHash );
-	printf( "test_checkProofOfWork 3 : %d \n\n\n", nCheck3 );
-
-	printf( "\n\n\n\n" );
-
-	return 0;
-}
 
 
 
@@ -62,69 +40,12 @@ int test_checkProofOfWork()
  *
  *	@return	{int}
  */
+#ifndef _TEST
 int main( void )
 {
-	//	test
-	test_checkProofOfWork();
-
-	//	...
-	uint8_t utInputHeader[ 140 ];
-	arith_uint256 bnTarget256Default	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) );
-	arith_uint256 bnTarget256Max		= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_MAX ) );
-	arith_uint256 bnTarget256Min		= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_MIN ) );
-
-	uint32_t uBits			= bnTarget256Default.GetCompact();
-	uint32_t uNonceStart		= 0;
-	uint32_t uCalcTimes		= 30000;
-	uint32_t uNonce;
-	char szHexHash[ 64 ];
-	int nCheckPoW;
-
-	#ifdef _DEBUG
-		printf( "))) : difficulty def : %u\n", bnTarget256Default.GetCompact() );
-		printf( "))) : difficulty max : %u\n", bnTarget256Max.GetCompact() );
-		printf( "))) : difficulty min : %u\n", bnTarget256Min.GetCompact() );
-	#endif
-
-	//	...
-	uint32_t uNewBits1	= calculateNextWorkRequired( 528482303, 3194, 2400 );
-	uNewBits1		= calculateNextWorkRequired( 528482303, 2294, 2400 );
-	uNewBits1		= calculateNextWorkRequired( 528482303, 1194, 2400 );
-	uint32_t uNewBits2	= calculateNextWorkRequired( uBits, 30000, 15000 );
-	uint32_t uNewBits3	= calculateNextWorkRequired( uBits, 10000, 15000 );
-	uint32_t uNewBits4	= calculateNextWorkRequired( uBits, 40000, 15000 );
-	uint32_t uNewBits5	= calculateNextWorkRequired( uBits, 50000, 15000 );
-	uint32_t uNewBits6	= calculateNextWorkRequired( uBits, 60000, 15000 );
-	uint32_t uNewBits7	= calculateNextWorkRequired( uBits, 70000, 15000 );
-	uint32_t uNewBits8	= calculateNextWorkRequired( uBits, 80000, 15000 );
-	uint32_t uNewBits9	= calculateNextWorkRequired( uBits, 90000, 15000 );
-
-	#ifdef _DEBUG
-		printf( "### : will start mining with difficulty : %u\n", uBits );
-	#endif
-
-	//	...
-	memset( utInputHeader, 0, sizeof( utInputHeader ) );
-	for ( int i = 0; i < 140; i ++ )
-	{
-		utInputHeader[ i ] = i;
-	}
-	int nCallStartMining = startMining( utInputHeader, uBits, uNonceStart, uCalcTimes, &uNonce, szHexHash, sizeof( szHexHash ) );
-	#ifdef _DEBUG
-		printf( "### nCallStartMining : %d, nonce : %u\t, hex : %.*s\n", nCallStartMining, uNonce, 64, szHexHash );
-	#endif
-
-	//	...
-	nCheckPoW = checkProofOfWork( utInputHeader, uBits, uNonce, szHexHash );
-	#ifdef _DEBUG
-		printf( "checkProofOfWork return %d : %s\n\n\n\n",
-			nCheckPoW,
-			0 == nCheckPoW ? "Winer Winner Chicken Dinner!" : "Not Okay!" );
-	#endif
-
-	//	...
 	return 0;
 }
+#endif
 
 
 
@@ -156,18 +77,30 @@ EXPORT_API int startMining(
 
 	if ( NULL == pcutInputHeader )
 	{
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: invalid parameter pcutInputHeader, NULL" );
+		#endif
 		return -1000;
 	}
 	if ( NULL == puNonce )
 	{
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: invalid parameter puNonce, NULL" );
+		#endif
 		return -1002;
 	}
 	if ( NULL == pszHashHex )
 	{
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: invalid parameter pszHashHex, NULL" );
+		#endif
 		return -1003;
 	}
 	if ( 64 != uHashHexLength )
 	{
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: invalid parameter uHashHexLength, not 64" );
+		#endif
 		return -1004;
 	}
 
@@ -188,20 +121,20 @@ EXPORT_API int startMining(
 					: ( UINT32_MAX - uNonceStart - 1 );
 	for ( ; uNonce < nNonceEnd; uNonce ++ )
 	{
-		#ifdef _DEBUG
-			printf( "Mining Nonce: %u\n", uNonce );
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: Nonce: %u\n", uNonce );
 		#endif
 		//
 		//	calculate ...
 		//
 		EhPrepare( pvContext, (void *)pcutInputHeader );
-		#ifdef _DEBUG
-			printf( "Mining EhPrepare done\n" );
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: EhPrepare done\n" );
 		#endif
 
 		int32_t nSolutionCount = EhSolver( pvContext, uNonce );
-		#ifdef _DEBUG
-			printf( "Mining EhSolver, nSolutionCount : %d\n", nSolutionCount );
+		#if defined( _DEBUG ) || defined( _TEST )
+			printf( "startMining :: EhSolver, nSolutionCount : %d\n", nSolutionCount );
 		#endif
 		nSolutionCount = std::min( 3, nSolutionCount );
 
@@ -214,16 +147,16 @@ EXPORT_API int startMining(
 			blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof(utOutContext), 1344, 0 );
 			bytesToHexString( utOutContext, 32, szHexHash );
 
-			#ifdef _DEBUG
-				printf( "Nonce: %u\t : %.*s\n", uNonce, 64, szHexHash );
+			#if defined( _DEBUG ) || defined( _TEST )
+				printf( "startMining :: Nonce: %u\t : %.*s\n", uNonce, 64, szHexHash );
 			#endif
 
 			//	filter
 			int nCheck = filterDifficulty( uBits, szHexHash );
 			if ( 0 == nCheck )
 			{
-				#ifdef _DEBUG
-					printf( ">>> Done!\n" );
+				#if defined( _DEBUG ) || defined( _TEST )
+					printf( "startMining :: >>> Done!\n" );
 				#endif
 
 				//	printf( "[%d] - nonce: %d\t buff: %.*s\n", nCheck, uNonce, 64, szHexHash );
@@ -236,7 +169,7 @@ EXPORT_API int startMining(
 			}
 		}
 
-		#ifdef _DEBUG
+		#if defined( _DEBUG ) || defined( _TEST )
 			printf( "\n" );
 		#endif
 
@@ -417,38 +350,6 @@ EXPORT_API int checkProofOfWork(
 
 
 /**
- *	convert 256 bits string to uint32_t
- *
- *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
- *	@return	{uint32_t}
- */
-EXPORT_API uint32_t target256HexToBits32( const char * pcszDifficultyHex )
-{
-	if ( NULL == pcszDifficultyHex )
-	{
-		return 0;
-	}
-	if ( strlen( pcszDifficultyHex ) < 64 )
-	{
-		return 0;
-	}
-
-	char szDifficultyHex[ 65 ];
-	uint256 un256Difficulty;
-	arith_uint256 bn256Difficulty;
-
-	memset( szDifficultyHex, 0, sizeof(szDifficultyHex) );
-	memcpy( szDifficultyHex, pcszDifficultyHex, 64 );
-
-	un256Difficulty	= uint256S( szDifficultyHex );
-	bn256Difficulty	= UintToArith256( un256Difficulty );
-
-	//	...
-	return bn256Difficulty.GetCompact();
-}
-
-
-/**
  *	filter difficulty
  *	check proof of work
  *
@@ -602,4 +503,173 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 
 	return uRet;
 }
+
+
+/**
+ *	get work required target limit in format string 256 bits
+ *
+ *	@return	{int}
+ *		0	success
+ */
+EXPORT_API int getLimitInTarget( OUT char * pszTargetHex, uint32_t uSize )
+{
+	if ( NULL == pszTargetHex )
+	{
+		#ifdef _DEBUG
+			printf( "getLimitInTarget :: invalid parameter pszTargetHex.\n" );
+		#endif
+		return -1000;
+	}
+	if ( uSize < 64 )
+	{
+		#ifdef _DEBUG
+			printf( "getLimitInTarget :: invalid parameter uSize, must be great or equal to 64.\n" );
+		#endif
+		return -1001;
+	}
+
+	snprintf( pszTargetHex, uSize, "%s", TRUSTNOTE_MINER_POW_LIMIT );
+	return 0;
+}
+
+
+/**
+ *	get work required target limit in format unsigned int 32 bits
+ *
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getLimitInBits()
+{
+	return UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) ).GetCompact();
+}
+
+
+/**
+ *	convert 256 bits string target to 32 bits uint32_t bits
+ *
+ *	@param 	{const char *}	pcszTargetHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getBitsByTarget( const char * pcszTargetHex )
+{
+	if ( NULL == pcszTargetHex )
+	{
+		#ifdef _DEBUG
+			printf( "getBitsByTarget :: invalid parameter pcszTargetHex, NULL.\n" );
+		#endif
+		return 0;
+	}
+	if ( strlen( pcszTargetHex ) < 64 )
+	{
+		#ifdef _DEBUG
+			printf( "getBitsByTarget :: invalid parameter pcszTargetHex, must be 64 characters.\n" );
+		#endif
+		return 0;
+	}
+
+	char szTargetHex[ 65 ];
+	uint256 un256Difficulty;
+	arith_uint256 bn256Difficulty;
+
+	memset( szTargetHex, 0, sizeof(szTargetHex) );
+	memcpy( szTargetHex, pcszTargetHex, 64 );
+
+	un256Difficulty	= uint256S( szTargetHex );
+	bn256Difficulty	= UintToArith256( un256Difficulty );
+
+	//	...
+	return bn256Difficulty.GetCompact();
+}
+
+
+/**
+ *	convert 32 bits uint32_t bits to 256 bits string target
+ *
+ *	@param 	{uint32_t}	uBits
+ *	@param 	{char *}	pszTargetHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+ *	@param 	{uint32_t}	uSize
+ *	@return	{int}
+ */
+EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_t uSize )
+{
+	if ( NULL == pszTargetHex )
+	{
+		#ifdef _DEBUG
+			printf( "getTargetByBits :: invalid parameter pszTargetHex, NULL.\n" );
+		#endif
+		return 0;
+	}
+	if ( uSize < 64 )
+	{
+		#ifdef _DEBUG
+			printf( "getTargetByBits :: invalid parameter uSize, must be great or equal to 64.\n" );
+		#endif
+		return 0;
+	}
+
+	//	...
+	int nRet = -1;
+
+	//
+	//	About bits
+	//	@see	http://learnmeabitcoin.com/glossary/bits
+	//
+	//	bits			: 0x1C033AB2
+	//	exponent		: 0x1C
+	//	coefficient		:   0x035DB8
+	//	leading zero in bytes	: 32 - exponent
+	//				  32 - 28 = 4
+	//
+	//	that means:
+	//	target			: 00000000 035DB8 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	//
+
+	//
+	//	the first 1 byte means
+	//		the size of the target in bytes
+	//
+	uint32_t uExponent		= uBits >> 24;
+	if ( uExponent <= 32 )
+	{
+		//
+		//	leading zero count in bytes
+		//
+		uint32_t uLeadingZeroBytes	= 32 - uExponent;
+
+		//
+		//	the initial 3 bytes of the target
+		//
+		uint32_t uCoefficient		= ( uBits << 8 ) >> 8;
+
+		//	...
+		memset( pszTargetHex, 0, uSize );
+		sprintf( pszTargetHex, "%.*x", uLeadingZeroBytes * 2, 0 );
+		sprintf( pszTargetHex + uLeadingZeroBytes * 2, "%06x", uCoefficient );
+		sprintf( pszTargetHex + uLeadingZeroBytes * 2 + 6, "%*c", ( uExponent - 3 ) * 2, 'f' );
+
+		for ( uint32_t i = 0; i < uSize; i ++ )
+		{
+			if ( ' ' == pszTargetHex[ i ] )
+			{
+				pszTargetHex[ i ] = 'f';
+			}
+		}
+
+		//
+		//	successfully
+		//
+		nRet = 0;
+	}
+	else
+	{
+		nRet = -1000;
+		#ifdef _DEBUG
+			printf( "getTargetByBits :: uExponent must less then or equal to 32.\n" );
+		#endif
+	}
+
+	return nRet;
+}
+
+
 

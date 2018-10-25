@@ -211,13 +211,13 @@ class CTrustMinerLibrary
 	 *	@param	{string}	sDifficulty256Hex	hex string with length of 64
 	 *	@returns {number}
 	 */
-	target256HexToBits32( sDifficulty256Hex )
+	getBitsByTarget( sDifficulty256Hex )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return 0;
 		}
-		return _objMinerLibrary.target256HexToBits32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
+		return _objMinerLibrary.getBitsByTarget( Buffer.from( sDifficulty256Hex, 'ascii' ) );
 	}
 
 	/**
@@ -312,7 +312,7 @@ class CTrustMinerLibrary
 							'uint',
 							[ 'uint', 'uint', 'uint' ]
 						],
-					'target256HexToBits32' :
+					'getBitsByTarget' :
 						[
 							'uint',
 							[ 'pointer' ]

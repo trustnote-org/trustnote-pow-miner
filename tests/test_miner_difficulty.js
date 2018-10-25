@@ -4,7 +4,7 @@ process.env.ENV_TRUST_MINER_DEBUG = true;
 const _miner	= require( '../js/index.js' );
 
 
-let nDifficulty = _miner.target256HexToBits32( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nDifficulty = _miner.getBitsByTarget( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 console.log( `nDifficulty value : ${ nDifficulty }` );
 
 

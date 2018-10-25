@@ -16,6 +16,9 @@ extern "C" {
 #endif
 
 
+#ifndef IN
+	#define IN
+#endif
 #ifndef OUT
 	#define OUT
 #endif
@@ -36,7 +39,6 @@ extern "C" {
 #define TRUSTNOTE_MINER_POW_MAX			"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 #define TRUSTNOTE_MINER_POW_MIN			"0000000000000000000000000000000000000000000000000000000000000000"
 #define TRUSTNOTE_MINER_POW_LIMIT		"007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-//#define TRUSTNOTE_MINER_DIFFICULTY_START	0x1f07ffff	//	= 520617983
 
 
 
@@ -88,15 +90,6 @@ EXPORT_API int checkProofOfWork(
 	const char * pcszHashHex );
 
 
-/**
- *	convert 256 bits string to uint32_t
- *
- *	@param 	{const char *}	pcszDifficultyHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
- *	@return	{uint32_t}
- */
-EXPORT_API uint32_t target256HexToBits32( const char * pcszDifficultyHex );
-
-
 
 /**
  *	filter difficulty
@@ -124,6 +117,47 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	const uint32_t uPreviousBits,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard );
+
+
+
+
+/**
+ *	get work required target limit in format string 256 bits
+ *
+ *	@return	{int}
+ */
+EXPORT_API int getLimitInTarget( OUT char * pszTargetHex, uint32_t uSize );
+
+
+/**
+ *	get work required target limit in format unsigned int 32 bits
+ *
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getLimitInBits();
+
+
+/**
+ *	convert 256 bits string target to 32 bits uint32_t bits
+ *
+ *	@param 	{const char *}	pcszTargetHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getBitsByTarget( const char * pcszTargetHex );
+
+
+/**
+ *	convert 32 bits uint32_t bits to 256 bits string target
+ *
+ *	@param 	{uint32_t}	uBits
+ *	@param 	{char *}	pszTargetHex	"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+ *	@param 	{uint32_t}	uSize
+ *	@return	{int}
+ */
+EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_t uSize );
+
+
+
 
 
 

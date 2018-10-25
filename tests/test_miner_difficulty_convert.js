@@ -4,7 +4,7 @@ process.env.ENV_TRUST_MINER_DEBUG = true;
 const _miner	= require( '../js/index.js' );
 
 
-let nDifficulty = _miner.target256HexToBits32( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nDifficulty = _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 console.log( `nDifficulty value : ${ nDifficulty }` );
 
 
@@ -13,7 +13,7 @@ const _oDifficultyList	= {};
 for ( let i = 0; i <= 64; i ++ )
 {
 	let sHexString	= getDifficultyHexByPrefixZero( i );
-	_oDifficultyList[ sHexString ]	= _miner.target256HexToBits32( sHexString );
+	_oDifficultyList[ sHexString ]	= _miner.getBitsByTarget( sHexString );
 }
 console.log( _oDifficultyList );
 

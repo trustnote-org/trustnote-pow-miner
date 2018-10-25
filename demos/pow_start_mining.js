@@ -3,7 +3,7 @@ const _event_bus		= require( 'trustnote-pow-common/event_bus.js' );
 const _trustnote_pow_miner	= require( 'trustnote-pow-miner' );
 
 
-let nDifficulty		= _trustnote_pow_miner.target256HexToBits32( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nDifficulty		= _trustnote_pow_miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 let oMiningInput	= {
 	roundIndex		: 111,
 	firstTrustMEBall	: 'rjywtuZ8A70vgIsZ7L4lBR3gz62Nl3vZr2t7I4lzsMU=',

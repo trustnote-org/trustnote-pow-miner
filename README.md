@@ -40,7 +40,7 @@ const _miner	= require( 'trustnote-pow-miner' );
  *	
  */
 let bufInput	= new Buffer( 140 );
-let nDifficulty	= _miner.target256HexToBits32( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nDifficulty	= _miner.getBitsByTarget( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 let oOptions	=
 	{
 		bufInputHeader	: bufInput,

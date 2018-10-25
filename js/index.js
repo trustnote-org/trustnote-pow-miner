@@ -12,5 +12,5 @@ module.exports	= {
 	stopMining			: _miner.stop,
 	checkProofOfWork		: _miner.library.checkProofOfWork,
 	calculateNextWorkRequired	: _miner.library.calculateNextWorkRequired,
-	target256HexToBits32		: _miner.library.target256HexToBits32,
+	getBitsByTarget			: _miner.library.getBitsByTarget,
 };
