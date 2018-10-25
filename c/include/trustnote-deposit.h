@@ -6,6 +6,7 @@
 #define __TRUSTNOTE_POW_MINER_TRUSTNOTE_DEPOSIT_HEADER__
 
 
+//	移位数量	倍数	押金（万MN）
 
 
 

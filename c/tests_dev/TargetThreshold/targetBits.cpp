@@ -44,7 +44,7 @@ void bits32ToTarget256Hex()
 {
 	//uint32_t uBitsDec		= 528482303;	//	in decimal
 	//const char * pszTarget[]	= { "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" };
-	uint32_t uBitsHex		= 0x1c035db8;	//0x1F7FFFFF;	//	in hexadecimal
+	uint32_t uBitsHex		= 0x1c03a809;	//0x1F7FFFFF;	//	in hexadecimal
 	char szTarget[ 66 ];
 
 	//
