@@ -54,9 +54,9 @@ void test_bitsToTarget()
 	if ( uExponent <= 32 )
 	{
 		//
-		//	leading zero count
+		//	leading zero count in bytes
 		//
-		uint32_t uLeadZeroCount		= 32 - uExponent;
+		uint32_t uLeadingZeroBytes	= 32 - uExponent;
 
 		//
 		//	the initial 3 bytes of the target
@@ -64,10 +64,15 @@ void test_bitsToTarget()
 		uint32_t uCoefficient		= ( uBitsHex << 8 ) >> 8;
 
 		//	...
-		printf( "uBitsHex\t: 0x%08X\n", uBitsHex );
-		printf( "uExponent\t: 0x%08X\n", uExponent );
-		printf( "uLeadZeroCount\t: 0x%08X\n", uLeadZeroCount );
-		printf( "uCoefficient\t: 0x%08X\n", uCoefficient );
+		printf( "uBitsHex\t\t: 0x%08X\n", uBitsHex );
+		printf( "uExponent\t\t: 0x%08X\n", uExponent );
+		printf( "uCoefficient\t\t: 0x%08X\n", uCoefficient );
+		printf( "uLeadingZeroInBytes\t: 0x%08X\n", uLeadingZeroBytes );
+
+		printf( "Target\t\t\t: 0x%.*X", uLeadingZeroBytes * 2 );
+		printf( "%06X", uCoefficient );
+		printf( "%.*X", ( uBitsHex - 3 ) * 2 );
+		printf( "\n" );
 	}
 	else
 	{
