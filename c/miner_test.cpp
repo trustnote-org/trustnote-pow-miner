@@ -86,18 +86,28 @@ void miner_test_checkProofOfWork()
 void miner_test_getLimitInBits()
 {
 	uint32_t uBits	= getLimitInBits();
+	char szTarget[ 66 ];
+	int nCall;
+
+	memset( szTarget, 0, sizeof( szTarget ) );
+	nCall = getTargetByBits( uBits, szTarget, sizeof( szTarget ) );
+
 	printf( "miner_test_getLimitInBits : %08x, %d \n", uBits, uBits );
+	printf( "miner_test_getLimitInBits : %d, %s \n", nCall, szTarget );
 }
 
 void miner_test_getLimitInTarget()
 {
 	char szTarget[ 66 ];
+	uint32_t uBits;
 	int nCall;
 
 	memset( szTarget, 0, sizeof( szTarget ) );
 
-	nCall = getLimitInTarget( szTarget, sizeof( szTarget ) );
+	nCall	= getLimitInTarget( szTarget, sizeof( szTarget ) );
+	uBits	= getBitsByTarget( szTarget );
 	printf( "miner_test_getLimitInTarget : %d, %s \n", nCall, szTarget );
+	printf( "miner_test_getLimitInTarget : %x, %d \n", uBits, uBits );
 }
 
 void miner_test_calculateNextWorkRequired()

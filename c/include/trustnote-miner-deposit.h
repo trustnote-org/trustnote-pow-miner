@@ -9,7 +9,10 @@
 /**
  *	define the length of the table
  */
-#define TRUSTNOTE_DEPOSIT_TABLE_LENGTH		65
+#define TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH		65
+#define TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT		-32
+#define TRUSTNOTE_MINER_DEPOSIT_MIN_SHIFT		-32
+#define TRUSTNOTE_MINER_DEPOSIT_MAX_SHIFT		32
 
 
 
@@ -48,6 +51,8 @@ namespace TrustNoteDeposit
 
     	STPOWDEPOSIT * getDepositTable();
 	int getShiftByDeposit( double dblDeposit );
+	int getDefaultShift();
+	bool isValidShift( int nShift );
 }
 
 

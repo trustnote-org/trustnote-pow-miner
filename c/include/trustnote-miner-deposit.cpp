@@ -9,14 +9,14 @@
 #include <algorithm>
 #include <cmath>
 
-#include "trustnote-deposit.h"
+#include "trustnote-miner-deposit.h"
 
 
 
 /**
  *	private member variables
  */
-static STPOWDEPOSIT _arrPowDepositTable[ TRUSTNOTE_DEPOSIT_TABLE_LENGTH ] =
+static STPOWDEPOSIT _arrPowDepositTable[ TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH ] =
 {
 	{      -32,          0.000000,        0.030760 },
 	{      -31,          0.000000,        0.038755 },
@@ -99,7 +99,7 @@ int TrustNoteDeposit::initDepositTable()
 	int i;
 	int nShift;
 
-	for ( i = 0; i < TRUSTNOTE_DEPOSIT_TABLE_LENGTH; i ++ )
+	for ( i = 0; i < TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH; i ++ )
 	{
 		nShift	= i - 32;
 
@@ -136,11 +136,11 @@ int TrustNoteDeposit::getShiftByDeposit( double dblDeposit )
 	int i;
 
 	//	...
-	nRet = -32;
+	nRet = TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
 
-	for ( i = 0; i < TRUSTNOTE_DEPOSIT_TABLE_LENGTH; i ++ )
+	for ( i = TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH - 1; i >= 0; i -- )
 	{
-		if ( dblDeposit > _arrPowDepositTable[ i ].dblDeposit )
+		if ( dblDeposit >= _arrPowDepositTable[ i ].dblDeposit )
 		{
 			nRet = _arrPowDepositTable[ i ].nShift;
 			break;
@@ -148,4 +148,16 @@ int TrustNoteDeposit::getShiftByDeposit( double dblDeposit )
 	}
 
 	return nRet;
+}
+
+
+/**
+ *	check if a shift value is valid
+ *
+ *	@param	{int}	nShift
+ *	@return	{boolean}
+ */
+bool TrustNoteDeposit::isValidShift( int nShift )
+{
+	return ( nShift >= TRUSTNOTE_MINER_DEPOSIT_MIN_SHIFT && nShift <= TRUSTNOTE_MINER_DEPOSIT_MAX_SHIFT );
 }

@@ -21,6 +21,7 @@
 #include "crypto/blake2b.h"
 
 #include "utility.h"
+#include "trustnote-miner-deposit.h"
 #include "miner.h"
 
 
@@ -386,7 +387,7 @@ EXPORT_API int filterDifficulty(
 	bnTarget.SetCompact( uBits, & fNegative, & fOverflow );
 
 	//	check range
-	if ( fNegative || 0 == bnTarget || fOverflow || bnTarget > UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) ) )
+	if ( fNegative || 0 == bnTarget || fOverflow || bnTarget > UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) ) )
 	{
 		//	printf("nBits below minimum work.\n");
 		return -10;
@@ -406,13 +407,13 @@ EXPORT_API int filterDifficulty(
 /**
  *	calculate next difficulty
  *
- *	@param	{uint32_t}	uPreviousAverageBits
+ *	@param	{uint32_t}	uPreviousBits
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
  *	@return	{uint32_t}
  */
 EXPORT_API uint32_t calculateNextWorkRequired(
-	const uint32_t uPreviousAverageBits,
+	const uint32_t uPreviousBits,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard )
 {
@@ -420,7 +421,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 
 	//	...
 	const arith_uint256 bnPowMaxUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_MAX ) );
-	const arith_uint256 bnPowLimitUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) );
+	const arith_uint256 bnPowLimitUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) );
 
 	//	3/4 uTimeStandard + 1/4 uTimeUsed
 	int64_t n64ActualTimeSpan		= ( uTimeStandard * 3 + uTimeUsed ) / 4;
@@ -431,7 +432,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	//assert( bnPowMaxUInt256 / bnPowLimitUInt256 >= consensus.nPowAveragingWindow );
 
 	#ifdef _DEBUG
-		printf( "### uPreviousAverageBits\t: %u\n", uPreviousAverageBits );
+		printf( "### uPreviousBits\t: %u\n", uPreviousBits );
 		printf( "### uTimeUsed\t: %u\n", uTimeUsed );
 		printf( "### uTimeStandard\t: %u\n", uTimeStandard );
 
@@ -467,7 +468,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 
 	//	...
 	arith_uint256 bnNewUInt256;
-	bnNewUInt256.SetCompact( uPreviousAverageBits );
+	bnNewUInt256.SetCompact( uPreviousBits );
 
 	#ifdef _DEBUG
 		printf( "*** before\t\t: %u\n", bnNewUInt256.GetCompact() );
@@ -479,7 +480,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 
 	#ifdef _DEBUG
 		printf( "*** after\t\t: %u [ ( %u / %u ) * %u ]\n", bnNewUInt256.GetCompact(),
-			uPreviousAverageBits, uTimeStandard, n64ActualTimeSpan );
+			uPreviousBits, uTimeStandard, n64ActualTimeSpan );
 	#endif
 
 	//
@@ -496,12 +497,71 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	//	...
 	uRet = bnNewUInt256.GetCompact();
 	#ifdef _DEBUG
-		printf( "calculateNextWorkRequired :: uPreviousAverageBits : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u\n",
-			uPreviousAverageBits, uTimeUsed, uTimeStandard, uRet );
+		printf( "calculateNextWorkRequired :: uPreviousBits : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u\n",
+			uPreviousBits, uTimeUsed, uTimeStandard, uRet );
 		printf( "\n\n\n" );
 	#endif
 
 	return uRet;
+}
+
+
+/**
+ *	calculate next work required target in 32 bits format
+ *
+ *	@param	{uint32_t}	uPreviousBits
+ *	@param	{uint32_t}	uTimeUsed
+ *	@param	{uint32_t}	uTimeStandard
+ *	@param	{double}	dblDeposit
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
+	const uint32_t uPreviousBits,
+	const uint32_t uTimeUsed,
+	const uint32_t uTimeStandard,
+	const double   dblDeposit )
+{
+	uint32_t uRet		= 0;
+	uint32_t uNormalBits	= 0;
+	int nShift		= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
+
+	//	...
+	uNormalBits	= calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard );
+	nShift		= TrustNoteDeposit::getShiftByDeposit( dblDeposit );
+	if ( ! TrustNoteDeposit::isValidShift( nShift ) )
+	{
+		nShift	= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
+	}
+
+	if ( 0 != nShift )
+	{
+
+	}
+
+	if ( isEasyThanLimitByBits( uNormalBits ) )
+	{
+		uNormalBits	= TRUSTNOTE_MINER_POW_LIMIT_BITS;
+	}
+
+	return uNormalBits;
+}
+
+
+/**
+ *	check if the uBits is easy than limit
+ *
+ *	@param	{uint32_t}	uBits		e.g.: 0x1c03a809
+ *	@return	{bool}
+ */
+EXPORT_API bool isEasyThanLimitByBits( const uint32_t uBits )
+{
+	const arith_uint256 bnPowLimitUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) );
+	arith_uint256 bnUInt256;
+
+	//	...
+	bnUInt256.SetCompact( uBits );
+
+	return bnUInt256 > bnPowLimitUInt256;
 }
 
 
@@ -528,7 +588,7 @@ EXPORT_API int getLimitInTarget( OUT char * pszTargetHex, uint32_t uSize )
 		return -1001;
 	}
 
-	snprintf( pszTargetHex, uSize, "%s", TRUSTNOTE_MINER_POW_LIMIT );
+	snprintf( pszTargetHex, uSize, "%s", TRUSTNOTE_MINER_POW_LIMIT_TARGET );
 	return 0;
 }
 
@@ -540,7 +600,7 @@ EXPORT_API int getLimitInTarget( OUT char * pszTargetHex, uint32_t uSize )
  */
 EXPORT_API uint32_t getLimitInBits()
 {
-	return UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT ) ).GetCompact();
+	return UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) ).GetCompact();
 }
 
 

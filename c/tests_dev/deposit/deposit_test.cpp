@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include "trustnote-deposit.h"
+#include "trustnote-miner-deposit.h"
 
 
 void test_printDepositTable();
@@ -40,7 +40,7 @@ void test_printDepositTable()
 		printf( "%*s%*s%*s\n", 8, "shift", 18, "times", 16, "deposit" );
 		printf( "------------------------------------------------------------\n" );
 
-		for ( i = 0; i < TRUSTNOTE_DEPOSIT_TABLE_LENGTH; i ++ )
+		for ( i = 0; i < TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH; i ++ )
 		{
 			printf( "{ %*d,", 8, parrDepositTable[ i ].nShift );
 			printf( "%*f,", 18, parrDepositTable[ i ].dblTimes );
