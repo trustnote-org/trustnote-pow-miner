@@ -47,9 +47,9 @@ int main()
 
 	for ( i = 0; i < nLength; i ++ )
 	{
-		printf( "%*d", 8, arrDepositList[ i ].nShift );
-		printf( "%*f", 18, arrDepositList[ i ].dblTimes );
-		printf( "%*f", 16, arrDepositList[ i ].dblDeposit );
+		printf( "{ %*d,", 8, arrDepositList[ i ].nShift );
+		printf( "%*f,", 18, arrDepositList[ i ].dblTimes );
+		printf( "%*f },", 16, arrDepositList[ i ].dblDeposit );
 		printf( "\n" );
 	}
 }

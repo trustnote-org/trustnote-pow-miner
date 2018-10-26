@@ -6,12 +6,49 @@
 #define __TRUSTNOTE_POW_MINER_TRUSTNOTE_DEPOSIT_HEADER__
 
 
-//	移位数量	倍数	押金（万MN）
+/**
+ *	define the length of the table
+ */
+#define TRUSTNOTE_DEPOSIT_TABLE_LENGTH		65
+
+
+
+/**
+ *	structure
+ */
+typedef struct tagPowDeposit
+{
+	tagPowDeposit()
+	{
+		memset( this, 0, sizeof( tagPowDeposit ) );
+	}
+	tagPowDeposit( int nShift_, double dblTimes_, double dblDeposit_ )
+	{
+		nShift		= nShift_;
+		dblTimes	= dblTimes_;
+		dblDeposit	= dblDeposit_;
+	}
+
+	int    nShift;
+	double dblTimes;
+	double dblDeposit;
+
+}STPOWDEPOSIT, *LPSTPOWDEPOSIT;
 
 
 
 
 
+/**
+ *	namespace of TrustNoteDeposit
+ */
+namespace TrustNoteDeposit
+{
+	int initDepositTable();
+
+    	STPOWDEPOSIT * getDepositTable();
+	int getShiftByDeposit( double dblDeposit );
+}
 
 
 
