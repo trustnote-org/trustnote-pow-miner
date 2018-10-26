@@ -13,6 +13,8 @@
 #include <string.h>
 #include <time.h>
 #include <algorithm>
+#include <iostream>
+#include <cstdlib>
 
 #include "bitcoin-consensus-params.h"
 #include "uint256.h"
@@ -32,6 +34,11 @@
 #endif
 
 
+
+/**
+ *	@private
+ */
+static bool _isEasierThanLimitByArithUInt256( const arith_uint256 & clsArithUInt256 );
 
 
 
@@ -521,29 +528,48 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	const uint32_t uTimeStandard,
 	const double   dblDeposit )
 {
-	uint32_t uRet		= 0;
-	uint32_t uNormalBits	= 0;
-	int nShift		= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
+	uint32_t uRet	= 0;
+	int nShift	= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
+	arith_uint256 bnNormalUInt256;
 
-	//	...
-	uNormalBits	= calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard );
+	//
+	//	calculate normal bits
+	//
+	bnNormalUInt256.SetCompact( calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard ) );
+
+	//
+	//	get shift by deposit
+	//
 	nShift		= TrustNoteDeposit::getShiftByDeposit( dblDeposit );
 	if ( ! TrustNoteDeposit::isValidShift( nShift ) )
 	{
 		nShift	= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
 	}
 
-	if ( 0 != nShift )
+	//
+	//	shift bits
+	//
+	if ( nShift < 0 )
 	{
-
+		//	shift right makes the result harder
+		bnNormalUInt256 >>= abs( nShift );
+	}
+	else if ( nShift > 0 )
+	{
+		//	shift left makes the result easier
+		bnNormalUInt256 <<= abs( nShift );
 	}
 
-	if ( isEasyThanLimitByBits( uNormalBits ) )
+	if ( _isEasierThanLimitByArithUInt256( bnNormalUInt256 ) )
 	{
-		uNormalBits	= TRUSTNOTE_MINER_POW_LIMIT_BITS;
+		uRet	= TRUSTNOTE_MINER_POW_LIMIT_BITS;
+	}
+	else
+	{
+		uRet	= bnNormalUInt256.GetCompact();
 	}
 
-	return uNormalBits;
+	return uRet;
 }
 
 
@@ -553,16 +579,18 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
  *	@param	{uint32_t}	uBits		e.g.: 0x1c03a809
  *	@return	{bool}
  */
-EXPORT_API bool isEasyThanLimitByBits( const uint32_t uBits )
+EXPORT_API bool isEasierThanLimitByBits( const uint32_t uBits )
 {
-	const arith_uint256 bnPowLimitUInt256	= UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) );
 	arith_uint256 bnUInt256;
-
-	//	...
 	bnUInt256.SetCompact( uBits );
 
-	return bnUInt256 > bnPowLimitUInt256;
+	return _isEasierThanLimitByArithUInt256( bnUInt256 );
 }
+static bool _isEasierThanLimitByArithUInt256( const arith_uint256 & clsArithUInt256 )
+{
+	return clsArithUInt256 > UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) );
+}
+
 
 
 /**

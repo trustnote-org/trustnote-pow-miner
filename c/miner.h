@@ -137,13 +137,12 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 
 
 /**
- *	check if the uBits is easy than limit
+ *	check if the uBits is easier than limit
  *
  *	@param	{uint32_t}	uBits		e.g.: 0x1c03a809
  *	@return	{bool}
  */
-EXPORT_API bool isEasyThanLimitByBits( const uint32_t uBits );
-
+EXPORT_API bool isEasierThanLimitByBits( const uint32_t uBits );
 
 
 /**
