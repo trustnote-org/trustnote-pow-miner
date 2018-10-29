@@ -18,6 +18,9 @@
  */
 static STPOWDEPOSIT _arrPowDepositTable[ TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH ] =
 {
+	//
+	//  nShift           dblTimes       dblDeposit
+	//
 	{      -32,          0.000000,        0.030760 },
 	{      -31,          0.000000,        0.038755 },
 	{      -30,          0.000000,        0.048828 },
@@ -127,7 +130,7 @@ STPOWDEPOSIT * TrustNoteDeposit::getDepositTable()
 /**
  *	get shift by deposit
  *
- *	@param	{double}	dblDeposit
+ *	@param	{double}	dblDeposit	in 10000MNs
  *	@return	{int}
  */
 int TrustNoteDeposit::getShiftByDeposit( double dblDeposit )

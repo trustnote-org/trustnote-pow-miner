@@ -15,6 +15,7 @@ void miner_test_checkProofOfWork();
 void miner_test_getLimitInBits();
 void miner_test_getLimitInTarget();
 void miner_test_calculateNextWorkRequired();
+void miner_test_calculateNextWorkRequiredWithDeposit();
 void miner_test_startMining();
 
 

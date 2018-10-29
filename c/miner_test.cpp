@@ -8,6 +8,7 @@
 #include <time.h>
 #include <algorithm>
 
+#include "trustnote-miner-deposit.h"
 #include "miner.h"
 #include "miner_test.h"
 
@@ -34,6 +35,10 @@ int main( void )
 
 	miner_test_print_header( "miner_test_calculateNextWorkRequired" );
 	miner_test_calculateNextWorkRequired();
+	miner_test_print_footer();
+
+	miner_test_print_header( "miner_test_calculateNextWorkRequiredWithDeposit" );
+	miner_test_calculateNextWorkRequiredWithDeposit();
 	miner_test_print_footer();
 
 	miner_test_print_header( "miner_test_startMining" );
@@ -146,7 +151,86 @@ void miner_test_calculateNextWorkRequired()
 	}
 }
 
+void miner_test_calculateNextWorkRequiredWithDeposit()
+{
+	//	0x1b07ffff	= 000000000007ffffffffffffffffffffffffffffffffffffffffffffffffffff
+	#define MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS	0x1b07ffff
 
+	uint32_t arrDataList[][ 3 ] =
+		{
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 3194,  2400 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 2294,  2400 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 1194,  2400 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 30000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 10000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 40000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 50000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 60000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 70000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 80000, 15000 },
+			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 90000, 15000 },
+		};
+	double arrDblData[] =
+		{
+			-10000,
+			-100.0,
+			0,
+			1.0,
+			50.0,
+			100.0,
+			10000.0,
+			80000.0,
+			90000.0,
+			100000.0
+		};
+
+	for ( uint32_t i = 0; i < sizeof( arrDataList ) / sizeof( arrDataList[ 0 ] ); i ++ )
+	{
+		for ( uint32_t x = 0; x < sizeof( arrDblData ) / sizeof( arrDblData[ 0 ] ); x ++ )
+		{
+			double dblDeposit	= arrDblData[ x ];
+
+			uint32_t uNewBits;
+			char szPrevTarget[ 66 ];
+			char szNewTarget[ 66 ];
+
+			memset( szPrevTarget, 0, sizeof( szPrevTarget ) );
+			getTargetByBits( arrDataList[ i ][ 0 ], szPrevTarget, sizeof( szPrevTarget ) );
+
+			memset( szNewTarget, 0, sizeof( szNewTarget ) );
+			uNewBits = calculateNextWorkRequired( arrDataList[ i ][ 0 ], arrDataList[ i ][ 1 ], arrDataList[ i ][ 2 ] );
+			getTargetByBits( uNewBits, szNewTarget, sizeof( szNewTarget ) );
+
+			int nShift;
+			uint32_t uNewBitsWithDeposit;
+			char szNewTargetWithDeposit[ 66 ];
+
+			nShift	= TrustNoteDeposit::getShiftByDeposit( dblDeposit );
+			memset( szNewTargetWithDeposit, 0, sizeof( szNewTargetWithDeposit ) );
+			uNewBitsWithDeposit = calculateNextWorkRequiredWithDeposit
+				(
+					arrDataList[ i ][ 0 ],
+					arrDataList[ i ][ 1 ],
+					arrDataList[ i ][ 2 ],
+					dblDeposit
+				);
+			getTargetByBits( uNewBitsWithDeposit, szNewTargetWithDeposit, sizeof( szNewTargetWithDeposit ) );
+
+			//	...
+			printf( "%*s: %08x\n", 16, "PrevBits", arrDataList[ i ][ 0 ] );
+			printf( "%*s: %s\n", 16, "PrevTarget", szPrevTarget );
+			printf( "%*s: %d\n", 16, "TimeUsed", arrDataList[ i ][ 1 ] );
+			printf( "%*s: %d\n", 16, "TimeStd", arrDataList[ i ][ 2 ] );
+			printf( "%*s: %f\n", 16, "Deposit", dblDeposit );
+			printf( "%*s: %d\n", 16, "nShift", nShift );
+			printf( "%*s: %08x\n", 16, "newStdBits", uNewBits );
+			printf( "%*s: %s\n", 16, "newStdTarget", szNewTarget );
+			printf( "%*s: %08x\n", 16, "newDepositBits", uNewBitsWithDeposit );
+			printf( "%*s: %s\n", 16, "newDepositTarget", szNewTargetWithDeposit );
+			printf( "----------\n" );
+		}
+	}
+}
 
 void miner_test_startMining()
 {
