@@ -760,6 +760,8 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 			}
 		}
 
+		pszTargetHex[ 64 ] = 0;
+
 		//
 		//	successfully
 		//

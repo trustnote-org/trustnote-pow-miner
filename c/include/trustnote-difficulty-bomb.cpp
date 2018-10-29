@@ -22,7 +22,21 @@
 int TrustNoteDifficultyBomb::getBombShiftByRoundIndex( int nRoundIndex )
 {
 	//	Math.pow( 2, Math.floor( block.number / 100000 ) - 2 )
-	return -1 * std::min( (int)( pow( 2, floor( nRoundIndex / 100000 ) - 2.0 ) ), 32 );
+	return -1 *
+		(
+			std::min
+			(
+				(int)
+				(
+					pow
+					(
+						2,
+						floor( nRoundIndex / 100000 ) - 2.0
+					)
+				),
+				256
+			)
+		);
 }
 
 
