@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include "trustnote-miner-deposit.h"
+#include "trustnote-difficulty-bomb.h"
 #include "miner.h"
 #include "miner_test.h"
 
@@ -172,7 +173,6 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 		};
 	double arrDblData[] =
 		{
-			-10000,
 			-100.0,
 			0,
 			1.0,
@@ -183,6 +183,15 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 			90000.0,
 			100000.0
 		};
+	int arrRoundIndex[] =
+		{
+			1000,
+			100000,
+			300000,
+			500000,
+			1000000,
+			2000000
+		};
 
 	for ( uint32_t i = 0; i < sizeof( arrDataList ) / sizeof( arrDataList[ 0 ] ); i ++ )
 	{
@@ -190,45 +199,83 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 		{
 			double dblDeposit	= arrDblData[ x ];
 
-			uint32_t uNewBits;
-			char szPrevTarget[ 66 ];
-			char szNewTarget[ 66 ];
+			for ( uint32_t r = 0; r < sizeof( arrRoundIndex ) / sizeof( arrRoundIndex[ 0 ] ); r ++ )
+			{
+				int nRoundIndex	= arrRoundIndex[ r ];
 
-			memset( szPrevTarget, 0, sizeof( szPrevTarget ) );
-			getTargetByBits( arrDataList[ i ][ 0 ], szPrevTarget, sizeof( szPrevTarget ) );
+				//
+				//	...
+				//
+				uint32_t uNewBits;
+				char szPrevTarget[ 66 ];
+				char szNewTarget[ 66 ];
 
-			memset( szNewTarget, 0, sizeof( szNewTarget ) );
-			uNewBits = calculateNextWorkRequired( arrDataList[ i ][ 0 ], arrDataList[ i ][ 1 ], arrDataList[ i ][ 2 ] );
-			getTargetByBits( uNewBits, szNewTarget, sizeof( szNewTarget ) );
+				memset( szPrevTarget, 0, sizeof( szPrevTarget ) );
+				getTargetByBits( arrDataList[ i ][ 0 ], szPrevTarget, sizeof( szPrevTarget ) );
 
-			int nShift;
-			uint32_t uNewBitsWithDeposit;
-			char szNewTargetWithDeposit[ 66 ];
+				memset( szNewTarget, 0, sizeof( szNewTarget ) );
+				uNewBits = calculateNextWorkRequired( arrDataList[ i ][ 0 ], arrDataList[ i ][ 1 ], arrDataList[ i ][ 2 ] );
+				getTargetByBits( uNewBits, szNewTarget, sizeof( szNewTarget ) );
 
-			nShift	= TrustNoteDeposit::getShiftByDeposit( dblDeposit );
-			memset( szNewTargetWithDeposit, 0, sizeof( szNewTargetWithDeposit ) );
-			uNewBitsWithDeposit = calculateNextWorkRequiredWithDeposit
-				(
-					arrDataList[ i ][ 0 ],
-					arrDataList[ i ][ 1 ],
-					arrDataList[ i ][ 2 ],
-					dblDeposit
-				);
-			getTargetByBits( uNewBitsWithDeposit, szNewTargetWithDeposit, sizeof( szNewTargetWithDeposit ) );
+				//	...
+				int nShiftWithDeposit;
+				uint32_t uNewBitsWithDeposit;
+				char szNewTargetWithDeposit[ 66 ];
 
-			//	...
-			printf( "%*s: %08x\n", 16, "PrevBits", arrDataList[ i ][ 0 ] );
-			printf( "%*s: %s\n", 16, "PrevTarget", szPrevTarget );
-			printf( "%*s: %d\n", 16, "TimeUsed", arrDataList[ i ][ 1 ] );
-			printf( "%*s: %d\n", 16, "TimeStd", arrDataList[ i ][ 2 ] );
-			printf( "%*s: %f\n", 16, "Deposit", dblDeposit );
-			printf( "%*s: %d\n", 16, "nShift", nShift );
-			printf( "%*s: %08x\n", 16, "newStdBits", uNewBits );
-			printf( "%*s: %s\n", 16, "newStdTarget", szNewTarget );
-			printf( "%*s: %08x\n", 16, "newDepositBits", uNewBitsWithDeposit );
-			printf( "%*s: %s\n", 16, "newDepositTarget", szNewTargetWithDeposit );
-			printf( "----------\n" );
+				nShiftWithDeposit	= TrustNoteDeposit::getShiftByDeposit( dblDeposit );
+				memset( szNewTargetWithDeposit, 0, sizeof( szNewTargetWithDeposit ) );
+				uNewBitsWithDeposit = calculateNextWorkRequiredWithDeposit
+					(
+						arrDataList[ i ][ 0 ],
+						arrDataList[ i ][ 1 ],
+						arrDataList[ i ][ 2 ],
+						dblDeposit,
+						0
+					);
+				getTargetByBits( uNewBitsWithDeposit, szNewTargetWithDeposit, sizeof( szNewTargetWithDeposit ) );
+
+				//	...
+				//	...
+				int nShiftBomb;
+				uint32_t uNewBombBits;
+				char szNewBombTarget[ 66 ];
+
+				nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( nRoundIndex );
+				memset( szNewBombTarget, 0, sizeof( szNewBombTarget ) );
+				uNewBombBits	= calculateNextWorkRequiredWithDeposit
+					(
+						arrDataList[ i ][ 0 ],
+						arrDataList[ i ][ 1 ],
+						arrDataList[ i ][ 2 ],
+						dblDeposit,
+						nRoundIndex
+					);
+				getTargetByBits( uNewBombBits, szNewBombTarget, sizeof( szNewBombTarget ) );
+
+
+				//	...
+				printf( "%*s: %08x\n", 16, "PrevBits", arrDataList[ i ][ 0 ] );
+				printf( "%*s: %s\n", 16, "PrevTarget", szPrevTarget );
+				printf( "%*s: %d\n", 16, "TimeUsed", arrDataList[ i ][ 1 ] );
+				printf( "%*s: %d\n", 16, "TimeStd", arrDataList[ i ][ 2 ] );
+				printf( "%*s: %f\n", 16, "Deposit", dblDeposit );
+				printf( "%*s: %d\n", 16, "nRoundIndex", nRoundIndex );
+
+				printf( "%*s: %08x\n", 16, "newStdBits", uNewBits );
+				printf( "%*s: %s\n", 16, "newStdTarget", szNewTarget );
+
+				printf( "%*s: %d\n", 16, "DepositShift", nShiftWithDeposit );
+				printf( "%*s: %08x\n", 16, "newDepositBits", uNewBitsWithDeposit );
+				printf( "%*s: %s\n", 16, "newDepositTarget", szNewTargetWithDeposit );
+
+				printf( "%*s: %d\n", 16, "BombShift", nShiftBomb );
+				printf( "%*s: %08x\n", 16, "uNewBombBits", uNewBombBits );
+				printf( "%*s: %s\n", 16, "szNewBombTarget", szNewBombTarget );
+				printf( "\n" );
+			}
 		}
+
+		printf( "------------------------------------------------------------\n\n" );
 	}
 }
 

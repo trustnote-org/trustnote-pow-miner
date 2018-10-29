@@ -24,7 +24,9 @@
 
 #include "utility.h"
 #include "trustnote-miner-deposit.h"
+#include "trustnote-difficulty-bomb.h"
 #include "miner.h"
+
 
 
 #ifdef WIN32
@@ -526,7 +528,8 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	const uint32_t uPreviousBits,
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard,
-	const double   dblDeposit )
+	const double   dblDeposit,
+	const int      nRoundIndex )
 {
 	uint32_t uRet	= 0;
 	int nShift	= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
@@ -547,7 +550,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	}
 
 	//
-	//	shift bits
+	//	shift bits by deposit
 	//
 	if ( nShift < 0 )
 	{
@@ -560,6 +563,20 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 		bnNormalUInt256 <<= abs( nShift );
 	}
 
+	//
+	//	shift bits by difficulty bomb
+	//	Math.pow( 2, Math.floor( block.number / 100000 ) - 2 )
+	//
+	int nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( nRoundIndex );
+	if ( nShiftBomb < 0 )
+	{
+		//	shift right makes the result harder
+		bnNormalUInt256 >>= abs( nShiftBomb );
+	}
+
+	//
+	//	make sure the bits value is not easier than the limit
+	//
 	if ( _isEasierThanLimitByArithUInt256( bnNormalUInt256 ) )
 	{
 		uRet	= TRUSTNOTE_MINER_POW_LIMIT_BITS;
