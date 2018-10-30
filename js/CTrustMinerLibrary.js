@@ -207,6 +207,64 @@ class CTrustMinerLibrary
 	}
 
 	/**
+	 *	calculate next work required target in 32 bits format with deposit and round index
+	 *
+	 *	@param	{number}	uPreviousBits
+	 *	@param	{number}	uTimeUsed
+	 *	@param	{number}	uTimeStandard
+	 *	@param	{number}	dblDeposit		- double
+	 *	@param	{number}	uRoundIndex
+	 *	@param	{function}	pfnCallback( err, { bits : 0, shiftByDeposit : 0, shiftByRoundIndex : 0 } )
+	 *	@return	{*}
+	 *
+	 *	@description
+	 *
+	 * 	in c++ :
+	 *	uint32_t calculateNextWorkRequiredWithDeposit
+	 *		(
+	 *			const uint32_t uPreviousBits,
+	 *			const uint32_t uTimeUsed,
+	 *			const uint32_t uTimeStandard,
+	 *			const double   dblDeposit,
+	 *			const uint32_t uRoundIndex
+	 *		)
+	 */
+	calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex, pfnCallback )
+	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( 'failed to load miner library.' );
+		}
+		if ( 'number' !== typeof uPreviousBits || uPreviousBits <= 0 )
+		{
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uPreviousBits.' );
+		}
+		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
+		{
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeUsed.' );
+		}
+		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
+		{
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeStandard.' );
+		}
+
+		let nShiftByDeposit	= _objMinerLibrary.calculateShiftByDeposit( dblDeposit );
+		let nShiftByRoundIndex	= _objMinerLibrary.calculateShiftByRoundIndex( uRoundIndex );
+		let uNextBits		= _objMinerLibrary.calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex );
+
+		return pfnCallback
+		(
+			null,
+			{
+				bits			: uNextBits,
+				shiftByDeposit		: nShiftByDeposit,
+				shiftByRoundIndex	: nShiftByRoundIndex,
+			}
+		);
+	}
+
+
+	/**
 	 *	convert 256 bits string to uint32_t
 	 *	@param	{string}	sDifficulty256Hex	hex string with length of 64
 	 *	@returns {number}
@@ -312,10 +370,20 @@ class CTrustMinerLibrary
 							'uint',
 							[ 'uint', 'uint', 'uint' ]
 						],
-                    'calculateNextWorkRequiredWithDeposit' :
+					'calculateNextWorkRequiredWithDeposit' :
 						[
-                            'uint',
-                            [ 'uint', 'uint', 'uint', 'double', 'uint' ]
+							'uint',
+                            				[ 'uint', 'uint', 'uint', 'double', 'uint' ]
+						],
+					'calculateShiftByDeposit' :
+						[
+							'int',
+							[ 'double' ]
+						],
+					'calculateShiftByRoundIndex' :
+						[
+							'int',
+							[ 'uint' ]
 						],
 					'getBitsByTarget' :
 						[

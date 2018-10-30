@@ -51,7 +51,6 @@ namespace TrustNoteDeposit
 
     	STPOWDEPOSIT * getDepositTable();
 	int getShiftByDeposit( double dblDeposit );
-	int getDefaultShift();
 	bool isValidShift( int nShift );
 }
 

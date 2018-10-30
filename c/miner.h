@@ -139,6 +139,26 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 
 
 /**
+ *	calculate shift by deposit
+ *
+ *	@param	{double}	dblDeposit
+ *	@return	{uint32_t}
+ */
+EXPORT_API int calculateShiftByDeposit( double dblDeposit );
+
+
+/**
+ *	calculate shift by round index
+ *
+ *	@param	{uint32_t}	uRoundIndex
+ *	@return	{uint32_t}
+ */
+EXPORT_API int calculateShiftByRoundIndex( uint32_t uRoundIndex );
+
+
+
+
+/**
  *	check if the uBits is easier than limit
  *
  *	@param	{uint32_t}	uBits		e.g.: 0x1c03a809

@@ -516,12 +516,13 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 
 
 /**
- *	calculate next work required target in 32 bits format
+ *	calculate next work required target in 32 bits format with deposit and round index
  *
  *	@param	{uint32_t}	uPreviousBits
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
  *	@param	{double}	dblDeposit
+ *	@param	{uint32_t}	uRoundIndex
  *	@return	{uint32_t}
  */
 EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
@@ -588,6 +589,31 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 
 	return uRet;
 }
+
+
+/**
+ *	calculate shift by deposit
+ *
+ *	@param	{double}	dblDeposit
+ *	@return	{uint32_t}
+ */
+EXPORT_API int calculateShiftByDeposit( double dblDeposit )
+{
+	return TrustNoteDeposit::getShiftByDeposit( dblDeposit );
+}
+
+
+/**
+ *	calculate shift by round index
+ *
+ *	@param	{uint32_t}	uRoundIndex
+ *	@return	{uint32_t}
+ */
+EXPORT_API int calculateShiftByRoundIndex( uint32_t uRoundIndex )
+{
+	return TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uRoundIndex );
+}
+
 
 
 /**
