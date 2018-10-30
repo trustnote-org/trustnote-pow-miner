@@ -40,11 +40,11 @@ const _miner	= require( 'trustnote-pow-miner' );
  *	
  */
 let bufInput	= new Buffer( 140 );
-let nDifficulty	= _miner.getBitsByTarget( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let uBits	= _miner.getBitsByTarget( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 let oOptions	=
 	{
 		bufInputHeader	: bufInput,
-		bits	: nDifficulty,
+		bits		: uBits,
 		calcTimes	: 30,
 		maxLoop		: 1000000,
 	};

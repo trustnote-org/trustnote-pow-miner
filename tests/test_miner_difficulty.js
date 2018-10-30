@@ -4,15 +4,15 @@ process.env.ENV_TRUST_MINER_DEBUG = true;
 const _miner	= require( '../js/index.js' );
 
 
-let nDifficulty = _miner.getBitsByTarget( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
-console.log( `nDifficulty value : ${ nDifficulty }` );
+let uBits = _miner.getBitsByTarget( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+console.log( `uBits value : ${ uBits }` );
 
 
 
 //
 //	calculate next bits
 //
-let nAverageBits	= nDifficulty;
+let nAverageBits	= uBits;
 let nTimeUsed		= 1000;
 let nTimeStandard	= 2400;
 _miner.calculateNextWorkRequired

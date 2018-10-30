@@ -521,7 +521,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
  *	@param	{uint32_t}	uPreviousBits
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
- *	@param	{double}	dblDeposit
+ *	@param	{double}	dblDeposit		- *10000MN
  *	@param	{uint32_t}	uRoundIndex
  *	@return	{uint32_t}
  */

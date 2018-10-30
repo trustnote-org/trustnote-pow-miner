@@ -4,8 +4,8 @@ process.env.ENV_TRUST_MINER_DEBUG = true;
 const _miner	= require( '../js/index.js' );
 
 
-let nDifficulty = _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
-console.log( `nDifficulty value : ${ nDifficulty }` );
+let uBits = _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+console.log( `uBits value : ${ uBits }` );
 
 
 const _oDifficultyList	= {};

@@ -7,14 +7,14 @@ const _miner	= require( '../js/index.js' );
 
 
 let bufInputHeader	= new Buffer( 140 );
-let nDifficulty		= _miner.getBitsByTarget( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let uBits		= _miner.getBitsByTarget( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 let nActualNonce	= 65;
 let sActualHashHex	= '00198bb0606e5a8b5d47577bc96de488116af886815f4dccc5ad1ebd78d1b14e';
 
 _miner.checkProofOfWork
 (
 	bufInputHeader,
-	nDifficulty,
+	uBits,
 	nActualNonce,
 	sActualHashHex,
 	function( err, oResult )

@@ -209,11 +209,11 @@ class CTrustMinerLibrary
 	/**
 	 *	calculate next work required target in 32 bits format with deposit and round index
 	 *
-	 *	@param	{number}	uPreviousBits
-	 *	@param	{number}	uTimeUsed
-	 *	@param	{number}	uTimeStandard
+	 *	@param	{number}	uPreviousBits		- unsigned int
+	 *	@param	{number}	uTimeUsed		- unsigned int
+	 *	@param	{number}	uTimeStandard		- unsigned int
 	 *	@param	{number}	dblDeposit		- double
-	 *	@param	{number}	uRoundIndex
+	 *	@param	{number}	uRoundIndex		- unsigned int
 	 *	@param	{function}	pfnCallback( err, { bits : 0, shiftByDeposit : 0, shiftByRoundIndex : 0 } )
 	 *	@return	{*}
 	 *
@@ -247,7 +247,16 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeStandard.' );
 		}
+		if ( 'number' !== typeof dblDeposit )
+		{
+			return pfnCallback( 'call calculateNextWorkRequired with invalid dblDeposit.' );
+		}
+		if ( 'number' !== typeof uRoundIndex || uRoundIndex < 0 )
+		{
+			return pfnCallback( 'call calculateNextWorkRequired with invalid uRoundIndex.' );
+		}
 
+		//	...
 		let nShiftByDeposit	= _objMinerLibrary.calculateShiftByDeposit( dblDeposit );
 		let nShiftByRoundIndex	= _objMinerLibrary.calculateShiftByRoundIndex( uRoundIndex );
 		let uNextBits		= _objMinerLibrary.calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex );

@@ -12,7 +12,7 @@ console.log( `-------------------------------------------------------` );
 
 
 let _arrComputeFunctions	= [];
-let _nDefaultAverageDifficulty	= 528482303;	//528482303;
+let _nDefaultAverageBits	= 528482303;	//528482303;
 
 for ( let i = 9000; i > 0; i -= 2 )
 {
@@ -20,7 +20,7 @@ for ( let i = 9000; i > 0; i -= 2 )
 	(
 		function( pfnNext )
 		{
-			calculateNext( _nDefaultAverageDifficulty, i, function( err, nDifficulty )
+			calculateNext( _nDefaultAverageBits, i, function( err, uBits )
 			{
 				if ( err )
 				{
@@ -29,20 +29,20 @@ for ( let i = 9000; i > 0; i -= 2 )
 
 				let sFlag	= '';
 				let sAdjust	= '';
-				let sOperator	= nDifficulty > _nDefaultAverageDifficulty
+				let sOperator	= uBits > _nDefaultAverageBits
 						? '+'
-						: nDifficulty === _nDefaultAverageDifficulty
+						: uBits === _nDefaultAverageBits
 							? '-'
 							: '-';
-				if ( nDifficulty > _nDefaultAverageDifficulty )
+				if ( uBits > _nDefaultAverageBits )
 				{
 					sFlag	= 'EASIER';
-					sAdjust	= ( ( Math.abs( nDifficulty - _nDefaultAverageDifficulty ) * 100 ) / _nDefaultAverageDifficulty ).toFixed( 2 );
+					sAdjust	= ( ( Math.abs( uBits - _nDefaultAverageBits ) * 100 ) / _nDefaultAverageBits ).toFixed( 2 );
 				}
-				else if ( nDifficulty < _nDefaultAverageDifficulty )
+				else if ( uBits < _nDefaultAverageBits )
 				{
 					sFlag	= 'HARDER';
-					sAdjust	= ( ( Math.abs( nDifficulty - _nDefaultAverageDifficulty ) * 100 ) / _nDefaultAverageDifficulty ).toFixed( 2 );
+					sAdjust	= ( ( Math.abs( uBits - _nDefaultAverageBits ) * 100 ) / _nDefaultAverageBits ).toFixed( 2 );
 				}
 				else
 				{
@@ -51,11 +51,11 @@ for ( let i = 9000; i > 0; i -= 2 )
 				}
 
 				let sTimeUsed	= String( i ) + '';
-				let sOutput	= `${ sFlag.padEnd( 6 ) } | ${ sOperator }${ sAdjust } | ${ _nDefaultAverageDifficulty } | ${ sTimeUsed.padStart( 8 ) } | ${ nDifficulty }`;
+				let sOutput	= `${ sFlag.padEnd( 6 ) } | ${ sOperator }${ sAdjust } | ${ _nDefaultAverageBits } | ${ sTimeUsed.padStart( 8 ) } | ${ uBits }`;
 				console.log( sOutput );
 
 				//	...
-				_nDefaultAverageDifficulty = nDifficulty;
+				_nDefaultAverageBits = uBits;
 
 				//	...
 				pfnNext();
