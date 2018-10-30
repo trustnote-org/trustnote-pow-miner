@@ -201,7 +201,7 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 
 			for ( uint32_t r = 0; r < sizeof( arrRoundIndex ) / sizeof( arrRoundIndex[ 0 ] ); r ++ )
 			{
-				int nRoundIndex	= arrRoundIndex[ r ];
+				uint32_t uRoundIndex	= arrRoundIndex[ r ];
 
 				//
 				//	...
@@ -240,7 +240,7 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 				uint32_t uNewBombBits;
 				char szNewBombTarget[ 66 ];
 
-				nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( nRoundIndex );
+				nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uRoundIndex );
 				memset( szNewBombTarget, 0, sizeof( szNewBombTarget ) );
 				uNewBombBits	= calculateNextWorkRequiredWithDeposit
 					(
@@ -248,7 +248,7 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 						arrDataList[ i ][ 1 ],
 						arrDataList[ i ][ 2 ],
 						dblDeposit,
-						nRoundIndex
+						uRoundIndex
 					);
 				getTargetByBits( uNewBombBits, szNewBombTarget, sizeof( szNewBombTarget ) );
 
@@ -259,7 +259,7 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 				printf( "%*s: %d\n", 16, "TimeUsed", arrDataList[ i ][ 1 ] );
 				printf( "%*s: %d\n", 16, "TimeStd", arrDataList[ i ][ 2 ] );
 				printf( "%*s: %f\n", 16, "Deposit", dblDeposit );
-				printf( "%*s: %d\n", 16, "nRoundIndex", nRoundIndex );
+				printf( "%*s: %d\n", 16, "uRoundIndex", uRoundIndex );
 
 				printf( "%*s: %08x\n", 16, "newStdBits", uNewBits );
 				printf( "%*s: %s\n", 16, "newStdTarget", szNewTarget );

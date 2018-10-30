@@ -10,7 +10,7 @@
 #include <cmath>
 
 
-int getBombShiftByRoundIndex( int nRoundIndex );
+int getBombShiftByRoundIndex( uint32_t uRoundIndex );
 void test_ethDifficultyBomb();
 
 
@@ -21,10 +21,10 @@ int main()
 }
 
 
-int getBombShiftByRoundIndex( int nRoundIndex )
+int getBombShiftByRoundIndex( uint32_t uRoundIndex )
 {
 	//	Math.pow( 2, Math.floor( block.number / 100000 ) - 2 )
-	return -1 * std::min( (int)( pow( 2, floor( nRoundIndex / 100000 ) - 2.0 ) ), 32 );
+	return -1 * std::min( (int)( pow( 2, floor( uRoundIndex / 100000 ) - 2.0 ) ), 32 );
 }
 
 

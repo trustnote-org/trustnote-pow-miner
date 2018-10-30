@@ -312,6 +312,11 @@ class CTrustMinerLibrary
 							'uint',
 							[ 'uint', 'uint', 'uint' ]
 						],
+                    'calculateNextWorkRequiredWithDeposit' :
+						[
+                            'uint',
+                            [ 'uint', 'uint', 'uint', 'double', 'uint' ]
+						],
 					'getBitsByTarget' :
 						[
 							'uint',

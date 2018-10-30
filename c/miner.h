@@ -127,7 +127,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
  *	@param	{uint32_t}	uTimeUsed
  *	@param	{uint32_t}	uTimeStandard
  *	@param	{double}	dblDeposit
- *	@param	{int}		nRoundIndex
+ *	@param	{uint32_t}	uRoundIndex
  *	@return	{uint32_t}
  */
 EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
@@ -135,7 +135,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard,
 	const double   dblDeposit,
-	const int      nRoundIndex );
+	const uint32_t uRoundIndex );
 
 
 /**

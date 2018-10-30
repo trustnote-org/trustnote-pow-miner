@@ -2,6 +2,8 @@ all: \
     directory \
     blake2b.o \
     utility.o \
+    trustnote-miner-deposit.o \
+    trustnote-difficulty-bomb.o \
     miner.o \
     libcrypto.a \
     miner
@@ -12,6 +14,12 @@ blake2b.o:
 
 utility.o:
 	g++ -std=c++11 -c -I. -I./include/ ./include/utility.cpp
+
+trustnote-miner-deposit.o:
+	g++ -std=c++11 -c -I. -I./include/ ./include/trustnote-miner-deposit.cpp
+
+trustnote-difficulty-bomb.o:
+	g++ -std=c++11 -c -I. -I./include/ ./include/trustnote-difficulty-bomb.cpp
 
 miner.o: ./miner.h
 	g++ -std=c++11 -c -I. -I./include/ ./miner.cpp
@@ -29,7 +37,12 @@ libcrypto.a:
 miner:
 	g++ -std=c++11 -I. -I./include/ \
 	    -o output/miner.Linux.release \
-	    ./miner.o ./utility.o ./libcrypto.a ../asm/equihash/Linux/equihash_avx2.o
+	    ./miner.o \
+	    ./utility.o \
+	    ./trustnote-miner-deposit.o \
+	    ./trustnote-difficulty-bomb.o \
+	    ./libcrypto.a \
+	    ../asm/equihash/Linux/equihash_avx2.o
 
 
 directory:

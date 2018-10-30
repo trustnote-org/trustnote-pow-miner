@@ -16,12 +16,15 @@
 /**
  *	get bomb shift value by round index
  *
- *	@param	{int}	nRoundIndex
- *	@return	{int}	shift a 256bit target value right
+ *	@param	{uint32_t}	uRoundIndex
+ *	@return	{int}		shift a 256bit target value right
  */
-int TrustNoteDifficultyBomb::getBombShiftByRoundIndex( int nRoundIndex )
+int TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uint32_t uRoundIndex )
 {
+	//
+	//	ETH :
 	//	Math.pow( 2, Math.floor( block.number / 100000 ) - 2 )
+	//
 	return -1 *
 		(
 			std::min
@@ -31,7 +34,7 @@ int TrustNoteDifficultyBomb::getBombShiftByRoundIndex( int nRoundIndex )
 					pow
 					(
 						2,
-						floor( nRoundIndex / 100000 ) - 2.0
+						floor( uRoundIndex / 100000 ) - 2.0
 					)
 				),
 				256

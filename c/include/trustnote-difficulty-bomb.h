@@ -8,7 +8,7 @@
 
 namespace TrustNoteDifficultyBomb
 {
-	int getBombShiftByRoundIndex( int nRoundIndex );
+	int getBombShiftByRoundIndex( uint32_t uRoundIndex );
 }
 
 
