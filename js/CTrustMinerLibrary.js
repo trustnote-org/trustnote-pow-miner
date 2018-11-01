@@ -79,7 +79,7 @@ class CTrustMinerLibrary
 
 		let uOutMemNonce		= _ref.alloc( _ref.types.uint );
 		let uActualNonce		= null;
-		let bufHashHex			= new Buffer( 64 );
+		let bufHashHex			= Buffer.alloc( 64 );
 		let sActualHashHex		= null;
 
 		let nCallStartMining		= _objMinerLibrary.startMining

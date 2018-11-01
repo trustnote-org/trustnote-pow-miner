@@ -17,9 +17,9 @@ _objMinerLibrary = _ffi.Library
 let uOutMemNonce		= _ref.alloc( _ref.types.uint );
 let uActualNonce		= null;
 
-let bufInputHeader		= new Buffer( 140 );
+let bufInputHeader		= Buffer.alloc( 140 );
 let uBits			= 536936447;
-let bufHashHex			= new Buffer( 64 );
+let bufHashHex			= Buffer.alloc( 64 );
 let sActualHashHex		= null;
 
 let nCallStartMining		= null;
