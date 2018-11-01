@@ -42,14 +42,14 @@ int main()
 	nLength	= sizeof( arrDepositList ) / sizeof( arrDepositList[ 0 ] );
 	initPowDepositTable( arrDepositList, nLength );
 
-	printf( "%*s%*s%*s\n", 8, "shift", 18, "times", 16, "deposit" );
+	printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 19, "deposit" );
 	printf( "------------------------------------------------------------\n" );
 
 	for ( i = 0; i < nLength; i ++ )
 	{
 		printf( "{ %*d,", 8, arrDepositList[ i ].nShift );
-		printf( "%*f,", 18, arrDepositList[ i ].dblTimes );
-		printf( "%*f },", 16, arrDepositList[ i ].dblDeposit );
+		printf( "%*f,", 29, arrDepositList[ i ].dblTimes );
+		printf( "%*f },", 18, arrDepositList[ i ].dblDeposit );
 		printf( "\n" );
 	}
 }
@@ -62,11 +62,16 @@ int initPowDepositTable( STPOWDEPOSIT * pstPowDepositList, uint32_t nLength )
 
 	for ( i = 0; i < nLength; i ++ )
 	{
-		nShift	= i - 32;
+		nShift	= i;
 
 		pstPowDepositList[ i ].nShift		= nShift;
-		pstPowDepositList[ i ].dblTimes		= pow( 2, nShift );
-		pstPowDepositList[ i ].dblDeposit	= 50 * pow( pstPowDepositList[ i ].dblTimes, (double)( 1.0 / 3.0 ) );
+		pstPowDepositList[ i ].dblTimes		= pow( 2, nShift ) - 1;
+		pstPowDepositList[ i ].dblDeposit	= 3 * pow( pstPowDepositList[ i ].dblTimes, 0.22 );
+
+		if ( pstPowDepositList[ i ].dblDeposit > 50000 )
+		{
+			break;
+		}
 	}
 
 	return 0;
