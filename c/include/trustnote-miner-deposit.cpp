@@ -19,7 +19,7 @@
 static STPOWDEPOSIT _arrPowDepositTable[ TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH ] =
 {
 	//
-	//  nShift           dblTimes       dblDeposit
+	//  nShift          		dblTimes         dblDeposit
 	//
 	{        0,                     0.000000,          0.000000 },
 	{        1,                     1.000000,          3.000000 },
@@ -108,9 +108,9 @@ int TrustNoteDeposit::initDepositTable()
 
 		_arrPowDepositTable[ i ].nShift		= nShift;
 		_arrPowDepositTable[ i ].dblTimes	= pow( 2, nShift ) - 1;
-		_arrPowDepositTable[ i ].dblDeposit	= 3 * pow( _arrPowDepositTable[ i ].dblTimes, 0.22 );
+		_arrPowDepositTable[ i ].dblDeposit	= 10000.0 * 1000.0 * 1000.0 * ( 3 * pow( _arrPowDepositTable[ i ].dblTimes, 0.22 ) );
 
-		if ( _arrPowDepositTable[ i ].dblDeposit > 50000 )
+		if ( _arrPowDepositTable[ i ].dblDeposit > TRUSTNOTE_MINER_DEPOSIT_MAX_NOTES )
 		{
 			break;
 		}
@@ -135,7 +135,7 @@ STPOWDEPOSIT * TrustNoteDeposit::getDepositTable()
 /**
  *	get shift by deposit
  *
- *	@param	{double}	dblDeposit	in 10000MNs
+ *	@param	{double}	dblDeposit	in Notes
  *	@return	{int}
  */
 int TrustNoteDeposit::getShiftByDeposit( double dblDeposit )

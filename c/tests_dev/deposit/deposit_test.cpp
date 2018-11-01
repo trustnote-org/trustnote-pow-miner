@@ -37,14 +37,14 @@ void test_printDepositTable()
 	parrDepositTable	= TrustNoteDeposit::getDepositTable();
 	if ( parrDepositTable )
 	{
-		printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 19, "deposit" );
-		printf( "------------------------------------------------------------\n" );
+		printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 29, "deposit" );
+		printf( "--------------------------------------------------------------------------------\n" );
 
 		for ( i = 0; i < TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH; i ++ )
 		{
 			printf( "{ %*d,", 8, parrDepositTable[ i ].nShift );
 			printf( "%*f,", 29, parrDepositTable[ i ].dblTimes );
-			printf( "%*f },", 18, parrDepositTable[ i ].dblDeposit );
+			printf( "%*f },", 28, parrDepositTable[ i ].dblDeposit );
 			printf( "\n" );
 		}
 	}
