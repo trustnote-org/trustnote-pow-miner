@@ -16,7 +16,7 @@ const _miner	= require( '../js/index.js' );
 let _oOptions	=
 	{
 		bufInputHeader	: new Buffer( 140 ),
-		bits		: _miner.getBitsByTarget( "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
+		bits		: _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
 		calcTimes	: 30,
 		maxLoop		: 1000000,
 		maxWorkerCount	: 0,
