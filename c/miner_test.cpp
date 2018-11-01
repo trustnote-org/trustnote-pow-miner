@@ -299,10 +299,10 @@ void miner_test_startMining()
 
 	//	...
 	memset( utInputHeader, 0, sizeof( utInputHeader ) );
-	for ( int i = 0; i < 140; i ++ )
-	{
-		utInputHeader[ i ] = i;
-	}
+//	for ( int i = 0; i < 140; i ++ )
+//	{
+//		utInputHeader[ i ] = i;
+//	}
 	int nCallStartMining = startMining( utInputHeader, uBits, uNonceStart, uCalcTimes, &uNonce, szHexHash, sizeof( szHexHash ) );
 	printf
 	(

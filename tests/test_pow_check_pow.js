@@ -7,9 +7,9 @@ const _miner	= require( '../js/index.js' );
 
 
 let bufInputHeader	= Buffer.alloc( 140 );
-let uBits		= _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
-let nActualNonce	= 65;
-let sActualHashHex	= '00198bb0606e5a8b5d47577bc96de488116af886815f4dccc5ad1ebd78d1b14e';
+let uBits		= _miner.getBitsByTarget( "0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+let nActualNonce	= 4862;
+let sActualHashHex	= '000741ff9cb1081de2c66cadb75aca4183342bd288bc541d076dbceec6a9bef9';
 
 _miner.checkProofOfWork
 (
