@@ -8,8 +8,8 @@ const _miner	= require( '../js/index.js' );
 
 let bufInputHeader	= Buffer.alloc( 140 );
 let uBits		= _miner.getBitsByTarget( "0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
-let nActualNonce	= 4862;
-let sActualHashHex	= '000741ff9cb1081de2c66cadb75aca4183342bd288bc541d076dbceec6a9bef9';
+let nActualNonce	= 91;
+let sActualHashHex	= '00018033558564425fd808265ad06fd53e242a61b2f90ae4f0b94e4f4c23a99c';
 
 _miner.checkProofOfWork
 (
