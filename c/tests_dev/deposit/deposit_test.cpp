@@ -37,14 +37,14 @@ void test_printDepositTable()
 	parrDepositTable	= TrustNoteDeposit::getDepositTable();
 	if ( parrDepositTable )
 	{
-		printf( "%*s%*s%*s\n", 8, "shift", 18, "times", 16, "deposit" );
+		printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 19, "deposit" );
 		printf( "------------------------------------------------------------\n" );
 
 		for ( i = 0; i < TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH; i ++ )
 		{
 			printf( "{ %*d,", 8, parrDepositTable[ i ].nShift );
-			printf( "%*f,", 18, parrDepositTable[ i ].dblTimes );
-			printf( "%*f },", 16, parrDepositTable[ i ].dblDeposit );
+			printf( "%*f,", 29, parrDepositTable[ i ].dblTimes );
+			printf( "%*f },", 18, parrDepositTable[ i ].dblDeposit );
 			printf( "\n" );
 		}
 	}
@@ -58,8 +58,25 @@ void test_getShiftByDeposit()
 		-100.0,
 		0,
 		1.0,
+		3.0,
+		6.0,
+		9.0,
+		20.0,
+		30.0,
+		35.0,
+		40.0,
 		50.0,
+		55.0,
+		60.0,
+		80.0,
 		100.0,
+		200.0,
+		500.0,
+		800.0,
+		1000.0,
+		2000.0,
+		3000.0,
+		4000.0,
 		10000.0,
 		80000.0,
 		90000.0,

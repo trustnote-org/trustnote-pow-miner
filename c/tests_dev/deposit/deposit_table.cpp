@@ -9,26 +9,7 @@
 #include <algorithm>
 #include <cmath>
 
-
-typedef struct tagPowDeposit
-{
-    tagPowDeposit()
-    {
-	init();
-    }
-    void init()
-    {
-	    memset( this, 0, sizeof( tagPowDeposit ) );
-    }
-
-    int	   nShift;
-    double dblTimes;
-    double dblDeposit;
-
-}STPOWDEPOSIT, *LPSTPOWDEPOSIT;
-
-
-int initPowDepositTable( STPOWDEPOSIT * pstPowDepositList, uint32_t nLength );
+#include "trustnote-miner-deposit.h"
 
 
 
@@ -37,42 +18,25 @@ int main()
 {
 	int i;
 	int nLength;
-	STPOWDEPOSIT arrDepositList[ 65 ];
+	STPOWDEPOSIT * parrDepositList;
 
-	nLength	= sizeof( arrDepositList ) / sizeof( arrDepositList[ 0 ] );
-	initPowDepositTable( arrDepositList, nLength );
-
-	printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 19, "deposit" );
-	printf( "------------------------------------------------------------\n" );
-
-	for ( i = 0; i < nLength; i ++ )
+	nLength	= TRUSTNOTE_MINER_DEPOSIT_TABLE_LENGTH;
+	if ( 0 == TrustNoteDeposit::initDepositTable() )
 	{
-		printf( "{ %*d,", 8, arrDepositList[ i ].nShift );
-		printf( "%*f,", 29, arrDepositList[ i ].dblTimes );
-		printf( "%*f },", 18, arrDepositList[ i ].dblDeposit );
-		printf( "\n" );
-	}
-}
+		parrDepositList	= TrustNoteDeposit::getDepositTable();
+		printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 19, "deposit" );
+		printf( "------------------------------------------------------------\n" );
 
-
-int initPowDepositTable( STPOWDEPOSIT * pstPowDepositList, uint32_t nLength )
-{
-	int i;
-	int nShift;
-
-	for ( i = 0; i < nLength; i ++ )
-	{
-		nShift	= i;
-
-		pstPowDepositList[ i ].nShift		= nShift;
-		pstPowDepositList[ i ].dblTimes		= pow( 2, nShift ) - 1;
-		pstPowDepositList[ i ].dblDeposit	= 3 * pow( pstPowDepositList[ i ].dblTimes, 0.22 );
-
-		if ( pstPowDepositList[ i ].dblDeposit > 50000 )
+		for ( i = 0; i < nLength; i ++ )
 		{
-			break;
+			printf( "{ %*d,", 8, parrDepositList[ i ].nShift );
+			printf( "%*f,", 29, parrDepositList[ i ].dblTimes );
+			printf( "%*f },", 18, parrDepositList[ i ].dblDeposit );
+			printf( "\n" );
 		}
 	}
-
-	return 0;
+	else
+	{
+		printf( "failed to init deposit table." );
+	}
 }
