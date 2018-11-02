@@ -561,7 +561,14 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	else if ( nShift > 0 )
 	{
 		//	shift left makes the result easier
-		bnNormalUInt256 <<= abs( nShift );
+		for ( uint32_t i = 0; i < nShift; i ++ )
+		{
+			uint32_t uExponent = getExponentOfBits( bnNormalUInt256.GetCompact() );
+			if ( uExponent < 32 )
+			{
+				bnNormalUInt256 <<= 1;
+			}
+		}
 	}
 
 	//
@@ -713,6 +720,7 @@ EXPORT_API uint32_t getBitsByTarget( const char * pcszTargetHex )
 }
 
 
+
 /**
  *	convert 32 bits uint32_t bits to 256 bits string target
  *
@@ -728,14 +736,14 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 		#ifdef _DEBUG
 			printf( "getTargetByBits :: invalid parameter pszTargetHex, NULL.\n" );
 		#endif
-		return 0;
+		return -1000;
 	}
 	if ( uSize < 64 )
 	{
 		#ifdef _DEBUG
 			printf( "getTargetByBits :: invalid parameter uSize, must be great or equal to 64.\n" );
 		#endif
-		return 0;
+		return -1001;
 	}
 
 	//	...
@@ -759,7 +767,7 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 	//	the first 1 byte means
 	//		the size of the target in bytes
 	//
-	uint32_t uExponent		= uBits >> 24;
+	uint32_t uExponent		= getExponentOfBits( uBits );
 	if ( uExponent <= 32 )
 	{
 		//
@@ -770,7 +778,7 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 		//
 		//	the initial 3 bytes of the target
 		//
-		uint32_t uCoefficient		= ( uBits << 8 ) >> 8;
+		uint32_t uCoefficient		= getCoefficientOfBits( uBits );
 
 		//	...
 		memset( pszTargetHex, 0, uSize );
@@ -795,7 +803,7 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 	}
 	else
 	{
-		nRet = -1000;
+		nRet = -2000;
 		#ifdef _DEBUG
 			printf( "getTargetByBits :: uExponent must less then or equal to 32.\n" );
 		#endif
@@ -805,4 +813,25 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 }
 
 
+/**
+ *	get exponent of a given bits
+ *
+ *	@param	{uint32_t}	uBits
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getExponentOfBits( uint32_t uBits )
+{
+	return ( uBits >> 24 );
+}
 
+
+/**
+ *	get Coefficient of a given bits
+ *
+ *	@param	{uint32_t}	uBits
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getCoefficientOfBits( uint32_t uBits )
+{
+	return ( ( uBits << 8 ) >> 8 );
+}

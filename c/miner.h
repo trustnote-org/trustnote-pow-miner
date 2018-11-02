@@ -204,6 +204,24 @@ EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_
 
 
 
+/**
+ *	get exponent of a given bits
+ *
+ *	@param	{uint32_t}	uBits
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getExponentOfBits( uint32_t uBits );
+
+
+/**
+ *	get Coefficient of a given bits
+ *
+ *	@param	{uint32_t}	uBits
+ *	@return	{uint32_t}
+ */
+EXPORT_API uint32_t getCoefficientOfBits( uint32_t uBits );
+
+
 
 
 
