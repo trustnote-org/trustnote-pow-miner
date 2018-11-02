@@ -154,8 +154,8 @@ void miner_test_calculateNextWorkRequired()
 
 void miner_test_calculateNextWorkRequiredWithDeposit()
 {
-	//	0x1b07ffff	= 000000000007ffffffffffffffffffffffffffffffffffffffffffffffffffff
-	#define MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS	0x1b07ffff
+	//	0x1b07ffff	= 0000000000000000000000000000000007ffffffffffffffffffffffffffffff
+	#define MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS	0x1007ffff
 
 	uint32_t arrDataList[][ 3 ] =
 		{
@@ -175,13 +175,21 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 		{
 			-100.0,
 			0,
-			1.0 * 10000 * 1000 * 1000,
-			50.0 * 10000 * 1000 * 1000,
-			100.0 * 10000 * 1000 * 1000,
-			10000.0 * 10000 * 1000 * 1000,
-			80000.0 * 10000 * 1000 * 1000,
-			90000.0 * 10000 * 1000 * 1000,
-			100000.0 * 10000 * 1000 * 1000
+			1.0		* 10000.0 * 1000.0 * 1000.0,
+			50.0		* 10000.0 * 1000.0 * 1000.0,
+			100.0		* 10000.0 * 1000.0 * 1000.0,
+			10000.0		* 10000.0 * 1000.0 * 1000.0,
+			80000.0		* 10000.0 * 1000.0 * 1000.0,
+			90000.0		* 10000.0 * 1000.0 * 1000.0,
+			100000.0	* 10000.0 * 1000.0 * 1000.0,
+			200000.0	* 10000.0 * 1000.0 * 1000.0,
+			500000.0	* 10000.0 * 1000.0 * 1000.0,
+			1000000.0	* 10000.0 * 1000.0 * 1000.0,
+			2000000.0	* 10000.0 * 1000.0 * 1000.0,
+			10000000.0	* 10000.0 * 1000.0 * 1000.0,
+			100000000.0	* 10000.0 * 1000.0 * 1000.0,
+			500000000.0	* 10000.0 * 1000.0 * 1000.0,
+			900000000.0	* 10000.0 * 1000.0 * 1000.0,
 		};
 	int arrRoundIndex[] =
 		{
@@ -258,16 +266,16 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 				printf( "%*s: %s\n", 16, "PrevTarget", szPrevTarget );
 				printf( "%*s: %d\n", 16, "TimeUsed", arrDataList[ i ][ 1 ] );
 				printf( "%*s: %d\n", 16, "TimeStd", arrDataList[ i ][ 2 ] );
-				printf( "%*s: %f\n", 16, "Deposit", dblDeposit );
-				printf( "%*s: %d\n", 16, "uRoundIndex", uRoundIndex );
 
 				printf( "%*s: %08x\n", 16, "newStdBits", uNewBits );
 				printf( "%*s: %s\n", 16, "newStdTarget", szNewTarget );
 
+				printf( "%*s: %f WMN ||| %f\n", 16, "Deposit", ( dblDeposit / ( 10000.0 * 1000.0 * 1000.0 ) ), dblDeposit );
 				printf( "%*s: %d\n", 16, "DepositShift", nShiftWithDeposit );
 				printf( "%*s: %08x\n", 16, "newDepositBits", uNewBitsWithDeposit );
 				printf( "%*s: %s\n", 16, "newDepositTarget", szNewTargetWithDeposit );
 
+				printf( "%*s: %d\n", 16, "uRoundIndex", uRoundIndex );
 				printf( "%*s: %d\n", 16, "BombShift", nShiftBomb );
 				printf( "%*s: %08x\n", 16, "uNewBombBits", uNewBombBits );
 				printf( "%*s: %s\n", 16, "szNewBombTarget", szNewBombTarget );

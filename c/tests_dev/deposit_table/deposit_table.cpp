@@ -24,13 +24,13 @@ int main()
 	if ( 0 == TrustNoteDeposit::initDepositTable() )
 	{
 		parrDepositList	= TrustNoteDeposit::getDepositTable();
-		printf( "%*s%*s%*s\n", 10, "shift >>", 30, "times", 29, "deposit" );
-		printf( "----------------------------------------------------------------------\n" );
+		printf( "%*s%*s%*s\n", 10, "shift >>", 50, "times", 29, "deposit" );
+		printf( "------------------------------------------------------------------------------------------\n" );
 
 		for ( i = 0; i < nLength; i ++ )
 		{
 			printf( "{ %*d,", 8, parrDepositList[ i ].nShift );
-			printf( "%*f,", 29, parrDepositList[ i ].dblTimes );
+			printf( "%*f,", 49, parrDepositList[ i ].dblTimes );
 			printf( "%*f },", 28, parrDepositList[ i ].dblDeposit );
 			printf( "\n" );
 		}

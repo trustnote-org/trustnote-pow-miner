@@ -19,4 +19,4 @@ deposit_test:
 
 .PHONY: clean
 clean:
-	rm deposit_test *.o *.so *.a miner.*.debug miner.*.release
+	rm -rf deposit_test deposit_table *.o *.so *.a
