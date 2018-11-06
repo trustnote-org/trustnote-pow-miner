@@ -50,7 +50,7 @@ static bool _isEasierThanLimitByArithUInt256( const arith_uint256 & clsArithUInt
  *
  *	@return	{int}
  */
-#ifndef _TEST
+#if ! defined( _TEST ) && ! defined( _LIB )
 int main( void )
 {
 	return 0;

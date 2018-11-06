@@ -326,8 +326,4 @@ void miner_test_startMining()
 	printf( "miner_test_startMining : checkProofOfWork = %d : %s\n\n\n\n",
 			nCheckPoW,
 			0 == nCheckPoW ? "Winer Winner Chicken Dinner!" : "Not Okay!" );
-
-
-
-
 }
