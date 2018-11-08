@@ -275,16 +275,16 @@ class CTrustMinerLibrary
 
 	/**
 	 *	convert 256 bits string to uint32_t
-	 *	@param	{string}	sDifficulty256Hex	hex string with length of 64
+	 *	@param	{string}	sTarget256Hex	hex string with length of 64
 	 *	@returns {number}
 	 */
-	getBitsByTarget( sDifficulty256Hex )
+	getBitsByTarget( sTarget256Hex )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return 0;
 		}
-		return _objMinerLibrary.getBitsByTarget( Buffer.from( sDifficulty256Hex, 'ascii' ) );
+		return _objMinerLibrary.getBitsByTarget( Buffer.from( sTarget256Hex, 'ascii' ) );
 	}
 
 

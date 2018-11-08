@@ -9,10 +9,14 @@ TrustNote is an open source project that provides reliable and trusted public bl
 
 For more information, please visit our official website at [trustnote.org](https://trustnote.org/).
 
+<br />
+
 
 ## About
 
-TrustNote PoW-Miner is a free open source `TrustNote` miner for MacOS, Linux, Windows(x64) with multi-CPU  support. It is written in C++ and has been tested with AMD/Intel CPUs on MacOS, Linux, Windows(x64).
+TrustNote PoW-Miner is a free open source `TrustNote` miner for MacOS, Linux, Windows(x64) with multi-cores CPU support. It is written in C++ and has been tested on AMD/Intel CPUs for MacOS, Linux, Windows(x64).
+
+<br />
 
 ## Platforms
 
@@ -21,6 +25,8 @@ All supported platforms:
 * MacOS
 * Linux
 * Windows(x64)
+
+<br />
 
 
 ## Run
@@ -33,24 +39,27 @@ All supported platforms:
 
 > TrustNote PoW-Miner can be compiled into both executable binary file and shared object binary file. So, you can not only run the miner as a command line program, but also run it as a Node.js program by calling the export methods in JavaScript.
 
+<br />
+
 
 ## Install
 ```
 $ npm install https://github.com/trustnote/trustnote-pow-miner.git
 ```
-
+<br />
 
 ## Compile
 
-#### 1, Clone source code
+#### 1, Get source code
 
-Clone source code from github
+Clone the source code from github
 
 ```
 $ git clone https://github.com/trustnote/trustnote-pow-miner.git
 ```
 
-#### 2, Compile
+
+#### 2, Compiling
 
 Change your current working directory to `/c`, and then, select a Makefile by target platform/OS you want to compile for.
 
@@ -87,7 +96,6 @@ $ mv ./output/miner.Mac.debug.dylib ../lib/Mac/
 # Done!
 
 ```
-<br />
 
 * Linux
 
@@ -105,7 +113,6 @@ $ mv ./output/miner.Linux.debug.so ../lib/Linux/
 # Done!
 
 ```
-<br />
 
 
 * Windows(x64)
@@ -137,26 +144,43 @@ $ copy ./output/miner.Windows.x64.debug.dll ../lib/Windows/miner.Windows.x64.deb
 
 
 
-## Documentation
+## Documentation for Node.js
 
 ### .startMining( oOptions, pfnCallback )
 start mining
 
-* oOptions
+* Input parameters
 
-| name | type | optional | comment |
-|--- | --- | --- | --- |
-| .bufInputHeader | Buffer | no | 140 bytes Buffer object |
-| .bits | Number | no | number |
-| .calcTimes | Number | yes | default value : 30, compute times per loop |
-| .maxLoop | Number | yes | default value : 10000000, max loop |
+| name | type | optional | default | comment |
+|--- | --- | --- | --- | --- |
+| oOptions.bufInputHeader | Buffer | no | null | 140 bytes Buffer object |
+| oOptions.bits | Number | no | null | | target value in 4 bytes |
+| oOptions.calcTimes | Number | yes | 30 | compute times per loop |
+| oOptions.maxLoop | Number | yes | 10000000 | max loop |
+| oOptions.maxWorkerCount | Number | yes | _getDefaultMaxWorkerCount() | max worker count |
+| pfnCallback	| function | no | null | callback function( err, oSolution ) |
 
- * pfnCallback( err, oSolution )
+oSolution is a plain object :
 
-> oSolution is a plain object :
+```
+//	win
+{ win : true, hashHex : sActualHashHex, nonce : uActualNonce }
 
-> { win : true, hashHex : sActualHashHex, nonce : uActualNonce } <br />
-> { win : false, gameOver : true, hashHex : null, nonce : 0 } 
+//	game is over
+{ win : false, gameOver : true, hashHex : null, nonce : 0 } 
+
+```
+
+* Return value
+
+| return type | comment |
+|----------|----------|----------|
+| * | any
+
+<br />
+
+
+#### Demo
 
 
 ```js
@@ -209,6 +233,14 @@ _miner.startMining( oOptions, function( err, oData )
 
 stop mining
 
+* No input parameters
+
+* Return value
+
+| return type | comment |
+|----------|----------|----------|
+| * | any
+
 
 ```js
 const _miner	= require( 'trustnote-pow-miner' );
@@ -222,21 +254,142 @@ console.log( `The KILL signals were sent to all workers.` );
 ### .checkProofOfWork( bufInputHeader, uBits, uActualNonce, sActualHashHex, pfnCallback )
 check proof of work
 
+* Input parameters
+
+| parameter | type | comment |
+|----------|----------|----------|
+| bufInputHeader	| Buffer | 140 bytes Buffer object
+| uBits	| Number | 4 bytes unsigned int
+| uActualNonce	| Number | 4 bytes unsigned int
+| sActualHashHex	| String | 32 bytes hex string, 64 characters
+| pfnCallback	| function | callback function( err, { code : nCallCheckProofOfWork } )
+
+
+* Return value
+
+| return type | comment |
+|----------|----------|----------|
+| * | any
+
+<br />
 
 
 
 
 
+### .calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard, pfnCallback )
+
+calculate target in bits required in the next work
+
+* Input parameters
+
+| parameter | type | comment |
+|----------|----------|----------|
+| uPreviousBits	| Number | target value in 4 bytes bits format of previous cycle
+| uTimeUsed	| Number | actual used time value of previous cycle
+| uTimeStandard	| Number | standard time of a cycle
+| pfnCallback	| function | callback function( err, { bits : uNextBits } )
+
+* Return value
+
+| return type | comment |
+|----------|----------|----------|
+| * | any
 
 
-
-```js
-const _miner	= require( 'trustnote-pow-miner' );
+<br />
 
 
-checkProofOfWork( bufInputHeader, uBits, uActualNonce, sActualHashHex, pfnCallback )
+### .calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex, pfnCallback )
+
+calculate target in bits with deposit required in the next work
+
+* Input parameters
+
+| parameter | type | comment |
+|----------|----------|----------|
+| uPreviousBits	| Number | target value in 4 bytes bits format of previous cycle
+| uTimeUsed	| Number | actual used time value of previous cycle
+| uTimeStandard	| Number | standard time of a cycle
+| dblDeposit	| Number | amount in Notes calculated by a deposit address of a TrustNote SuperNode
+| uRoundIndex	| Number | current round index
+| pfnCallback	| function | callback function( err, objResult )
+
+objResult is a plain object:
+
+```json 
+{    
+	// 4 bytes bits value
+	bits : uNextBits,
+
+	// bits to shift left by deposit
+	shiftByDeposit : nShiftByDeposit,
+
+	// bits to shift right by round index
+	shiftByRoundIndex : nShiftByRoundIndex,
+}
+```
+
+<br />
+
+
+### .getBitsByTarget( sTarget256Hex )
+
+get 4 bytes bits value by 32 bytes target hex string.
+
+* Input parameters
+
+| parameter | type | comment |
+|----------|----------|----------|
+| sTarget256Hex	| Srring | target value in 32 bytes hex string
+
+
+sTarget256Hex string like:
 
 ```
+00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+```
+
+* Return value
+
+| return type | comment |
+|----------|----------|----------|
+| Number | target value in 4 bytes bits value, e.g.: 520617983
+
+<br />
+
+
+### .getTargetByBits( uBits, pfnCallback )
+
+get 32 bytes target hex string by 4 bytes bits value.
+
+* Input parameters
+
+| parameter | type | comment |
+|----------|----------|----------|
+| uBits	| Number | 4 bytes unsigned int
+| pfnCallback	| function | callback function( err, sTargetHex )
+
+uBits value like:
+
+```
+520617983
+```
+
+sTargetHex string like:
+
+```
+00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+```
+
+* Return value
+
+| return type | comment |
+|----------|----------|----------|
+| * | any
+
+
+<br />
 
 
 
