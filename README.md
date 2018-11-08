@@ -32,7 +32,7 @@ All supported platforms:
 ## Run
 
 #### Command line edition
-> TrustNote PoW-Miner had been successfully compiled and executed on MacOS, Linux, Windows(x64). <br />
+> TrustNote PoW-Miner had been successfully compiled and executed on MacOS, Linux and Windows(x64). <br />
 > But, TrustNote PoW-Miner in command line edition is only for unit testing and is not currently being used in any production environment.
 
 #### Working with Node.js
