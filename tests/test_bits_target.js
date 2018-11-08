@@ -14,6 +14,8 @@ const _miner	= require( '../js/index.js' );
  *	start here
  */
 let _arrUBitsList	= [
+	92179269,
+	22216704,
 	453025859,
 	_miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
 ];
