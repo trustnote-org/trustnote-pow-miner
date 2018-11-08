@@ -14,7 +14,7 @@ For more information, please visit our official website at [trustnote.org](https
 
 ## About
 
-TrustNote PoW-Miner is a free open source `TrustNote` miner for MacOS, Linux, Windows(x64) with multi-cores CPU support. It is written in C++ and has been tested on AMD/Intel CPUs for MacOS, Linux, Windows(x64).
+TrustNote PoW-Miner is a free open source `TrustNote` miner for MacOS, Linux, Windows(x64) with multi-cores CPU support. It is written in C++ and has been tested on AMD/Intel CPUs for MacOS, Linux and Windows(x64).
 
 <br />
 
