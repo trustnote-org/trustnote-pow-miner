@@ -1,0 +1,62 @@
+System Info
+------------------------------------------------------------
+Ubuntu 16.04.5 LTS
+Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz / 12 cores
+
+
+
+
+Report
+------------------------------------------------------------
+
+==> will mine with bits by shift right 0
+==> bits 0x1F07FFFF,  520617983, 0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+==> round 1
+==> call=0, nonce: 4862, hex: 000741ff9cb1081de2c66cadb75aca4183342bd288bc541d076dbceec6a9bef9
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 2
+==> call=0, nonce: 7807, hex: 0007bec87f16ad46ec2876c95f73f2958e61c255fd7793c9aba92fed031e60f6
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 3
+==> call=0, nonce: 28616, hex: 00069a1621a8845ce90de136d7d0423137862d5ff344e831f52ad02b8b802a4e
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> Time elapsed: 9195.836225
+
+
+
+==> will mine with bits by shift right 1
+==> bits 0x1F03FFFF,  520355839, 0003ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+==> round 1
+==> call=0, nonce: 23944, hex: 00010501420661acbe6b056d9c7b68d558ef6a9f849d9d81021009ae9dfb6b6b
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 2
+==> call=0, nonce: 26389, hex: 0003892c0b8dce069e1ae4e3f05dc0ac735da6fb8a811f50059012bc4a70b416
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 3
+==> call=0, nonce: 28935, hex: 0001b9d8752c6cbc1513e67c9c1fd570adc884a5095184e4e9cca070fe79fd00
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> Time elapsed: 15882.681547
+
+
+
+==> will mine with bits by shift right 2
+==> bits 0x1F01FFFF,  520224767, 0001ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+==> round 1
+==> call=0, nonce: 23944, hex: 00010501420661acbe6b056d9c7b68d558ef6a9f849d9d81021009ae9dfb6b6b
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 2
+==> call=0, nonce: 54576, hex: 0000cca3274b7b679c71d69d759df9e5056eb030805f9d5c3bd0443bf027579c
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 3
+==> call=0, nonce: 28935, hex: 0001b9d8752c6cbc1513e67c9c1fd570adc884a5095184e4e9cca070fe79fd00
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> Time elapsed: 21550.641282
+
+
+
+
+
+
+
+
+
