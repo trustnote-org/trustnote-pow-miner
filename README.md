@@ -162,7 +162,7 @@ start mining
 
 oSolution is a plain object :
 
-```JSON    
+```js   
 //	win
 { win : true, hashHex : sActualHashHex, nonce : uActualNonce }
 
@@ -173,10 +173,9 @@ oSolution is a plain object :
 
 * Return value
 
-| return type |
-|----------|
-| * any |
-
+| return type | comment |
+|----------|----------|----------|
+| * | any
 
 <br />
 
@@ -238,9 +237,9 @@ stop mining
 
 * Return value
 
-| return type |
-|----------|
-| * any |
+| return type | comment |
+|----------|----------|----------|
+| * | any
 
 
 ```js
@@ -268,9 +267,9 @@ check proof of work
 
 * Return value
 
-| return type |
-|----------|
-| * any |
+| return type | comment |
+|----------|----------|----------|
+| * | any
 
 <br />
 
@@ -293,9 +292,9 @@ calculate target in bits required in the next work
 
 * Return value
 
-| return type |
-|----------|
-| * any |
+| return type | comment |
+|----------|----------|----------|
+| * | any
 
 
 <br />
@@ -354,8 +353,8 @@ sTarget256Hex string like:
 * Return value
 
 | return type | comment |
-|----------|----------|
-| Number | target value in 4 bytes bits value, e.g.: 520617983 |
+|----------|----------|----------|
+| Number | target value in 4 bytes bits value, e.g.: 520617983
 
 <br />
 
@@ -385,9 +384,9 @@ sTargetHex string like:
 
 * Return value
 
-| return type |
-|----------|
-| * any |
+| return type | comment |
+|----------|----------|----------|
+| * | any
 
 
 <br />
