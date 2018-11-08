@@ -64,7 +64,7 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( `call startMining with invalid length(${ bufInputHeader.length }) of bufInputHeader.` );
 		}
-		if ( 'number' !== typeof uBits || uBits <= 0 )
+		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
 			return pfnCallback( 'call startMining with invalid uBits.' );
 		}
@@ -100,7 +100,7 @@ class CTrustMinerLibrary
 		}
 		else
 		{
-			return pfnCallback( `startMining return error code : ${ nCallStartMining }.` );
+			return pfnCallback( `call startMining unsuccessfully with code: ${ nCallStartMining }.` );
 		}
 	}
 
@@ -140,7 +140,7 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'call checkProofOfWork with invalid bufInputHeader.' );
 		}
-		if ( 'number' !== typeof uBits || uBits <= 0 )
+		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
 			return pfnCallback( 'call checkProofOfWork with invalid uBits.' );
 		}
@@ -287,6 +287,51 @@ class CTrustMinerLibrary
 		return _objMinerLibrary.getBitsByTarget( Buffer.from( sDifficulty256Hex, 'ascii' ) );
 	}
 
+
+	/**
+	 *	convert 32 bits uint32_t bits to 256 bits string target
+	 *
+	 * 	@param	{number}	uBits
+	 *
+	 * 	@description
+	 *
+	 * 	in c++
+	 *
+	 * 	EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_t uSize );
+	 *	@param 	{uint32_t}	uBits		e.g.: 0x1c03a809
+	 *	@param 	{char *}	pszTargetHex	e.g.: "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	 *	@param 	{uint32_t}	uSize
+	 *	@return	{int}
+	 */
+	getTargetByBits( uBits, pfnCallback )
+	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( 'failed to load miner library.' );
+		}
+		if ( 'number' !== typeof uBits || uBits < 0 )
+		{
+			return pfnCallback( 'call startMining with invalid uBits.' );
+		}
+
+		let bufTargetHex	= Buffer.alloc( 64 );
+		let nCall		= _objMinerLibrary.getTargetByBits
+		(
+			uBits,
+			bufTargetHex,
+			bufTargetHex.length
+		);
+		if ( 0 === nCall )
+		{
+			return pfnCallback( null, bufTargetHex.toString() );
+		}
+		else
+		{
+			return pfnCallback( `call getTargetByBits unsuccessfully with code: ${ nCall }.` );
+		}
+	}
+
+
 	/**
 	 *	is currently in debug model
 	 *
@@ -398,6 +443,11 @@ class CTrustMinerLibrary
 						[
 							'uint',
 							[ 'pointer' ]
+						],
+					'getTargetByBits' :
+						[
+							'int',
+							[ 'uint', 'char *', 'uint' ]
 						]
 				}
 			);

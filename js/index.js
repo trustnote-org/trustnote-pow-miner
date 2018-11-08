@@ -14,4 +14,5 @@ module.exports	= {
 	calculateNextWorkRequired		: _miner.library.calculateNextWorkRequired,
 	calculateNextWorkRequiredWithDeposit	: _miner.library.calculateNextWorkRequiredWithDeposit,
 	getBitsByTarget				: _miner.library.getBitsByTarget,
+	getTargetByBits				: _miner.library.getTargetByBits,
 };
