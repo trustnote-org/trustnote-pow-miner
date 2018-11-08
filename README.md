@@ -173,9 +173,9 @@ oSolution is a plain object :
 
 * Return value
 
-| return type | comment |
-|----------|----------|----------|
-| * | any
+| return type |
+|----------|
+| * any
 
 <br />
 
@@ -237,9 +237,9 @@ stop mining
 
 * Return value
 
-| return type | comment |
-|----------|----------|----------|
-| * | any
+| return type |
+|----------|
+| * any
 
 
 ```js
@@ -267,9 +267,9 @@ check proof of work
 
 * Return value
 
-| return type | comment |
-|----------|----------|----------|
-| * | any
+| return type |
+|----------|
+| * any
 
 <br />
 
@@ -292,9 +292,9 @@ calculate target in bits required in the next work
 
 * Return value
 
-| return type | comment |
-|----------|----------|----------|
-| * | any
+| return type |
+|----------|
+| * any
 
 
 <br />
@@ -317,7 +317,7 @@ calculate target in bits with deposit required in the next work
 
 objResult is a plain object:
 
-```JSON        
+```js        
 {    
 	// 4 bytes bits value
 	bits : uNextBits,
@@ -353,7 +353,7 @@ sTarget256Hex string like:
 * Return value
 
 | return type | comment |
-|----------|----------|----------|
+|----------|----------|
 | Number | target value in 4 bytes bits value, e.g.: 520617983
 
 <br />
@@ -384,9 +384,9 @@ sTargetHex string like:
 
 * Return value
 
-| return type | comment |
-|----------|----------|----------|
-| * | any
+| return type |
+|----------|
+| * any
 
 
 <br />
