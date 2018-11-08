@@ -82,7 +82,7 @@ After run compiling command, all library files will be made in folder `/c/output
 
 * MacOS
 
-```
+```bash
 # compile debug edition
 $ make clean
 $ make -f Makefile.dylib.Mac.debug
@@ -99,7 +99,7 @@ $ mv ./output/miner.Mac.debug.dylib ../lib/Mac/
 
 * Linux
 
-```
+```bash
 # compile debug edition
 $ make clean
 $ make -f Makefile.so.Linux.debug
@@ -124,7 +124,7 @@ $ mv ./output/miner.Linux.debug.so ../lib/Linux/
 2, Change your current working directory to `/trustnote-pow-miner/c/`
 
 
-```
+```bash
 ; compile debug edition
 $ cl.clean.bat
 $ cl.dll.Windows.x64.debug.bat
@@ -162,7 +162,7 @@ start mining
 
 oSolution is a plain object :
 
-```
+```JSON    
 //	win
 { win : true, hashHex : sActualHashHex, nonce : uActualNonce }
 
@@ -317,7 +317,7 @@ calculate target in bits with deposit required in the next work
 
 objResult is a plain object:
 
-```json 
+```JSON        
 {    
 	// 4 bytes bits value
 	bits : uNextBits,
@@ -389,15 +389,4 @@ sTargetHex string like:
 | * | any
 
 
-<br />
-
-
-
-
-<br />
-<br />
-<br />
-to be continued ...
-<br />
-<br />
 <br />
