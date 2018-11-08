@@ -75,7 +75,7 @@ Change your current working directory to `/c`, and then, select a Makefile by ta
 
 #### 3, Working with Node.js
 
-After run compiling command, all library files will be made in folder `/c/output/`. To use the exported methods in JavaScript, you need copy the output library files to `/lib/{platform/OS}/`
+After compiling, all library files will be made in folder `/c/output/`. To use the exported methods in JavaScript, you need copy the output library files to `/lib/{platform/OS}/`
 
 
 #### 4, Examples on how to compile
