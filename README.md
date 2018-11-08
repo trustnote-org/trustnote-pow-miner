@@ -63,12 +63,12 @@ $ git clone https://github.com/trustnote/trustnote-pow-miner.git
 
 Change your current working directory to `/c`, and then, select a Makefile by target platform/OS you want to compile for.
 
-| Command | Platform/OS | Edition | library file | passed on
+| Makefile | Platform | Edition | output library file | passed on
 |-------------|----------|----------|----------|----------|
-| make -f Makefile.dylib.Mac.debug | MacOS | debug  | miner.Mac.debug.dylib | MacOS Mojave
-| make -f Makefile.dylib.Mac.release | MacOS | release | miner.Mac.release.dylib | MacOS Mojave
-| make -f Makefile.so.Linux.debug | Linux | debug | miner.Linux.debug.so | Ubuntu 16.04.5 LTS
-| make -f Makefile.so.Linux.release | Linux | release | miner.Linux.release.so | Ubuntu 16.04.5 LTS
+| Makefile.dylib.Mac.debug | MacOS | debug  | miner.Mac.debug.dylib | MacOS Mojave
+| Makefile.dylib.Mac.release | MacOS | release | miner.Mac.release.dylib | MacOS Mojave
+| Makefile.so.Linux.debug | Linux | debug | miner.Linux.debug.so | Ubuntu 16.04.5
+| Makefile.so.Linux.release | Linux | release | miner.Linux.release.so | Ubuntu 16.04.5
 | cl.dll.Windows.x64.debug.bat | Windows x64 | debug | miner.Windows.x64.debug.dll | Windows 10 x64
 | cl.dll.Windows.x64.release.bat | Windows x64 | release | miner.Windows.x64.release.dll | Windows 10 x64
 
