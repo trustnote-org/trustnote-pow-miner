@@ -58,7 +58,7 @@ class CTrustMinerLibrary
 		}
 		if ( null === bufInputHeader || 'object' !== typeof bufInputHeader )
 		{
-			return pfnCallback( 'call startMining with invalid bufInputHeader.' );
+			return pfnCallback( `call startMining with invalid bufInputHeader(${ JSON.stringify( bufInputHeader ) }).` );
 		}
 		if ( 140 !== bufInputHeader.length )
 		{
@@ -66,15 +66,15 @@ class CTrustMinerLibrary
 		}
 		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uBits.' );
+			return pfnCallback( `call startMining with invalid uBits(${ JSON.stringify( uBits ) }).` );
 		}
 		if ( 'number' !== typeof uNonceStart || uNonceStart <= 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uNonceStart.' );
+			return pfnCallback( `call startMining with invalid uNonceStart(${ JSON.stringify( uNonceStart ) }).` );
 		}
 		if ( 'number' !== typeof uCalcTimes || uCalcTimes <= 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uCalcTimes.' );
+			return pfnCallback( `call startMining with invalid uCalcTimes(${ JSON.stringify( uCalcTimes ) }).` );
 		}
 
 		let uOutMemNonce		= _ref.alloc( _ref.types.uint );
@@ -138,15 +138,15 @@ class CTrustMinerLibrary
 		}
 		if ( null === bufInputHeader || 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid bufInputHeader.' );
+			return pfnCallback( `call checkProofOfWork with invalid bufInputHeader(${ JSON.stringify( bufInputHeader ) }).` );
 		}
 		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid uBits.' );
+			return pfnCallback( `call checkProofOfWork with invalid uBits(${ JSON.stringify( uBits ) }).` );
 		}
-		if ( 'number' !== typeof uActualNonce || uActualNonce <= 0 )
+		if ( 'number' !== typeof uActualNonce || uActualNonce < 0 )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid uActualNonce.' );
+			return pfnCallback( `call checkProofOfWork with invalid uActualNonce(${ JSON.stringify( uActualNonce )}).` );
 		}
 
 		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
@@ -186,25 +186,26 @@ class CTrustMinerLibrary
 	{
 		if ( ! _objMinerLibrary )
 		{
-			return pfnCallback( 'failed to load miner library.' );
+			return pfnCallback( `failed to load miner library.` );
 		}
-		if ( 'number' !== typeof uPreviousBits || uPreviousBits <= 0 )
+		if ( 'number' !== typeof uPreviousBits || uPreviousBits < 0 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uPreviousBits.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uPreviousBits(${ JSON.stringify( uPreviousBits ) }).` );
 		}
 		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeUsed.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeUsed(${ JSON.stringify( uTimeUsed ) }).` );
 		}
 		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeStandard.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeStandard(${ JSON.stringify( uTimeStandard ) }).` );
 		}
 
 		let uNextBits	= _objMinerLibrary.calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard );
 
 		return pfnCallback( null, { bits : uNextBits } );
 	}
+
 
 	/**
 	 *	calculate next work required target in 32 bits format with deposit and round index
@@ -235,25 +236,25 @@ class CTrustMinerLibrary
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
-		if ( 'number' !== typeof uPreviousBits || uPreviousBits <= 0 )
+		if ( 'number' !== typeof uPreviousBits || uPreviousBits < 0 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uPreviousBits.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uPreviousBits(${ JSON.stringify( uPreviousBits )}).` );
 		}
 		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeUsed.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeUsed(${ JSON.stringify( uTimeUsed ) }).` );
 		}
 		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uTimeStandard.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeStandard(${ JSON.stringify( uTimeStandard ) }).` );
 		}
 		if ( 'number' !== typeof dblDeposit )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid dblDeposit.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid dblDeposit(${ JSON.stringify( dblDeposit ) }).` );
 		}
-		if ( 'number' !== typeof uRoundIndex || uRoundIndex < 0 )
+		if ( 'number' !== typeof uRoundIndex || uRoundIndex < 1 )
 		{
-			return pfnCallback( 'call calculateNextWorkRequired with invalid uRoundIndex.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uRoundIndex(${ JSON.stringify( uRoundIndex ) }).` );
 		}
 
 		//	...
@@ -311,7 +312,7 @@ class CTrustMinerLibrary
 		}
 		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uBits.' );
+			return pfnCallback( `call startMining with invalid uBits(${ JSON.stringify( uBits ) }).` );
 		}
 
 		let bufTargetHex	= Buffer.alloc( 64 );

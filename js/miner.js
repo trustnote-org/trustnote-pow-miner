@@ -343,7 +343,7 @@ function spawnWorker( oOptions, pfnCallback )
 			// 	After disconnecting it is no longer possible to send or receive messages,
 			// 	and the subprocess.connected property is false.
 			//
-			console.log(`$$$ MINER SPAWN EVENT : child disconnect:\n`);
+			console.log( `$$$ MINER SPAWN EVENT : child disconnect:\n` );
 		});
 		hHandle.on( 'close', function( nCode, sSignal )
 		{
@@ -460,19 +460,19 @@ function start( oOptions, pfnCallback )
 {
 	if ( null === oOptions || 'object' !== typeof oOptions )
 	{
-		return pfnCallback( `invalid oOptions, not a plain object.` );
+		return pfnCallback( `invalid oOptions, not a plain object(${ JSON.stringify( oOptions ) }).` );
 	}
 	if ( null === oOptions.bufInputHeader || 'object' !== typeof oOptions.bufInputHeader )
 	{
-		return pfnCallback( `invalid oOptions.bufInputHeader, not a Buffer object.` );
+		return pfnCallback( `invalid oOptions.bufInputHeader(${ JSON.stringify( oOptions.bufInputHeader ) }), not a Buffer object.` );
 	}
 	if ( 140 !== oOptions.bufInputHeader.length )
 	{
-		return pfnCallback( `invalid oOptions.bufInputHeader, must be a Buffer with length of 140 bytes.` );
+		return pfnCallback( `invalid oOptions.bufInputHeader(length:${ oOptions.bufInputHeader.length }), must be a Buffer with length of 140 bytes.` );
 	}
 	if ( 'number' !== typeof oOptions.bits )
 	{
-		return pfnCallback( `invalid oOptions.bits, must be a number.` );
+		return pfnCallback( `invalid oOptions.bits(${ JSON.stringify( oOptions.bits ) }), must be a number.` );
 	}
 
 	let oOptionsCp		= Object.assign

@@ -51,7 +51,7 @@ function parseArgs()
 	_jsonArg = JSON.parse( _sArgString );
 	if ( null === _jsonArg || 'object' !== typeof _jsonArg )
 	{
-		throw new Error( `invalid format of arguments.` );
+		throw new Error( `invalid format of arguments _jsonArg(${ JSON.stringify( _jsonArg ) }).` );
 	}
 	if ( ! _jsonArg.hasOwnProperty( 'workerId' ) )
 	{
