@@ -122,6 +122,14 @@ EXPORT_API int startMining(
 	void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
 	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
+	#if ! defined( _NO_OPTIMIZE )
+		void * pvCacheContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
+		void * pvCacheContext		= (void*)( ( (long long)pvCacheContextAlloc + 4095 ) & -4096 );
+		void * pvCacheContextEnd	= (char*)pvCacheContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
+
+		EhPrepare( pvCacheContext, (void *)pcutInputHeader );
+	#endif
+
 	//	...
 	uint32_t uNonce		= uNonceStart;
 	uint32_t nNonceEnd	= uCalcTimes > 0
@@ -134,10 +142,20 @@ EXPORT_API int startMining(
 		#if defined( _DEBUG ) || defined( _TEST )
 			printf( "startMining :: Nonce: %u\n", uNonce );
 		#endif
+
 		//
-		//	calculate ...
+		//	prepare ...
 		//
-		EhPrepare( pvContext, (void *)pcutInputHeader );
+		#if ! defined( _NO_OPTIMIZE )
+
+			//	optimized by copying from memory
+			memcpy( pvContext, pvCacheContext, TRUSTNOTE_MINER_CONTEXT_SIZE );
+		#else
+			//	prepare again
+			EhPrepare( pvContext, (void *)pcutInputHeader );
+		#endif
+
+
 		#if defined( _DEBUG ) || defined( _TEST )
 			printf( "startMining :: EhPrepare done\n" );
 		#endif
@@ -193,6 +211,12 @@ EXPORT_API int startMining(
 	//	...
 	free( pvContextAlloc );
 	pvContextAlloc = NULL;
+
+	#if ! defined( _NO_OPTIMIZE )
+		free( pvCacheContextAlloc );
+		pvCacheContextAlloc = NULL;
+	#endif
+
 
 	//	...
 	return nRet;
