@@ -122,7 +122,7 @@ EXPORT_API int startMining(
 	void * pvContext	= (void*)( ( (long long)pvContextAlloc + 4095 ) & -4096 );
 	void * pvContextEnd	= (char*)pvContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
 
-	#if ! defined( _NO_OPTIMIZE )
+	#if ! defined( _NO_CACHE_OPTIMIZE )
 		void * pvCacheContextAlloc	= malloc( TRUSTNOTE_MINER_CONTEXT_SIZE + 4096 );
 		void * pvCacheContext		= (void*)( ( (long long)pvCacheContextAlloc + 4095 ) & -4096 );
 		void * pvCacheContextEnd	= (char*)pvCacheContext + TRUSTNOTE_MINER_CONTEXT_SIZE;
@@ -146,7 +146,7 @@ EXPORT_API int startMining(
 		//
 		//	prepare ...
 		//
-		#if ! defined( _NO_OPTIMIZE )
+		#if ! defined( _NO_CACHE_OPTIMIZE )
 
 			//	optimized by copying from memory
 			memcpy( pvContext, pvCacheContext, TRUSTNOTE_MINER_CONTEXT_SIZE );
@@ -212,7 +212,7 @@ EXPORT_API int startMining(
 	free( pvContextAlloc );
 	pvContextAlloc = NULL;
 
-	#if ! defined( _NO_OPTIMIZE )
+	#if ! defined( _NO_CACHE_OPTIMIZE )
 		free( pvCacheContextAlloc );
 		pvCacheContextAlloc = NULL;
 	#endif
