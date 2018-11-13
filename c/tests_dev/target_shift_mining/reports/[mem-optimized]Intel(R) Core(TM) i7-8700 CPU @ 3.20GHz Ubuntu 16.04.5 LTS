@@ -51,7 +51,18 @@ Report
 ==> Time elapsed: 22430.181590
 
 
-
+==> will mine with bits by shift right 3
+==> bits 0x1F00FFFF,  520159231, 0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+==> round 1
+==> call=0, nonce: 42263, hex: 0000b3caa745ebaf94c5e285cccc5b7663366a37a8cc4f7fabb0c71eb5910f44
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 2
+==> call=0, nonce: 54576, hex: 0000cca3274b7b679c71d69d759df9e5056eb030805f9d5c3bd0443bf027579c
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 3
+==> call=0, nonce: 34615, hex: 0000042f8f409280b49be87ad91fef54f24e18e6ae4cd9395f74162e6acf5c23
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> Time elapsed: 31174.847832
 
 
 
