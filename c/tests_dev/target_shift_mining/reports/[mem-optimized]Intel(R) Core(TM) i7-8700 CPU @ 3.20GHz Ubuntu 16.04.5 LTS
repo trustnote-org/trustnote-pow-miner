@@ -65,4 +65,32 @@ Report
 ==> Time elapsed: 31174.847832
 
 
+==> will mine with bits by shift right 4
+==> bits 0x1E7FFFFF,  511705087, 00007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+==> round 1
+==> call=0, nonce: 63100, hex: 0000007694222d9a2ff02736e7b6afe220b0eb59238c7d5126ba8fd9f047d546
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 2
+==> call=0, nonce: 79848, hex: 00004aa5e14549223c9e8d8618155b212ad3f3956c65ec211b0ad345a1919268
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 3
+==> call=0, nonce: 34615, hex: 0000042f8f409280b49be87ad91fef54f24e18e6ae4cd9395f74162e6acf5c23
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> Time elapsed: 37090.580174
+
+
+==> will mine with bits by shift right 5
+==> bits 0x1E3FFFFF,  507510783, 00003fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+==> round 1
+==> call=0, nonce: 63100, hex: 0000007694222d9a2ff02736e7b6afe220b0eb59238c7d5126ba8fd9f047d546
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 2
+==> call=0, nonce: 298242, hex: 0000311cdb095a88761f4880b11edd34834eb9efc928c45fb55233510045d74b
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> round 3
+==> call=0, nonce: 34615, hex: 0000042f8f409280b49be87ad91fef54f24e18e6ae4cd9395f74162e6acf5c23
+==> checkProofOfWork = 0 : Winer Winner Chicken Dinner!
+==> Time elapsed: 96334.522165
+
+
 
