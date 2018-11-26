@@ -300,7 +300,7 @@ calculate target in bits required in the next work
 <br />
 
 
-### .calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex, pfnCallback )
+### .calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uBombExplodingRoundIndex, uRoundIndex, pfnCallback )
 
 calculate target in bits with deposit required in the next work
 
@@ -312,6 +312,7 @@ calculate target in bits with deposit required in the next work
 | uTimeUsed	| Number | actual used time value of previous cycle
 | uTimeStandard	| Number | standard time of a cycle
 | dblDeposit	| Number | amount in Notes calculated by a deposit address of a TrustNote SuperNode
+| uBombExplodingRoundIndex	| Number | round index which bomb start exploding
 | uRoundIndex	| Number | current round index
 | pfnCallback	| function | callback function( err, objResult )
 

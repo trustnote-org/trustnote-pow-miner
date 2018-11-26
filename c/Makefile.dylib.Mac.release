@@ -6,7 +6,8 @@ all: \
     trustnote-difficulty-bomb.o \
     miner.o \
     libcrypto.a \
-    miner.dylib
+    miner.dylib \
+    clean_temp_file
 
 
 blake2b.o:
@@ -47,6 +48,10 @@ miner.dylib:
 
 directory:
 	mkdir -p output
+
+clean_temp_file:
+	rm -f *.o *.a
+
 
 
 

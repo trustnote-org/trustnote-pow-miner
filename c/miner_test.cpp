@@ -226,6 +226,7 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 				getTargetByBits( uNewBits, szNewTarget, sizeof( szNewTarget ) );
 
 				//	...
+				uint32_t uBombExplodingRoundIndex	= 100000;
 				int nShiftWithDeposit;
 				uint32_t uNewBitsWithDeposit;
 				char szNewTargetWithDeposit[ 66 ];
@@ -238,17 +239,19 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 						arrDataList[ i ][ 1 ],
 						arrDataList[ i ][ 2 ],
 						dblDeposit,
+						uBombExplodingRoundIndex,
 						0
 					);
 				getTargetByBits( uNewBitsWithDeposit, szNewTargetWithDeposit, sizeof( szNewTargetWithDeposit ) );
 
 				//	...
 				//	...
+				uint32_t uBombExplodingRoundIndex	= 100000;
 				int nShiftBomb;
 				uint32_t uNewBombBits;
 				char szNewBombTarget[ 66 ];
 
-				nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uRoundIndex );
+				nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uBombExplodingRoundIndex, uRoundIndex );
 				memset( szNewBombTarget, 0, sizeof( szNewBombTarget ) );
 				uNewBombBits	= calculateNextWorkRequiredWithDeposit
 					(
@@ -256,6 +259,7 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 						arrDataList[ i ][ 1 ],
 						arrDataList[ i ][ 2 ],
 						dblDeposit,
+						uBombExplodingRoundIndex,
 						uRoundIndex
 					);
 				getTargetByBits( uNewBombBits, szNewBombTarget, sizeof( szNewBombTarget ) );

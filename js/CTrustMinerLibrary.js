@@ -210,11 +210,12 @@ class CTrustMinerLibrary
 	/**
 	 *	calculate next work required target in 32 bits format with deposit and round index
 	 *
-	 *	@param	{number}	uPreviousBits		- unsigned int
-	 *	@param	{number}	uTimeUsed		- unsigned int
-	 *	@param	{number}	uTimeStandard		- unsigned int
-	 *	@param	{number}	dblDeposit		- double
-	 *	@param	{number}	uRoundIndex		- unsigned int
+	 *	@param	{number}	uPreviousBits			- unsigned int
+	 *	@param	{number}	uTimeUsed			- unsigned int
+	 *	@param	{number}	uTimeStandard			- unsigned int
+	 *	@param	{number}	dblDeposit			- double
+	 *	@param	{number}	uBombExplodingRoundIndex	- unsigned int
+	 *	@param	{number}	uRoundIndex			- unsigned int
 	 *	@param	{function}	pfnCallback( err, { bits : 0, shiftByDeposit : 0, shiftByRoundIndex : 0 } )
 	 *	@return	{*}
 	 *
@@ -227,10 +228,11 @@ class CTrustMinerLibrary
 	 *			const uint32_t uTimeUsed,
 	 *			const uint32_t uTimeStandard,
 	 *			const double   dblDeposit,
+	 *			const uint32_t uBombExplodingRoundIndex,
 	 *			const uint32_t uRoundIndex
 	 *		)
 	 */
-	calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex, pfnCallback )
+	calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uBombExplodingRoundIndex, uRoundIndex, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
@@ -259,8 +261,8 @@ class CTrustMinerLibrary
 
 		//	...
 		let nShiftByDeposit	= _objMinerLibrary.calculateShiftByDeposit( dblDeposit );
-		let nShiftByRoundIndex	= _objMinerLibrary.calculateShiftByRoundIndex( uRoundIndex );
-		let uNextBits		= _objMinerLibrary.calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uRoundIndex );
+		let nShiftByRoundIndex	= _objMinerLibrary.calculateShiftByRoundIndex( uBombExplodingRoundIndex, uRoundIndex );
+		let uNextBits		= _objMinerLibrary.calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uBombExplodingRoundIndex, uRoundIndex );
 
 		return pfnCallback
 		(
@@ -428,7 +430,7 @@ class CTrustMinerLibrary
 					'calculateNextWorkRequiredWithDeposit' :
 						[
 							'uint',
-                            				[ 'uint', 'uint', 'uint', 'double', 'uint' ]
+                            				[ 'uint', 'uint', 'uint', 'double', 'uint', 'uint' ]
 						],
 					'calculateShiftByDeposit' :
 						[
@@ -438,7 +440,7 @@ class CTrustMinerLibrary
 					'calculateShiftByRoundIndex' :
 						[
 							'int',
-							[ 'uint' ]
+							[ 'uint', 'uint' ]
 						],
 					'getBitsByTarget' :
 						[

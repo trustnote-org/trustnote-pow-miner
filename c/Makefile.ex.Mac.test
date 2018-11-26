@@ -7,7 +7,8 @@ all: \
     miner.o \
     libcrypto.a \
     miner_test.o \
-    miner_test
+    miner_test \
+    clean_temp_file
 
 
 blake2b.o:
@@ -53,6 +54,8 @@ miner_test:
 directory:
 	mkdir -p output
 
+clean_temp_file:
+	rm -f *.o *.a
 
 
 

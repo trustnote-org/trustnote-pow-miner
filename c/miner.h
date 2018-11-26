@@ -135,6 +135,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard,
 	const double   dblDeposit,
+	const uint32_t uBombExplodingRoundIndex,
 	const uint32_t uRoundIndex );
 
 
@@ -153,7 +154,7 @@ EXPORT_API int calculateShiftByDeposit( double dblDeposit );
  *	@param	{uint32_t}	uRoundIndex
  *	@return	{uint32_t}
  */
-EXPORT_API int calculateShiftByRoundIndex( uint32_t uRoundIndex );
+EXPORT_API int calculateShiftByRoundIndex( uint32_t uBombExplodingRoundIndex, uint32_t uRoundIndex );
 
 
 

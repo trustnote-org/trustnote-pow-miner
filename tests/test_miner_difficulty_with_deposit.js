@@ -21,7 +21,8 @@ _miner.calculateNextWorkRequiredWithDeposit
 	nTimeUsed,
 	nTimeStandard,
 	1000,
-	600000,
+	100000,
+	100000,
 	function( err, oData )
 	{
 		//

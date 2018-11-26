@@ -554,6 +554,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	const uint32_t uTimeUsed,
 	const uint32_t uTimeStandard,
 	const double   dblDeposit,
+	const uint32_t uBombExplodingRoundIndex,
 	const uint32_t uRoundIndex )
 {
 	uint32_t uRet	= 0;
@@ -599,7 +600,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	//	shift bits by difficulty bomb
 	//	Math.pow( 2, Math.floor( block.number / 100000 ) - 2 )
 	//
-	int nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uRoundIndex );
+	int nShiftBomb	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uBombExplodingRoundIndex, uRoundIndex );
 	if ( nShiftBomb < 0 )
 	{
 		//	shift right makes the result harder
@@ -640,9 +641,9 @@ EXPORT_API int calculateShiftByDeposit( double dblDeposit )
  *	@param	{uint32_t}	uRoundIndex
  *	@return	{uint32_t}
  */
-EXPORT_API int calculateShiftByRoundIndex( uint32_t uRoundIndex )
+EXPORT_API int calculateShiftByRoundIndex( uint32_t uBombExplodingRoundIndex, uint32_t uRoundIndex )
 {
-	return TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uRoundIndex );
+	return TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uBombExplodingRoundIndex, uRoundIndex );
 }
 
 
