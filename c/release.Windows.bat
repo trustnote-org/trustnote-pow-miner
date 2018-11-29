@@ -1,5 +1,5 @@
-del "..\lib\Windows\miner.Windows.x64.debug.dll"
-del "..\lib\Windows\miner.Windows.x64.release.dll"
+del /s "..\lib\Windows\miner.Windows.x64.debug.dll"
+del /s "..\lib\Windows\miner.Windows.x64.release.dll"
 
 .\cl.clean.bat
 .\cl.dll.Windows.x64.debug.bat
