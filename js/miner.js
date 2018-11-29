@@ -315,7 +315,7 @@ function spawnWorker( oOptions, pfnCallback )
 	{
 		hHandle.stdout.on( 'data', ( sData ) =>
 		{
-			//console.log( `child stdout:\n${ sData }` );
+			console.log( `child stdout:\n${ sData }` );
 			let jsonResult = checkWin( sData );
 			if ( jsonResult )
 			{

@@ -245,8 +245,6 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 				getTargetByBits( uNewBitsWithDeposit, szNewTargetWithDeposit, sizeof( szNewTargetWithDeposit ) );
 
 				//	...
-				//	...
-				uint32_t uBombExplodingRoundIndex	= 100000;
 				int nShiftBomb;
 				uint32_t uNewBombBits;
 				char szNewBombTarget[ 66 ];

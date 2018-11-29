@@ -92,6 +92,7 @@ class CTrustMinerLibrary
 				bufHashHex,
 				bufHashHex.length
 			);
+		console.log( `call _objMinerLibrary.startMining( bufInputHeader:${ bufInputHeader.toString( 'hex' ) }, bit:${ uBits },uNonceStart:${ uNonceStart } ) with return value: ${ nCallStartMining }` );
 		if ( 0 === nCallStartMining )
 		{
 			uActualNonce		= uOutMemNonce.deref();

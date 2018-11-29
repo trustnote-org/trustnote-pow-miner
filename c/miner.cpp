@@ -177,10 +177,16 @@ EXPORT_API int startMining(
 
 			#if defined( _DEBUG ) || defined( _TEST )
 				printf( "startMining :: Nonce: %u\t : %.*s\n", uNonce, 64, szHexHash );
+				printf( "startMining :: will filterDifficulty, uBits: %u\n", uBits );
 			#endif
 
 			//	filter
 			int nCheck = filterDifficulty( uBits, szHexHash );
+
+			#if defined( _DEBUG ) || defined( _TEST )
+				printf( "startMining :: return by filterDifficulty: %d\n", nCheck );
+			#endif
+
 			if ( 0 == nCheck )
 			{
 				#if defined( _DEBUG ) || defined( _TEST )
@@ -215,6 +221,10 @@ EXPORT_API int startMining(
 	#if ! defined( _NO_CACHE_OPTIMIZE )
 		free( pvCacheContextAlloc );
 		pvCacheContextAlloc = NULL;
+	#endif
+
+	#if defined( _DEBUG ) || defined( _TEST )
+		printf( "startMining :: ****** return value : %d\n", nRet );
 	#endif
 
 

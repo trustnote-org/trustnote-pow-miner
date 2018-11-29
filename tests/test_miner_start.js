@@ -13,10 +13,18 @@ const _miner	= require( '../js/index.js' );
 /**
  *	start here
  */
-let _oOptions	=
+let sInputHeaderHex	= null;
+let bufInputHeader	= Buffer.alloc( 140 );
+let uBits		= _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+
+sInputHeaderHex		= 'e4b4f0b4727c33287a584acbadc1d112f3553a0efc21524b0a486c9cbbf13c2fd95a7dadc42380dcff7f90f4cb4fc519f6119c0fbe0a690d0fa09dce06920af2c8d32e2d9c98ee23289b22eb90b2b1c644df9bbd648813c0dc01a4d59d8774d14c2cb1a62711698af00fb14ed2f281e4202c389144294a4c00fd67a2f400db8967ea767343d9c9b359d5000a';
+//bufInputHeader	= Buffer.from( sInputHeaderHex, 'hex' );
+uBits			= 520617983;
+
+let _oOptions		=
 	{
-		bufInputHeader	: Buffer.alloc( 140 ),
-		bits		: _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
+		bufInputHeader	: bufInputHeader,
+		bits		: uBits,
 		calcTimes	: 30,
 		maxLoop		: 1000000,
 		maxWorkerCount	: 0,
