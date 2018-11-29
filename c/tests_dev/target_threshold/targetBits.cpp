@@ -24,7 +24,7 @@
 #endif
 
 
-void bits32ToTarget256Hex();
+void bits32ToTarget256Hex( uint32_t uBitsHex );
 
 
 
@@ -32,7 +32,13 @@ void bits32ToTarget256Hex();
 
 int main()
 {
-	bits32ToTarget256Hex();
+	//uint32_t uBitsDec		= 528482303;	//	in decimal
+	//const char * pszTarget[]	= { "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" };
+	//0x1F7FFFFF;	//	in hexadecimal
+//	bits32ToTarget256Hex( 0x1c03a809 );
+	bits32ToTarget256Hex( 537395199 );
+	bits32ToTarget256Hex( 536905386 );
+	bits32ToTarget256Hex( 520614345 );
 
 	//	...
 	return 0;
@@ -40,11 +46,8 @@ int main()
 
 
 
-void bits32ToTarget256Hex()
+void bits32ToTarget256Hex( uint32_t uBitsHex )
 {
-	//uint32_t uBitsDec		= 528482303;	//	in decimal
-	//const char * pszTarget[]	= { "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" };
-	uint32_t uBitsHex		= 0x1c03a809;	//0x1F7FFFFF;	//	in hexadecimal
 	char szTarget[ 66 ];
 
 	//
@@ -92,6 +95,9 @@ void bits32ToTarget256Hex()
 	{
 		printf( "uExponent must less then or equal to 32\n" );
 	}
+
+	//	...
+	printf( "--------------------------------------------------------------------------------\n" );
 }
 
 

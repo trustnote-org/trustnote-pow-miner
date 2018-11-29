@@ -41,7 +41,7 @@ extern "C" {
 //#define TRUSTNOTE_MINER_POW_LIMIT_TARGET	"0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 //#define TRUSTNOTE_MINER_POW_LIMIT_BITS	520617983
 #define TRUSTNOTE_MINER_POW_LIMIT_TARGET	"07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-#define TRUSTNOTE_MINER_POW_LIMIT_BITS		528482303
+#define TRUSTNOTE_MINER_POW_LIMIT_BITS		537395199
 
 
 
