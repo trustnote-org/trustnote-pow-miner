@@ -24,7 +24,7 @@ trustnote-difficulty-bomb.o:
 	g++ -std=c++11 -fPIC -c -g -D _DEBUG -I. -I./include/ ./include/trustnote-difficulty-bomb.cpp
 
 miner.o: ./miner.h
-	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _TEST -I. -I./include/ ./miner.cpp
+	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -D _TEST -I. -I./include/ ./miner.cpp
 
 miner_test.o: ./miner_test.h
 	g++ -std=c++11 -fPIC -pedantic-errors -c -g -D _DEBUG -I. -I./include/ ./miner_test.cpp

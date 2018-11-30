@@ -511,10 +511,11 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 
 	//	...
 	arith_uint256 bnNewUInt256;
-	bnNewUInt256.SetCompact( uPreviousBits );
+	bool bCompactNegative;
+	bnNewUInt256.SetCompact( uPreviousBits, &bCompactNegative );
 
 	#ifdef _DEBUG
-		printf( "*** before\t\t: %u\n", bnNewUInt256.GetCompact() );
+		printf( "*** before\t\t: %u, %u, %s\n", bnNewUInt256.GetCompact( bCompactNegative ), uPreviousBits, bCompactNegative ? "T" : "F" );
 	#endif
 
 	//	...
@@ -522,7 +523,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	bnNewUInt256	*= n64ActualTimeSpan;
 
 	#ifdef _DEBUG
-		printf( "*** after\t\t: %u [ ( %u / %u ) * %u ]\n", bnNewUInt256.GetCompact(),
+		printf( "*** after\t\t: %u [ ( %u / %u ) * %u ]\n", bnNewUInt256.GetCompact( bCompactNegative ),
 			uPreviousBits, uTimeStandard, n64ActualTimeSpan );
 	#endif
 
@@ -532,13 +533,13 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	if ( bnNewUInt256 > bnPowLimitUInt256 )
 	{
 		#ifdef _DEBUG
-			printf( "*** bnNewUInt256(%u) > bnPowLimitUInt256(%u)\n", bnNewUInt256.GetCompact(), bnPowLimitUInt256.GetCompact() );
+			printf( "*** bnNewUInt256(%u) > bnPowLimitUInt256(%u)\n", bnNewUInt256.GetCompact( bCompactNegative ), bnPowLimitUInt256.GetCompact() );
 		#endif
 		bnNewUInt256 = bnPowLimitUInt256;
 	}
 
 	//	...
-	uRet = bnNewUInt256.GetCompact();
+	uRet = bnNewUInt256.GetCompact( bCompactNegative );
 	#ifdef _DEBUG
 		printf( "calculateNextWorkRequired :: uPreviousBits : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u\n",
 			uPreviousBits, uTimeUsed, uTimeStandard, uRet );
@@ -569,12 +570,15 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 {
 	uint32_t uRet	= 0;
 	int nShift	= TRUSTNOTE_MINER_DEPOSIT_DEFAULT_SHIFT;
+	uint32_t uStdNewBits;
+	bool bCompactNegative;
 	arith_uint256 bnNormalUInt256;
 
 	//
 	//	calculate normal bits
 	//
-	bnNormalUInt256.SetCompact( calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard ) );
+	uStdNewBits	= calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard );
+	bnNormalUInt256.SetCompact( uStdNewBits, &bCompactNegative );
 
 	//
 	//	get shift by deposit
@@ -598,7 +602,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 		//	shift left makes the result easier
 		for ( uint32_t i = 0; i < nShift; i ++ )
 		{
-			uint32_t uExponent = getExponentOfBits( bnNormalUInt256.GetCompact() );
+			uint32_t uExponent = getExponentOfBits( bnNormalUInt256.GetCompact( bCompactNegative ) );
 			if ( uExponent < 32 )
 			{
 				bnNormalUInt256 <<= 1;
@@ -626,7 +630,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	}
 	else
 	{
-		uRet	= bnNormalUInt256.GetCompact();
+		uRet	= bnNormalUInt256.GetCompact( bCompactNegative );
 	}
 
 	return uRet;

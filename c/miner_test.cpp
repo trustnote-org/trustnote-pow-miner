@@ -159,6 +159,15 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 
 	uint32_t arrDataList[][ 3 ] =
 		{
+			{ 528482303, 2847,  2400 },
+			{ 527632248, 11963,  2400 },
+			{ 528977767, 2889,  2400 },
+			{ 529010421, 2925,  2400 },
+			{ 528723234, 35043,  2400 },
+			{ 529201362, 46221,  2400 },
+			{ 530157977, 40742,  2400 },
+			{ 530206310, 33167,  2400 },
+			{ 529347093, 36050,  2400 },
 			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 3194,  2400 },
 			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 2294,  2400 },
 			{ MINER_TEST_CALCULATENEXTWORKREQUIRED_WITHDEPOSIT_BITS, 1194,  2400 },
@@ -173,32 +182,33 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 		};
 	double arrDblData[] =
 		{
-			-100.0,
+//			-100.0,
 			0,
-			1.0		* 10000.0 * 1000.0 * 1000.0,
-			50.0		* 10000.0 * 1000.0 * 1000.0,
-			100.0		* 10000.0 * 1000.0 * 1000.0,
-			10000.0		* 10000.0 * 1000.0 * 1000.0,
-			80000.0		* 10000.0 * 1000.0 * 1000.0,
-			90000.0		* 10000.0 * 1000.0 * 1000.0,
-			100000.0	* 10000.0 * 1000.0 * 1000.0,
-			200000.0	* 10000.0 * 1000.0 * 1000.0,
-			500000.0	* 10000.0 * 1000.0 * 1000.0,
-			1000000.0	* 10000.0 * 1000.0 * 1000.0,
-			2000000.0	* 10000.0 * 1000.0 * 1000.0,
-			10000000.0	* 10000.0 * 1000.0 * 1000.0,
-			100000000.0	* 10000.0 * 1000.0 * 1000.0,
-			500000000.0	* 10000.0 * 1000.0 * 1000.0,
-			900000000.0	* 10000.0 * 1000.0 * 1000.0,
+//			1.0		* 10000.0 * 1000.0 * 1000.0,
+//			50.0		* 10000.0 * 1000.0 * 1000.0,
+//			100.0		* 10000.0 * 1000.0 * 1000.0,
+//			10000.0		* 10000.0 * 1000.0 * 1000.0,
+//			80000.0		* 10000.0 * 1000.0 * 1000.0,
+//			90000.0		* 10000.0 * 1000.0 * 1000.0,
+//			100000.0	* 10000.0 * 1000.0 * 1000.0,
+//			200000.0	* 10000.0 * 1000.0 * 1000.0,
+//			500000.0	* 10000.0 * 1000.0 * 1000.0,
+//			1000000.0	* 10000.0 * 1000.0 * 1000.0,
+//			2000000.0	* 10000.0 * 1000.0 * 1000.0,
+//			10000000.0	* 10000.0 * 1000.0 * 1000.0,
+//			100000000.0	* 10000.0 * 1000.0 * 1000.0,
+//			500000000.0	* 10000.0 * 1000.0 * 1000.0,
+//			900000000.0	* 10000.0 * 1000.0 * 1000.0,
 		};
 	int arrRoundIndex[] =
 		{
-			1000,
-			100000,
-			300000,
-			500000,
-			1000000,
-			2000000
+			21,
+//			1000,
+//			100000,
+//			300000,
+//			500000,
+//			1000000,
+//			2000000
 		};
 
 	for ( uint32_t i = 0; i < sizeof( arrDataList ) / sizeof( arrDataList[ 0 ] ); i ++ )
@@ -264,22 +274,22 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 
 
 				//	...
-				printf( "%*s: %08x\n", 16, "PrevBits", arrDataList[ i ][ 0 ] );
+				printf( "%*s: %08x, %u\n", 16, "PrevBits", arrDataList[ i ][ 0 ], arrDataList[ i ][ 0 ] );
 				printf( "%*s: %s\n", 16, "PrevTarget", szPrevTarget );
 				printf( "%*s: %d\n", 16, "TimeUsed", arrDataList[ i ][ 1 ] );
 				printf( "%*s: %d\n", 16, "TimeStd", arrDataList[ i ][ 2 ] );
 
-				printf( "%*s: %08x\n", 16, "newStdBits", uNewBits );
+				printf( "%*s: %08x, %u\n", 16, "newStdBits", uNewBits, uNewBits );
 				printf( "%*s: %s\n", 16, "newStdTarget", szNewTarget );
 
 				printf( "%*s: %f WMN ||| %f\n", 16, "Deposit", ( dblDeposit / ( 10000.0 * 1000.0 * 1000.0 ) ), dblDeposit );
 				printf( "%*s: %d\n", 16, "DepositShift", nShiftWithDeposit );
-				printf( "%*s: %08x\n", 16, "newDepositBits", uNewBitsWithDeposit );
+				printf( "%*s: %08x, %u\n", 16, "newDepositBits", uNewBitsWithDeposit, uNewBitsWithDeposit );
 				printf( "%*s: %s\n", 16, "newDepositTarget", szNewTargetWithDeposit );
 
 				printf( "%*s: %d\n", 16, "uRoundIndex", uRoundIndex );
 				printf( "%*s: %d\n", 16, "BombShift", nShiftBomb );
-				printf( "%*s: %08x\n", 16, "uNewBombBits", uNewBombBits );
+				printf( "%*s: %08x, %u\n", 16, "uNewBombBits", uNewBombBits, uNewBombBits );
 				printf( "%*s: %s\n", 16, "szNewBombTarget", szNewBombTarget );
 				printf( "\n" );
 			}
