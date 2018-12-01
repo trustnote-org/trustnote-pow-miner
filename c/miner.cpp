@@ -429,18 +429,48 @@ EXPORT_API int filterDifficulty(
 	//	...
 	bnTarget.SetCompact( uBits, & fNegative, & fOverflow );
 
+	#ifdef _DEBUG
+		printf
+		(
+			"filterDifficulty after SetCompact :: fNegative=%s, zero bnTarget=%s, fOverflow=%s\n",
+			fNegative ? "T" : "F",
+			0 == bnTarget ? "T" : "F",
+			fOverflow ? "T" : "F"
+		);
+	#endif
+
 	//	check range
-	if ( fNegative || 0 == bnTarget || fOverflow || bnTarget > UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) ) )
+
+	//
+	//	TODO
+	//	to fix this bug
+	//
+//	if ( fNegative )
+//	{
+//		//	printf("nBits below minimum work.\n");
+//		return -100;
+//	}
+	if ( 0 == bnTarget )
 	{
 		//	printf("nBits below minimum work.\n");
-		return -10;
+		return -101;
+	}
+	if ( fOverflow )
+	{
+		//	printf("nBits below minimum work.\n");
+		return -102;
+	}
+	if ( bnTarget > UintToArith256( uint256S( TRUSTNOTE_MINER_POW_LIMIT_TARGET ) ) )
+	{
+		//	printf("nBits below minimum work.\n");
+		return -103;
 	}
 
 	//	check proof of work matches claimed amount
 	if ( UintToArith256( uint256S( szHashHexCalc ) ) > bnTarget )
 	{
 		//	printf("hash doesn't match nBits.\n");
-		return -20;
+		return -200;
 	}
 
 	return 0;
