@@ -35,18 +35,18 @@ int main()
 
 void test_difficulty_bomb()
 {
-	uint32_t uExplodingRoundIndex	= 100000;
+	uint32_t uExplodingRoundIndex	= 50;
 	int arrTestData[][ 2 ] =
 		{
-			{ 0,		100000 },
-			{ 100000,	200000 },
-			{ 200000,	300000 },
-			{ 300000,	400000 },
-			{ 400000,	500000 },
-			{ 500000,	600000 },
-			{ 600000,	700000 },
-			{ 700000,	800000 },
-			{ 800000,	900000 },
+			{ 0,		300 },
+//			{ 100000,	200000 },
+//			{ 200000,	300000 },
+//			{ 300000,	400000 },
+//			{ 400000,	500000 },
+//			{ 500000,	600000 },
+//			{ 600000,	700000 },
+//			{ 700000,	800000 },
+//			{ 800000,	900000 },
 		};
 	int nLength	= sizeof( arrTestData ) / sizeof( arrTestData[ 0 ] );
 
@@ -63,7 +63,7 @@ void test_difficulty_bomb()
 		int nRoundIndexStart	= arrTestData[ i ][ 0 ];
 		int nRoundIndexEnd	= arrTestData[ i ][ 1 ];
 
-		for ( int j = nRoundIndexStart; j < nRoundIndexEnd; j += 5000 )
+		for ( int j = nRoundIndexStart; j < nRoundIndexEnd; j += 1 )
 		{
 			int nBombShift	= TrustNoteDifficultyBomb::getBombShiftByRoundIndex( uExplodingRoundIndex, j );
 

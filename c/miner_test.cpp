@@ -193,8 +193,8 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 //			100000.0	* 10000.0 * 1000.0 * 1000.0,
 //			200000.0	* 10000.0 * 1000.0 * 1000.0,
 //			500000.0	* 10000.0 * 1000.0 * 1000.0,
-//			1000000.0	* 10000.0 * 1000.0 * 1000.0,
-//			2000000.0	* 10000.0 * 1000.0 * 1000.0,
+			1000000.0	* 10000.0 * 1000.0 * 1000.0,
+			2000000.0	* 10000.0 * 1000.0 * 1000.0,
 //			10000000.0	* 10000.0 * 1000.0 * 1000.0,
 //			100000000.0	* 10000.0 * 1000.0 * 1000.0,
 //			500000000.0	* 10000.0 * 1000.0 * 1000.0,
@@ -203,13 +203,14 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 	int arrRoundIndex[] =
 		{
 			21,
-//			1000,
-//			100000,
+			1000,
+			100000,
 //			300000,
 //			500000,
 //			1000000,
 //			2000000
 		};
+	uint32_t uBombExplodingRoundIndex	= 50;
 
 	for ( uint32_t i = 0; i < sizeof( arrDataList ) / sizeof( arrDataList[ 0 ] ); i ++ )
 	{
@@ -236,7 +237,6 @@ void miner_test_calculateNextWorkRequiredWithDeposit()
 				getTargetByBits( uNewBits, szNewTarget, sizeof( szNewTarget ) );
 
 				//	...
-				uint32_t uBombExplodingRoundIndex	= 100000;
 				int nShiftWithDeposit;
 				uint32_t uNewBitsWithDeposit;
 				char szNewTargetWithDeposit[ 66 ];
