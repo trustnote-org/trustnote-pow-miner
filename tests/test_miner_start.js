@@ -17,9 +17,9 @@ let sInputHeaderHex	= null;
 let bufInputHeader	= Buffer.alloc( 140 );
 let uBits		= _miner.getBitsByTarget( "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
 
-sInputHeaderHex		= '53361928fa83a18646fcee23e66750b336d61129d5e71352b8032c8acaf67da3e793c4cb782712d9a13162e10e7080d966ff785abf708d15f5b01848f90c74764e6b65dae2ec03bcab28531b56786d2bd102ae608f8216d7ad3246111f67960e00a23680e668ba7701e0d0e0ce3a91ac907b1695bb154838c477623c0468b364c4c68ac18cddc846e53207e1';
+sInputHeaderHex		= 'f93c6f10ded14bc3d2351389bdf8aa50aed5e1ea2182cc9e031a2c75f05ccec9ac96251ec756ad5dfc75935f05a02f5f48cdf5ad0a090830dbb78cbebb198d664d66fd93d3c04184af48a5ad093a9f79fdb07888875a1d3b0aab54993becd9edc75ef252447cb2da6b99c9df021007cb06463a97382c4776dfa76aa34dbc5c39d67428e4fc9dc99cb736db4b';
 bufInputHeader	= Buffer.from( sInputHeaderHex, 'hex' );
-uBits			= 528979787;
+uBits			= 528548564;
 
 let _oOptions		=
 	{

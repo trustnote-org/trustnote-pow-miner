@@ -20,7 +20,8 @@ let _arrUBitsList	= [
 	528482303,
 	536905195,
 	528979787,
-	_miner.getBitsByTarget( "07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
+	528548564,
+	_miner.getBitsByTarget( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ),
 ];
 for ( let i = 0; i < _arrUBitsList.length; i ++ )
 {

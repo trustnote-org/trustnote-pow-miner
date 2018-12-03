@@ -83,7 +83,7 @@ EXPORT_API int startMining(
 {
 	int nRet;
 	uint8_t utOutContext[ 32 ];
-	char szHexHash[ 128 ];
+	char szHexHash[ 65 ];
 
 	if ( NULL == pcutInputHeader )
 	{
@@ -173,7 +173,9 @@ EXPORT_API int startMining(
 			//	blake2s	256/128
 			//
 			blake2b( (uint8_t *)utOutContext, (uint8_t *)pvContext + n * 1344, NULL, sizeof(utOutContext), 1344, 0 );
+			memset( szHexHash, 0, sizeof(szHexHash) );
 			bytesToHexString( utOutContext, 32, szHexHash );
+			szHexHash[ 64 ] = 0;
 
 			#if defined( _DEBUG ) || defined( _TEST )
 				printf( "startMining :: Nonce: %u\t : %.*s\n", uNonce, 64, szHexHash );
@@ -284,7 +286,7 @@ EXPORT_API int checkProofOfWork(
 	}
 
 	uint8_t utOutContext[ 32 ];
-	char szHashHex[ 128 ];
+	char szHashHex[ 65 ];
 
 	//	...
 	nRet = -1;
@@ -337,13 +339,17 @@ EXPORT_API int checkProofOfWork(
 			#ifdef _DEBUG
 				printf( "checkProofOfWork :: 051 will convert blake2b buffer to hex string\n" );
 			#endif
+
+			memset( szHashHex, 0, sizeof(szHashHex) );
 			bytesToHexString( utOutContext, 32, szHashHex );
+			szHashHex[ 64 ] = 0;
+
 			#ifdef _DEBUG
 				printf( "checkProofOfWork :: 052 blake2b buffer was converted to hex string\n" );
 			#endif
 
 			#ifdef _DEBUG
-				printf( "checkProofOfWork :: 100 will compare two hash hex strings.\n" );
+				printf( "checkProofOfWork :: 100 will compare two hash hex( szHashHex:%s, pcszHashHex:%s ).\n", szHashHex, pcszHashHex );
 			#endif
 			if ( 0 == strncasecmp( szHashHex, pcszHashHex, 64 ) )
 			{
@@ -432,7 +438,8 @@ EXPORT_API int filterDifficulty(
 	#ifdef _DEBUG
 		printf
 		(
-			"filterDifficulty after SetCompact :: fNegative=%s, zero bnTarget=%s, fOverflow=%s\n",
+			"filterDifficulty :: after SetCompact( %u ), fNegative=%s, zero bnTarget=%s, fOverflow=%s\n",
+			uBits,
 			fNegative ? "T" : "F",
 			0 == bnTarget ? "T" : "F",
 			fOverflow ? "T" : "F"
@@ -440,16 +447,11 @@ EXPORT_API int filterDifficulty(
 	#endif
 
 	//	check range
-
-	//
-	//	TODO
-	//	to fix this bug
-	//
-//	if ( fNegative )
-//	{
-//		//	printf("nBits below minimum work.\n");
-//		return -100;
-//	}
+	if ( fNegative )
+	{
+		//	printf("nBits below minimum work.\n");
+		return -100;
+	}
 	if ( 0 == bnTarget )
 	{
 		//	printf("nBits below minimum work.\n");
@@ -545,7 +547,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	bnNewUInt256.SetCompact( uPreviousBits, &bCompactNegative );
 
 	#ifdef _DEBUG
-		printf( "*** before\t\t: %u, %u, %s\n", bnNewUInt256.GetCompact( bCompactNegative ), uPreviousBits, bCompactNegative ? "T" : "F" );
+		printf( "*** before\t\t: %u, %u, %s\n", bnNewUInt256.GetCompact(), uPreviousBits, bCompactNegative ? "T" : "F" );
 	#endif
 
 	//	...
@@ -553,7 +555,7 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	bnNewUInt256	*= n64ActualTimeSpan;
 
 	#ifdef _DEBUG
-		printf( "*** after\t\t: %u [ ( %u / %u ) * %u ]\n", bnNewUInt256.GetCompact( bCompactNegative ),
+		printf( "*** after\t\t: %u [ ( %u / %u ) * %u ]\n", bnNewUInt256.GetCompact(),
 			uPreviousBits, uTimeStandard, n64ActualTimeSpan );
 	#endif
 
@@ -563,13 +565,13 @@ EXPORT_API uint32_t calculateNextWorkRequired(
 	if ( bnNewUInt256 > bnPowLimitUInt256 )
 	{
 		#ifdef _DEBUG
-			printf( "*** bnNewUInt256(%u) > bnPowLimitUInt256(%u)\n", bnNewUInt256.GetCompact( bCompactNegative ), bnPowLimitUInt256.GetCompact() );
+			printf( "*** bnNewUInt256(%u) > bnPowLimitUInt256(%u)\n", bnNewUInt256.GetCompact(), bnPowLimitUInt256.GetCompact() );
 		#endif
 		bnNewUInt256 = bnPowLimitUInt256;
 	}
 
 	//	...
-	uRet = bnNewUInt256.GetCompact( bCompactNegative );
+	uRet = bnNewUInt256.GetCompact();
 	#ifdef _DEBUG
 		printf( "calculateNextWorkRequired :: uPreviousBits : %u, uTimeUsed : %u, uTimeStandard : %u, return : %u\n",
 			uPreviousBits, uTimeUsed, uTimeStandard, uRet );
@@ -632,7 +634,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 		//	shift left makes the result easier
 		for ( uint32_t i = 0; i < nShift; i ++ )
 		{
-			uint32_t uExponent = getExponentOfBits( bnNormalUInt256.GetCompact( bCompactNegative ) );
+			uint32_t uExponent = getExponentOfBits( bnNormalUInt256.GetCompact() );
 			if ( uExponent < 32 )
 			{
 				bnNormalUInt256 <<= 1;
@@ -660,7 +662,7 @@ EXPORT_API uint32_t calculateNextWorkRequiredWithDeposit(
 	}
 	else
 	{
-		uRet	= bnNormalUInt256.GetCompact( bCompactNegative );
+		uRet	= bnNormalUInt256.GetCompact();
 	}
 
 	return uRet;
