@@ -26,3 +26,4 @@ _miner.checkProofOfWork
 		console.log( `######## : `, err, `oResult : `, oResult );
 	}
 );
+
