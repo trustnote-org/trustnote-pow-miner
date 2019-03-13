@@ -30,7 +30,7 @@ class CTrustMinerLibrary
 	 *	start mining
 	 *
 	 *	@param	{Buffer}	bufInputHeader
-	 *	@param	{number}	uDifficulty
+	 *	@param	{number}	uBits
 	 *	@param	{number}	uNonceStart
 	 *	@param	{number}	uCalcTimes
 	 *	@param	{function}	pfnCallback( err, { hashHex : '', nonce : 0 } )
@@ -42,7 +42,7 @@ class CTrustMinerLibrary
 	 *	int startMining
 	 *	(
 	 *		uint8_t * pcutInputHeader,
-	 *		uint32_t uDifficulty,
+	 *		uint32_t uBits,
 	 *		uint32_t uNonceStart,
 	 *		uint32_t uCalcTimes,
 	 *		OUT uint32_t * puNonce,
@@ -50,7 +50,7 @@ class CTrustMinerLibrary
 	 *		uint32_t uHashHexLength
 	 *	)
 	 */
-	startMining( bufInputHeader, uDifficulty, uNonceStart, uCalcTimes, pfnCallback )
+	startMining( bufInputHeader, uBits, uNonceStart, uCalcTimes, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
@@ -58,40 +58,41 @@ class CTrustMinerLibrary
 		}
 		if ( null === bufInputHeader || 'object' !== typeof bufInputHeader )
 		{
-			return pfnCallback( 'call startMining with invalid bufInputHeader.' );
+			return pfnCallback( `call startMining with invalid bufInputHeader(${ JSON.stringify( bufInputHeader ) }).` );
 		}
 		if ( 140 !== bufInputHeader.length )
 		{
 			return pfnCallback( `call startMining with invalid length(${ bufInputHeader.length }) of bufInputHeader.` );
 		}
-		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
+		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uDifficulty.' );
+			return pfnCallback( `call startMining with invalid uBits(${ JSON.stringify( uBits ) }).` );
 		}
 		if ( 'number' !== typeof uNonceStart || uNonceStart <= 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uNonceStart.' );
+			return pfnCallback( `call startMining with invalid uNonceStart(${ JSON.stringify( uNonceStart ) }).` );
 		}
 		if ( 'number' !== typeof uCalcTimes || uCalcTimes <= 0 )
 		{
-			return pfnCallback( 'call startMining with invalid uCalcTimes.' );
+			return pfnCallback( `call startMining with invalid uCalcTimes(${ JSON.stringify( uCalcTimes ) }).` );
 		}
 
 		let uOutMemNonce		= _ref.alloc( _ref.types.uint );
 		let uActualNonce		= null;
-		let bufHashHex			= new Buffer( 64 );
+		let bufHashHex			= Buffer.alloc( 64 );
 		let sActualHashHex		= null;
 
 		let nCallStartMining		= _objMinerLibrary.startMining
 			(
 				bufInputHeader,
-				uDifficulty,
+				uBits,
 				uNonceStart,
 				uCalcTimes,
 				uOutMemNonce,
 				bufHashHex,
 				bufHashHex.length
 			);
+		console.log( `call _objMinerLibrary.startMining( bufInputHeader:${ bufInputHeader.toString( 'hex' ) }, bit:${ uBits },uNonceStart:${ uNonceStart } ) with return value: ${ nCallStartMining }` );
 		if ( 0 === nCallStartMining )
 		{
 			uActualNonce		= uOutMemNonce.deref();
@@ -100,7 +101,7 @@ class CTrustMinerLibrary
 		}
 		else
 		{
-			return pfnCallback( `startMining return error code : ${ nCallStartMining }.` );
+			return pfnCallback( `call startMining unsuccessfully with code: ${ nCallStartMining }.` );
 		}
 	}
 
@@ -109,7 +110,7 @@ class CTrustMinerLibrary
 	 *	check proof of work
 	 *
 	 *	@param	{Buffer}	bufInputHeader
-	 *	@param	{number}	uDifficulty
+	 *	@param	{number}	uBits
 	 *	@param	{number}	uActualNonce
 	 *	@param	{string}	sActualHashHex
 	 *	@param	{function}	pfnCallback( err, { code : 0 } )
@@ -121,7 +122,7 @@ class CTrustMinerLibrary
 	 *	int checkProofOfWork
 	 *	(
 	 *		uint8_t * pcutInputHeader,
-	 *		uint32_t uDifficulty,
+	 *		uint32_t uBits,
 	 *		uint32_t uNonce,
 	 *		const char * pcszHashHex
 	 *	)
@@ -130,7 +131,7 @@ class CTrustMinerLibrary
 	 * 		code:
 	 *		0	successfully
 	 */
-	checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, sActualHashHex, pfnCallback )
+	checkProofOfWork( bufInputHeader, uBits, uActualNonce, sActualHashHex, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
@@ -138,19 +139,19 @@ class CTrustMinerLibrary
 		}
 		if ( null === bufInputHeader || 'object' !== typeof bufInputHeader || 140 !== bufInputHeader.length )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid bufInputHeader.' );
+			return pfnCallback( `call checkProofOfWork with invalid bufInputHeader(${ JSON.stringify( bufInputHeader ) }).` );
 		}
-		if ( 'number' !== typeof uDifficulty || uDifficulty <= 0 )
+		if ( 'number' !== typeof uBits || uBits < 0 )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid uDifficulty.' );
+			return pfnCallback( `call checkProofOfWork with invalid uBits(${ JSON.stringify( uBits ) }).` );
 		}
-		if ( 'number' !== typeof uActualNonce || uActualNonce <= 0 )
+		if ( 'number' !== typeof uActualNonce || uActualNonce < 0 )
 		{
-			return pfnCallback( 'call checkProofOfWork with invalid uActualNonce.' );
+			return pfnCallback( `call checkProofOfWork with invalid uActualNonce(${ JSON.stringify( uActualNonce )}).` );
 		}
 
 		let bufActualHashHex		= Buffer.from( sActualHashHex, 'ascii' );
-		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uDifficulty, uActualNonce, bufActualHashHex );
+		let nCallCheckProofOfWork	= _objMinerLibrary.checkProofOfWork( bufInputHeader, uBits, uActualNonce, bufActualHashHex );
 
 		if ( 0 === nCallCheckProofOfWork )
 		{
@@ -164,61 +165,176 @@ class CTrustMinerLibrary
 
 
 	/**
-	 *	calculate next cycle difficulty
+	 *	calculate next cycle bits
 	 *
-	 *	@param	{number}	uPreviousDifficulty
+	 *	@param	{number}	uPreviousBits
 	 *	@param	{number}	uTimeUsed
 	 *	@param	{number}	uTimeStandard
-	 *	@param	{function}	pfnCallback( err, { difficulty : 0 } )
+	 *	@param	{function}	pfnCallback( err, { bits : 0 } )
 	 *	@return	{*}
 	 *
 	 *	@description
 	 *
 	 * 	in c++ :
-	 *	uint32_t calculateNextDifficulty
+	 *	uint32_t calculateNextWorkRequired
 	 *		(
-	 *			uint32_t uPreviousDifficulty,
+	 *			uint32_t uPreviousBits,
 	 *			uint32_t uTimeUsed,
 	 *			uint32_t uTimeStandard
 	 *		);
 	 */
-	calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard, pfnCallback )
+	calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard, pfnCallback )
+	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( `failed to load miner library.` );
+		}
+		if ( 'number' !== typeof uPreviousBits || uPreviousBits < 0 )
+		{
+			return pfnCallback( `call calculateNextWorkRequired with invalid uPreviousBits(${ JSON.stringify( uPreviousBits ) }).` );
+		}
+		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
+		{
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeUsed(${ JSON.stringify( uTimeUsed ) }).` );
+		}
+		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
+		{
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeStandard(${ JSON.stringify( uTimeStandard ) }).` );
+		}
+
+		let uNextBits	= _objMinerLibrary.calculateNextWorkRequired( uPreviousBits, uTimeUsed, uTimeStandard );
+
+		return pfnCallback( null, { bits : uNextBits } );
+	}
+
+
+	/**
+	 *	calculate next work required target in 32 bits format with deposit and round index
+	 *
+	 *	@param	{number}	uPreviousBits			- unsigned int
+	 *	@param	{number}	uTimeUsed			- unsigned int
+	 *	@param	{number}	uTimeStandard			- unsigned int
+	 *	@param	{number}	dblDeposit			- double
+	 *	@param	{number}	uBombExplodingRoundIndex	- unsigned int
+	 *	@param	{number}	uRoundIndex			- unsigned int
+	 *	@param	{function}	pfnCallback( err, { bits : 0, shiftByDeposit : 0, shiftByRoundIndex : 0 } )
+	 *	@return	{*}
+	 *
+	 *	@description
+	 *
+	 * 	in c++ :
+	 *	uint32_t calculateNextWorkRequiredWithDeposit
+	 *		(
+	 *			const uint32_t uPreviousBits,
+	 *			const uint32_t uTimeUsed,
+	 *			const uint32_t uTimeStandard,
+	 *			const double   dblDeposit,
+	 *			const uint32_t uBombExplodingRoundIndex,
+	 *			const uint32_t uRoundIndex
+	 *		)
+	 */
+	calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uBombExplodingRoundIndex, uRoundIndex, pfnCallback )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return pfnCallback( 'failed to load miner library.' );
 		}
-		if ( 'number' !== typeof uPreviousDifficulty || uPreviousDifficulty <= 0 )
+		if ( 'number' !== typeof uPreviousBits || uPreviousBits < 0 )
 		{
-			return pfnCallback( 'call calculateNextDifficulty with invalid uPreviousDifficulty.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uPreviousBits(${ JSON.stringify( uPreviousBits )}).` );
 		}
 		if ( 'number' !== typeof uTimeUsed || uTimeUsed <= 0 )
 		{
-			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeUsed.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeUsed(${ JSON.stringify( uTimeUsed ) }).` );
 		}
 		if ( 'number' !== typeof uTimeStandard || uTimeStandard <= 0 )
 		{
-			return pfnCallback( 'call calculateNextDifficulty with invalid uTimeStandard.' );
+			return pfnCallback( `call calculateNextWorkRequired with invalid uTimeStandard(${ JSON.stringify( uTimeStandard ) }).` );
+		}
+		if ( 'number' !== typeof dblDeposit )
+		{
+			return pfnCallback( `call calculateNextWorkRequired with invalid dblDeposit(${ JSON.stringify( dblDeposit ) }).` );
+		}
+		if ( 'number' !== typeof uRoundIndex || uRoundIndex < 1 )
+		{
+			return pfnCallback( `call calculateNextWorkRequired with invalid uRoundIndex(${ JSON.stringify( uRoundIndex ) }).` );
 		}
 
-		let uNextDifficulty	= _objMinerLibrary.calculateNextDifficulty( uPreviousDifficulty, uTimeUsed, uTimeStandard );
+		//	...
+		let nShiftByDeposit	= _objMinerLibrary.calculateShiftByDeposit( dblDeposit );
+		let nShiftByRoundIndex	= _objMinerLibrary.calculateShiftByRoundIndex( uBombExplodingRoundIndex, uRoundIndex );
+		let uNextBits		= _objMinerLibrary.calculateNextWorkRequiredWithDeposit( uPreviousBits, uTimeUsed, uTimeStandard, dblDeposit, uBombExplodingRoundIndex, uRoundIndex );
 
-		return pfnCallback( null, { difficulty : uNextDifficulty } );
+		return pfnCallback
+		(
+			null,
+			{
+				bits			: uNextBits,
+				shiftByDeposit		: nShiftByDeposit,
+				shiftByRoundIndex	: nShiftByRoundIndex,
+			}
+		);
 	}
+
 
 	/**
 	 *	convert 256 bits string to uint32_t
-	 *	@param	{string}	sDifficulty256Hex	hex string with length of 64
+	 *	@param	{string}	sTarget256Hex	hex string with length of 64
 	 *	@returns {number}
 	 */
-	difficulty256HexToUInt32( sDifficulty256Hex )
+	getBitsByTarget( sTarget256Hex )
 	{
 		if ( ! _objMinerLibrary )
 		{
 			return 0;
 		}
-		return _objMinerLibrary.difficulty256HexToUInt32( Buffer.from( sDifficulty256Hex, 'ascii' ) );
+		return _objMinerLibrary.getBitsByTarget( Buffer.from( sTarget256Hex, 'ascii' ) );
 	}
+
+
+	/**
+	 *	convert 32 bits uint32_t bits to 256 bits string target
+	 *
+	 * 	@param	{number}	uBits
+	 *
+	 * 	@description
+	 *
+	 * 	in c++
+	 *
+	 * 	EXPORT_API int getTargetByBits( uint32_t uBits, OUT char * pszTargetHex, uint32_t uSize );
+	 *	@param 	{uint32_t}	uBits		e.g.: 0x1c03a809
+	 *	@param 	{char *}	pszTargetHex	e.g.: "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	 *	@param 	{uint32_t}	uSize
+	 *	@return	{int}
+	 */
+	getTargetByBits( uBits, pfnCallback )
+	{
+		if ( ! _objMinerLibrary )
+		{
+			return pfnCallback( 'failed to load miner library.' );
+		}
+		if ( 'number' !== typeof uBits || uBits < 0 )
+		{
+			return pfnCallback( `call startMining with invalid uBits(${ JSON.stringify( uBits ) }).` );
+		}
+
+		let bufTargetHex	= Buffer.alloc( 64 );
+		let nCall		= _objMinerLibrary.getTargetByBits
+		(
+			uBits,
+			bufTargetHex,
+			bufTargetHex.length
+		);
+		if ( 0 === nCall )
+		{
+			return pfnCallback( null, bufTargetHex.toString() );
+		}
+		else
+		{
+			return pfnCallback( `call getTargetByBits unsuccessfully with code: ${ nCall }.` );
+		}
+	}
+
 
 	/**
 	 *	is currently in debug model
@@ -307,15 +423,35 @@ class CTrustMinerLibrary
 							'int',
 							[ 'pointer', 'uint', 'uint', 'pointer' ]
 						],
-					'calculateNextDifficulty' :
+					'calculateNextWorkRequired' :
 						[
 							'uint',
 							[ 'uint', 'uint', 'uint' ]
 						],
-					'difficulty256HexToUInt32' :
+					'calculateNextWorkRequiredWithDeposit' :
+						[
+							'uint',
+                            				[ 'uint', 'uint', 'uint', 'double', 'uint', 'uint' ]
+						],
+					'calculateShiftByDeposit' :
+						[
+							'int',
+							[ 'double' ]
+						],
+					'calculateShiftByRoundIndex' :
+						[
+							'int',
+							[ 'uint', 'uint' ]
+						],
+					'getBitsByTarget' :
 						[
 							'uint',
 							[ 'pointer' ]
+						],
+					'getTargetByBits' :
+						[
+							'int',
+							[ 'uint', 'char *', 'uint' ]
 						]
 				}
 			);

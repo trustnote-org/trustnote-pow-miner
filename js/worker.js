@@ -51,7 +51,7 @@ function parseArgs()
 	_jsonArg = JSON.parse( _sArgString );
 	if ( null === _jsonArg || 'object' !== typeof _jsonArg )
 	{
-		throw new Error( `invalid format of arguments.` );
+		throw new Error( `invalid format of arguments _jsonArg(${ JSON.stringify( _jsonArg ) }).` );
 	}
 	if ( ! _jsonArg.hasOwnProperty( 'workerId' ) )
 	{
@@ -69,9 +69,9 @@ function parseArgs()
 	{
 		throw new Error( `invalid arguments.inputHeader.` );
 	}
-	if ( ! _jsonArg.hasOwnProperty( 'difficulty' ) )
+	if ( ! _jsonArg.hasOwnProperty( 'bits' ) )
 	{
-		throw new Error( `invalid arguments.difficulty.` );
+		throw new Error( `invalid arguments.bits.` );
 	}
 }
 
@@ -85,7 +85,7 @@ function startWorker()
 	_jsonArg.inputHeader	= Buffer.from( _jsonArg.inputHeader, 'hex' );
 	_jsonArg.start		= parseInt( _jsonArg.start );
 	_jsonArg.calcTimes	= parseInt( _jsonArg.calcTimes );
-	_jsonArg.difficulty	= parseInt( _jsonArg.difficulty );
+	_jsonArg.bits		= parseInt( _jsonArg.bits );
 
 
 	/**
@@ -101,7 +101,7 @@ function startWorker()
 	_oLibrary.startMining
 	(
 		_jsonArg.inputHeader,
-		_jsonArg.difficulty,
+		_jsonArg.bits,
 		_jsonArg.start,
 		_jsonArg.calcTimes,
 		function( err, oData )

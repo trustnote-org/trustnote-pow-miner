@@ -14,8 +14,9 @@ const CTrustMinerLibrary	= require( './CTrustMinerLibrary.js' );
 const CPU_LIST			= _os.cpus();
 const PID_FULL_FILENAME		= `${ _os.tmpdir() }/trustnote-pow-miner.pid`;
 
-const DEFAULT_CALC_TIMES	= 30;		//	default calculate time per loop
-const DEFAULT_MAX_LOOP		= 10000000;
+const MAX_UINT32_VALUE		= 4294967295 - 5;	//	max value of unsigned int(4 bytes)
+const DEFAULT_CALC_TIMES	= 30;			//	default calculate time per loop
+const DEFAULT_MAX_LOOP		= parseInt( ( MAX_UINT32_VALUE - DEFAULT_CALC_TIMES ) / DEFAULT_CALC_TIMES );
 const DEFAULT_MAX_WORKER_COUNT	= _getDefaultMaxWorkerCount();
 
 
@@ -155,7 +156,7 @@ function waitForWinnerWorkerDone( pfnCallback )
 		setTimeout( () =>
 		{
 			waitForWinnerWorkerDone( pfnCallback );
-		}, 500 );
+		}, 100 );
 	}
 	else
 	{
@@ -191,7 +192,7 @@ function isWorkerExists( nPId )
  *	@param	{string}	oOptions.bufInputHeader		hex string with length of 280 bytes
  *	@param	{number}	oOptions.calcTimes
  *	@param	{number}	oOptions.maxLoop
- *	@param	{number}	oOptions.difficulty
+ *	@param	{number}	oOptions.bits
  *	@param	{function}	pfnCallback( err, { hashHex : sActualHashHex, nonce : uActualNonce } )
  *				TIME IS OVER
  *					( null, { gameOver : true, hashHex : null, nonce : 0 } );
@@ -314,7 +315,7 @@ function spawnWorker( oOptions, pfnCallback )
 	{
 		hHandle.stdout.on( 'data', ( sData ) =>
 		{
-			//console.log( `child stdout:\n${ sData }` );
+			console.log( `child stdout:\n${ sData }` );
 			let jsonResult = checkWin( sData );
 			if ( jsonResult )
 			{
@@ -328,14 +329,50 @@ function spawnWorker( oOptions, pfnCallback )
 				pfnCallback( null, jsonResult );
 			}
 		});
+
+		hHandle.on( 'error', function( err )
+		{
+			console.log( `$$$ MINER SPAWN EVENT : child occurred an error : ${ err }` );
+			checkWorkers( oOptions, pfnCallback );
+		});
 		hHandle.on( 'disconnect', () =>
 		{
-			//console.log(`child disconnect:\n`);
+			//
+			//	The 'disconnect' event is emitted after calling the
+			// 	subprocess.disconnect() method in parent process or process.disconnect() in child process.
+			// 	After disconnecting it is no longer possible to send or receive messages,
+			// 	and the subprocess.connected property is false.
+			//
+			console.log( `$$$ MINER SPAWN EVENT : child disconnect:\n` );
+		});
+		hHandle.on( 'close', function( nCode, sSignal )
+		{
+			//
+			//	The 'close' event is emitted when the stdio streams of a child process have been closed.
+			// 	This is distinct from the 'exit' event,
+			// 	since multiple processes might share the same stdio streams.
+			//
+			console.log( `$$$ MINER SPAWN EVENT : child closed with code ${ nCode } and signal ${ sSignal }` );
 		});
 		hHandle.on( 'exit', function( nCode, sSignal )
 		{
-			//console.log( `child process exited with code ${ nCode } and signal ${ sSignal }` );
-			checkWorkers( oOptions, pfnCallback );
+			//
+			//	The 'exit' event is emitted after the child process ends.
+			// 	If the process exited, code is the final exit code of the process, otherwise null.
+			// 	If the process terminated due to receipt of a signal,
+			// 	signal is the string name of the signal, otherwise null.
+			// 	One of the two will always be non-null.
+			//
+			console.log( `$$$ MINER SPAWN EVENT : child exited with code ${ nCode } and signal ${ sSignal }` );
+			if ( null === nCode &&
+				'string' === typeof sSignal && 'SIGKILL' === sSignal.toUpperCase() )
+			{
+				console.log( `$$$ MINER SPAWN EVENT : child(pid:${ hHandle.pid }) was killed.` );
+			}
+			else
+			{
+				checkWorkers( oOptions, pfnCallback );
+			}
 		});
 	}
 
@@ -413,7 +450,7 @@ function saveMasterPId()
  *
  *	@param	{object}	oOptions
  *	@param	{Buffer}	oOptions.bufInputHeader		with length 140 bytes
- *	@param	{number}	oOptions.difficulty		difficulty value
+ *	@param	{number}	oOptions.bits			bits value
  *	@param	{number}	oOptions.calcTimes		calculate times per loop
  *	@param	{number}	oOptions.maxLoop		max loop
  *	@param	{number}	oOptions.maxWorkerCount		max worker count
@@ -423,19 +460,19 @@ function start( oOptions, pfnCallback )
 {
 	if ( null === oOptions || 'object' !== typeof oOptions )
 	{
-		return pfnCallback( `invalid oOptions, not a plain object.` );
+		return pfnCallback( `invalid oOptions, not a plain object(${ JSON.stringify( oOptions ) }).` );
 	}
 	if ( null === oOptions.bufInputHeader || 'object' !== typeof oOptions.bufInputHeader )
 	{
-		return pfnCallback( `invalid oOptions.bufInputHeader, not a Buffer object.` );
+		return pfnCallback( `invalid oOptions.bufInputHeader(${ JSON.stringify( oOptions.bufInputHeader ) }), not a Buffer object.` );
 	}
 	if ( 140 !== oOptions.bufInputHeader.length )
 	{
-		return pfnCallback( `invalid oOptions.bufInputHeader, must be a Buffer with length of 140 bytes.` );
+		return pfnCallback( `invalid oOptions.bufInputHeader(length:${ oOptions.bufInputHeader.length }), must be a Buffer with length of 140 bytes.` );
 	}
-	if ( 'number' !== typeof oOptions.difficulty )
+	if ( 'number' !== typeof oOptions.bits )
 	{
-		return pfnCallback( `invalid oOptions.difficulty, must be a number.` );
+		return pfnCallback( `invalid oOptions.bits(${ JSON.stringify( oOptions.bits ) }), must be a number.` );
 	}
 
 	let oOptionsCp		= Object.assign
@@ -466,7 +503,9 @@ function start( oOptions, pfnCallback )
 		_arrAllResults.push( { err : err, result : oResult } );
 	});
 
-	//	...
+	//
+	//	waiting for all worker done or winner worker done
+	//
 	waitForWinnerWorkerDone( err =>
 	{
 		let oResult;
@@ -476,6 +515,9 @@ function start( oOptions, pfnCallback )
 		//	...
 		oResult	= null;
 
+		//
+		//	check if we mined successfully ?
+		//
 		for ( i = 0; i < _arrAllResults.length; i ++ )
 		{
 			oItem	= _arrAllResults[ i ];
@@ -486,10 +528,13 @@ function start( oOptions, pfnCallback )
 				break;
 			}
 		}
+
+		//
+		//	check if the game is over while we are failed to mine ?
+		//	that means all nonce were tested as failing
+		//
 		if ( null === oResult )
 		{
-			//
-			//	detect if the game is over?
 			//
 			//	{ gameOver : true, hashHex : null, nonce : 0 }
 			//

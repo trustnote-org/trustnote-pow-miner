@@ -4,27 +4,27 @@ process.env.ENV_TRUST_MINER_DEBUG = true;
 const _miner	= require( '../js/index.js' );
 
 
-let nDifficulty = _miner.difficulty256HexToUInt32( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
-console.log( `nDifficulty value : ${ nDifficulty }` );
+let uBits = _miner.getBitsByTarget( "007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+console.log( `uBits value : ${ uBits }` );
 
 
 
 //
-//	calculate next difficulty
+//	calculate next bits
 //
-let nAverageDifficulty	= nDifficulty;
+let nAverageBits	= uBits;
 let nTimeUsed		= 1000;
 let nTimeStandard	= 2400;
-_miner.calculateNextDifficulty
+_miner.calculateNextWorkRequired
 (
-	nAverageDifficulty,
+	nAverageBits,
 	nTimeUsed,
 	nTimeStandard,
 	function( err, oData )
 	{
 		//
 		//	oData
-		//	{ difficulty : uNextDifficulty }
+		//	{ bits : uNextBits }
 		//
 		if ( err )
 		{
@@ -34,20 +34,20 @@ _miner.calculateNextDifficulty
 		if ( oData &&
 			'object' === typeof oData )
 		{
-			if ( oData.hasOwnProperty( 'difficulty' ) &&
-				'number' === typeof oData.difficulty &&
-				oData.difficulty > 0 )
+			if ( oData.hasOwnProperty( 'bits' ) &&
+				'number' === typeof oData.bits &&
+				oData.bits > 0 )
 			{
-				console.log( `new difficulty value after ${ nAverageDifficulty } is : ${ oData.difficulty }` );
+				console.log( `new bits value after ${ nAverageBits } is : ${ oData.bits }` );
 			}
 			else
 			{
-				console.log( `calculateNextDifficulty callback :: invalid value .difficulty` );
+				console.log( `calculateNextWorkRequired callback :: invalid value .bits` );
 			}
 		}
 		else
 		{
-			console.log( `calculateNextDifficulty callback :: invalid oData object` );
+			console.log( `calculateNextWorkRequired callback :: invalid oData object` );
 		}
 	}
 );

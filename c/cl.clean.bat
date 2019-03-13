@@ -1,7 +1,7 @@
-del *.obj
-del *.manifest
-del *.ilk
-del *.pdb
-del *.exe
-del *.dll
-rd /s /q output
+del /s *.obj
+del /s *.manifest
+del /s *.ilk
+del /s *.pdb
+del /s *.exe
+del /s *.dll
+if exist output rd /s /q output

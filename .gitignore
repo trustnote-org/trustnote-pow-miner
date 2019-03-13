@@ -7,3 +7,5 @@ node_modules
 /.deps
 
 /package-lock.json
+
+a.out
